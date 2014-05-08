@@ -7,3 +7,6 @@
 
 - name: Teach kerl about the latest Erlang/OTP releases
   command: kerl update releases
+
+- name: Build OTP 17.0
+  command: kerl build 17.0 17.0
