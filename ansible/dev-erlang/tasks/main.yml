@@ -4,3 +4,6 @@
 
 - name: Install kerl - from Homebrew-headonly repo
   homebrew: state=head name=kerl
+
+- name: Teach kerl about the latest Erlang/OTP releases
+  command: kerl update releases
