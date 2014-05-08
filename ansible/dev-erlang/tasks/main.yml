@@ -1,12 +1,5 @@
 ---
-- name: Add Homebrew-headonly repo
-  homebrew_tap: state=present tap=homebrew/headonly
-
-- name: Install kerl - from Homebrew-headonly repo
-  homebrew: state=head name=kerl
-
-- name: Teach kerl about the latest Erlang/OTP releases
-  command: kerl update releases
-
-- name: Build OTP 17.0
-  command: kerl build 17.0 17.0
+- include: kerl.yml
+- include: build_otp.yml release=17.0
+- include: build_otp.yml release=R16B03-1
+- include: build_otp.yml release=R15B03-1
