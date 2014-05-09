@@ -1,1 +1,9 @@
 Provisioning of development OS X box using Ansible
+
+TODO
+* Express dep on Ansible 1.6
+* Define role dev-vm with virtualbox, vagrant, ansible for vagrant
+* Integrate dotfiles
+* Gather fact in Ansible depending on output of command line (e.g. kerl - see if build is already installed - new module in galaxy?) in order not to try to build OTP anytime but only if not built yet
+* Create ~/Applications directory via Ansible?
+* Install Firefox Aurora via Ansible
