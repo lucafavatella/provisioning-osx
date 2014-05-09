@@ -8,4 +8,4 @@
   when: ansible_distribution == "MacOSX" and ansible_distribution_version | version_compare('10.9', '>=') # and release == "R15B03-1"
 
 - name: Build OTP release
-  command: kerl build {{ release }} {{ release }}
+  shell: CFLAGS="-I$(brew --prefix)/include" kerl build {{ release }} {{ release }}
