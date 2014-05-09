@@ -1,0 +1,6 @@
+---
+- name: Install Adium
+  homebrew_cask: state=present name=adium
+
+- name: Install Skype
+  homebrew_cask: state=present name=skype

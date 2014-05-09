@@ -1,0 +1,4 @@
+---
+- name: Prevent .DS_Store file creation
+  # A ref: https://github.com/mathiasbynens/dotfiles/blob/45d8e0ddbb9c7f5fd9d59ca4b2094c70e203c107/.osx#L268-L269
+  command: defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true

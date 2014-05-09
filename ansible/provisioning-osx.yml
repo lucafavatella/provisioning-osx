@@ -1,0 +1,9 @@
+---
+- hosts: dev-osx
+  roles:
+    - role: osx-config
+    - role: osx-brew
+    - role: osx-ansible
+    - role: dev-common
+    - role: dev-erlang
+    - role: im

@@ -1,0 +1,6 @@
+---
+- name: Add Homebrew-headonly repo
+  homebrew_tap: state=present tap=homebrew/headonly
+
+- name: Install kerl - from Homebrew-headonly repo
+  homebrew: state=head name=kerl
