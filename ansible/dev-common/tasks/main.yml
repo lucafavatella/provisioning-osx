@@ -8,5 +8,8 @@
 - name: Install tmux
   homebrew: state=latest name=tmux
 
+- name: Install Bash completion
+  homebrew: state=latest name=bash-completion
+
 - name: Install Emacs from Homebrew, as it is more recent than the one in OS X
   homebrew: state=latest name=emacs
