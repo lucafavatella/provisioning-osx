@@ -6,4 +6,5 @@
     - role: osx-ansible
     - role: dev-common
     - role: dev-erlang
+    - role: dev-ec2
     - role: im
