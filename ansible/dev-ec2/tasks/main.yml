@@ -4,3 +4,6 @@
 
 - name: Install packer, for creating Amazon AMIs - from Homebrew-binary repo
   homebrew: state=latest name=packer
+
+- name: Install AWS CLI
+  homebrew: state=latest name=awscli
