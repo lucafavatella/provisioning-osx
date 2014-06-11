@@ -1,8 +1,14 @@
 Provisioning of development OS X box using Ansible
 
+Notes
+
+* VirtualBox and Vagrant need to be installed as root (or using sudo),
+  thus they are not in the Ansible scripts and are supposed to be
+  installed manually.
+
 TODO
 * Express dep on Ansible 1.6
-* Define role dev-vm with virtualbox, vagrant, ansible for vagrant
+* Define role dev-vm with ansible for vagrant
 * Integrate dotfiles
 * Gather fact in Ansible depending on output of command line (e.g. kerl - see if build is already installed - new module in galaxy?) in order not to try to build OTP anytime but only if not built yet
 * Create ~/Applications directory via Ansible?
