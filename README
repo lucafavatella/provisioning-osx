@@ -13,3 +13,4 @@ TODO
 * Gather fact in Ansible depending on output of command line (e.g. kerl - see if build is already installed - new module in galaxy?) in order not to try to build OTP anytime but only if not built yet
 * Create ~/Applications directory via Ansible?
 * Install Firefox Aurora via Ansible
+* Include --enable-lock-counter in OTP build for lcnt
