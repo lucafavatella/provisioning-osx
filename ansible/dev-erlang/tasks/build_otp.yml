@@ -10,5 +10,5 @@
 - name: Install wxWidgets
   homebrew: state=latest name=wxmac
 
-- name: Build OTP release
-  shell: CFLAGS="-I$(brew --prefix)/include" kerl build {{ release }} {{ release }}
+- name: Build OTP release, with support for lcnt
+  shell: CFLAGS="-I$(brew --prefix)/include" KERL_CONFIGURE_OPTIONS="--enable-lock-counter" kerl build {{ release }} {{ release }}
