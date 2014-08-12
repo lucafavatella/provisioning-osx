@@ -7,3 +7,6 @@
 
 - name: Install Skype
   homebrew_cask: state=present name=skype
+
+- name: Install HipChat
+  homebrew_cask: state=present name=hipchat
