@@ -1,0 +1,3 @@
+---
+- name: Build OTP release from git (by commit/tag/branch), with support for lcnt
+  shell: CFLAGS="-I$(brew --prefix)/include" KERL_CONFIGURE_OPTIONS="--enable-lock-counter" kerl build git "https://github.com/erlang/otp.git" {{ commit }} {{ release }}
