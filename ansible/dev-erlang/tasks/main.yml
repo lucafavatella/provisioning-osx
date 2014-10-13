@@ -1,5 +1,6 @@
 ---
 - include: kerl.yml
+- include: otp_build_req.yml
 #- include: build_otp.yml release=17.3
 #- include: build_otp.yml release=17.2
 #- include: build_otp.yml release=17.1
