@@ -8,6 +8,9 @@
 - name: Install tmux
   homebrew: state=latest name=tmux
 
+- name: Install POSIX-compliant Unix shell Dash
+  homebrew: state=latest name=dash
+
 - name: Install Bash completion
   homebrew: state=latest name=bash-completion
 
