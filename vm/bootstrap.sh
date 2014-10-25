@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-apt-get install -y erlang-base
+echo "Hello world"
