@@ -1,2 +1,2 @@
 #!/bin/sh
-docker run -it --rm lucafavatella/idris "$@"
+docker run -it --rm -v $(pwd):/workdir -w /workdir lucafavatella/idris idris "$@"
