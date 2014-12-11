@@ -1,6 +1,7 @@
 ---
 - include: kerl.yml
 - include: otp_build_req.yml
+#- include: build_otp.yml release=17.4
 #- include: build_otp_git.yml commit=197a846 release=197a846-17.3-w-dialyzer-fix-for-warnings_as_errors
 #- include: build_otp.yml release=17.3
 #- include: build_otp.yml release=17.2
