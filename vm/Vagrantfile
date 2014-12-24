@@ -7,12 +7,18 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
 
+  ## Xen
   config.vm.provision :shell, privileged: true,
                       path: "bootstrap_xen.sh", args: "network"
   config.vm.provision :shell, privileged: true,
                       path: "bootstrap_xen.sh", args: "root"
   config.vm.provision :shell, privileged: false,
                       path: "bootstrap_xen.sh", args: "vagrant"
+  ## Erlang/OTP
+  config.vm.provision :shell, privileged: true,
+                      path: "bootstrap_otp.sh", args: "root"
+  config.vm.provision :shell, privileged: false,
+                      path: "bootstrap_otp.sh", args: "vagrant"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
