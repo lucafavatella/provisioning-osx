@@ -1,15 +1,24 @@
 #!/usr/bin/env sh
 
+# set -x ## DEBUG
+
+## Configuration
+
+OTP_VSN=17.4
+
 ## Functions
+
+apt_install() {
+    apt-get update && apt-get install -y --no-install-recommends $@
+}
 
 bootstrap_root() {
     [ $(whoami) = "root" ] || exit 1
 
-    OPTS_APT="-y --no-install-recommends"
     KERL_DEPS=curl
     OTP_DEPS=libncurses-dev
 
-    apt-get update && apt-get install ${OPTS_APT} ${KERL_DEPS} ${OTP_DEPS}
+    apt_install ${KERL_DEPS} ${OTP_DEPS}
 }
 
 bootstrap_vagrant() {
@@ -17,7 +26,6 @@ bootstrap_vagrant() {
 
     KERL_DIR=dev/kerl
     KERL_INST_DIR=${KERL_DIR}/installations
-    OTP_VSN=17.4
     OTP_INST_DIR=${KERL_INST_DIR}/${OTP_VSN}
 
     mkdir -p ${KERL_DIR}
