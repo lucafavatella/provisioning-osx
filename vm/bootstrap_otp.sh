@@ -29,14 +29,14 @@ bootstrap_vagrant() {
     OTP_INST_DIR=${KERL_INST_DIR}/${OTP_VSN}
 
     mkdir -p ${KERL_DIR}
-    curl https://raw.githubusercontent.com/spawngrid/kerl/master/kerl -o ${KERL_DIR}/kerl
+    curl -s https://raw.githubusercontent.com/spawngrid/kerl/master/kerl -o ${KERL_DIR}/kerl
     chmod a+x ${KERL_DIR}/kerl
 
-    ${KERL_DIR}/kerl update releases
-    ${KERL_DIR}/kerl build ${OTP_VSN} ${OTP_VSN}
+    ${KERL_DIR}/kerl update releases 1> /dev/null 2> /dev/null
+    ${KERL_DIR}/kerl build ${OTP_VSN} ${OTP_VSN} 1> /dev/null 2> /dev/null || tail /home/vagrant/.kerl/builds/${OTP_VSN}/otp_build_${OTP_VSN}.log ## HACK
 
     mkdir -p ${OTP_INST_DIR}
-    ${KERL_DIR}/kerl install ${OTP_VSN} ${OTP_INST_DIR}
+    ${KERL_DIR}/kerl install ${OTP_VSN} ${OTP_INST_DIR} 1> /dev/null 2> /dev/null
 
     ## HINT: . ${OTP_INST_DIR}/activate
 }
