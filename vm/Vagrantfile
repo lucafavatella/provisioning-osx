@@ -24,6 +24,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                       path: "bootstrap_otp.sh", args: "root"
   config.vm.provision :shell, privileged: false,
                       path: "bootstrap_otp.sh", args: "vagrant"
+  ## LING
+  # config.vm.provision "ling", type: :shell, privileged: false,
+  #                     path: "bootstrap_ling.sh", args: "vagrant"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
