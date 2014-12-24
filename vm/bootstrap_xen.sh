@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
-set -x ## DEBUG
+# set -x ## DEBUG
 
 ## Functions
 
 apt_install() {
-    apt-get update && apt-get install -y --no-install-recommends ${1}
+    apt-get update && apt-get install -y --no-install-recommends $@
 }
 
 bootstrap_network() {
@@ -54,6 +54,8 @@ bootstrap_root() {
 
 bootstrap_vagrant() {
     [ $(whoami) = "vagrant" ] || exit 1
+
+    ## Nothing..
 }
 
 ## Main
