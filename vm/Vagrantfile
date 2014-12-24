@@ -14,6 +14,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
                       path: "bootstrap_xen.sh", args: "root"
   config.vm.provision :shell, privileged: false,
                       path: "bootstrap_xen.sh", args: "vagrant"
+  ## Erlang/OTP - HACK optional optimization
+  # config.vm.provision :shell, privileged: false,
+  #                     inline: "mkdir -p /home/vagrant/.kerl/archives"
+  # config.vm.provision :file,
+  #                     source: "~/.kerl/archives/otp_src_17.4.tar.gz", destination: "/home/vagrant/.kerl/archives/otp_src_17.4.tar.gz"
   ## Erlang/OTP
   config.vm.provision :shell, privileged: true,
                       path: "bootstrap_otp.sh", args: "root"
