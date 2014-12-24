@@ -27,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.network "public_network"
 
   # Disable the default share.
-  # config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
