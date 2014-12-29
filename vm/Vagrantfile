@@ -5,6 +5,13 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.provider "virtualbox" do |v|
+    ## See http://docs.vagrantup.com/v2/virtualbox/configuration.html
+    # v.gui = false
+    ## VBoxManage customizations
+    v.memory = 512
+  end
+
   config.vm.box = "ubuntu/trusty64"
 
   ## Xen
