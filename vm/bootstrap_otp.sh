@@ -16,7 +16,7 @@ bootstrap_root() {
     [ $(whoami) = "root" ] || exit 1
 
     KERL_DEPS=curl
-    OTP_DEPS=libncurses-dev
+    OTP_DEPS=libncurses-dev libssl-dev
 
     apt_install ${KERL_DEPS} ${OTP_DEPS}
 }
