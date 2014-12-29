@@ -4,6 +4,14 @@
 
 ## Functions
 
+bootstrap_root() {
+    [ $(whoami) = "root" ] || exit 1
+
+    NETTLE_DEPS=m4
+
+    apt_install ${NETTLE_DEPS}
+}
+
 bootstrap_vagrant() {
     [ $(whoami) = "vagrant" ] || exit 1
 
@@ -23,6 +31,9 @@ bootstrap_vagrant() {
 ## Main
 
 case $1 in
+    "root")
+        bootstrap_root
+        ;;
     "vagrant")
         bootstrap_vagrant
         ;;

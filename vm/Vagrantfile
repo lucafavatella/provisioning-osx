@@ -32,6 +32,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, privileged: false,
                       path: "bootstrap_otp.sh", args: "vagrant"
   ## LING
+  # config.vm.provision "ling", type: :shell, privileged: true,
+  #                     path: "bootstrap_ling.sh", args: "root"
   # config.vm.provision "ling", type: :shell, privileged: false,
   #                     path: "bootstrap_ling.sh", args: "vagrant"
 
