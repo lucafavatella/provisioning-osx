@@ -9,7 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ## See http://docs.vagrantup.com/v2/virtualbox/configuration.html
     # v.gui = false
     ## VBoxManage customizations
-    v.memory = 512
+    v.memory = 2048
   end
 
   config.vm.box = "ubuntu/trusty64"
