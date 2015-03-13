@@ -4,7 +4,7 @@ Notes
 
 * VirtualBox and Vagrant need to be installed as root (or using sudo),
   thus they are not in the Ansible scripts and are supposed to be
-  installed manually.
+  installed manually (or via brew cask?).
 
 TODO
 * Express dep on Ansible 1.6
