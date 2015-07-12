@@ -15,3 +15,4 @@ TODO
 * Install Firefox Aurora via Ansible
 * Compile Erlang/OTP using option re file descriptors at https://github.com/Homebrew/homebrew/issues/6143
 * Document `HOMEBREW_CASK_OPTS="--debug --appdir=~/Applications --caskroom=~/homebrew-cask"`
+* Re-evaluate Erlang/OTP OSX build options "./configure --with-dynamic-trace=dtrace --enable-darwin-64bit --disable-hipe"
