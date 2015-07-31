@@ -7,6 +7,3 @@
     - role: dev-docker
     - role: dev-common
     - role: dev-erlang
-    - role: dev-ec2
-    - role: im
-    - role: office

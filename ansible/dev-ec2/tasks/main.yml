@@ -1,9 +1,0 @@
----
-- name: Add Homebrew-binary repo
-  homebrew_tap: state=present tap=homebrew/binary
-
-- name: Install packer, for creating Amazon AMIs - from Homebrew-binary repo
-  homebrew: state=latest name=packer
-
-- name: Install AWS CLI
-  homebrew: state=latest name=awscli

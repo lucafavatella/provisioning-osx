@@ -1,3 +1,0 @@
----
-- name: Install LibreOffice
-  homebrew_cask: state=present name=libreoffice
