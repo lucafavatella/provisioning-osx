@@ -1,9 +1,3 @@
 ---
 - name: Upgrade Ansible
   homebrew: state=latest name=ansible
-
-- name: Add Homebrew Cask repo
-  homebrew_tap: state=present tap=caskroom/cask
-
-- name: Install Homebrew Cask - from Homebrew Cask repo
-  homebrew: state=latest name=brew-cask
