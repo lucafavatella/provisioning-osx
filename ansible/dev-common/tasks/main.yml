@@ -1,6 +1,6 @@
 ---
 - name: Install iTerm2
-  homebrew_cask: state=present name=iterm2
+  homebrew_cask: state=latest name=iterm2
 
 - name: Install tmux
   homebrew: state=latest name=tmux
