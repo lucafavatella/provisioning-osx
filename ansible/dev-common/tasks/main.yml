@@ -1,7 +1,4 @@
 ---
-- name: Install Git from Homebrew, as it is more recent than the one in OS X
-  homebrew: state=latest name=git
-
 - name: Install iTerm2
   homebrew_cask: state=present name=iterm2
 
@@ -13,6 +10,3 @@
 
 - name: Install Bash completion
   homebrew: state=latest name=bash-completion
-
-- name: Install Emacs from Homebrew, as it is more recent than the one in OS X
-  homebrew: state=latest name=emacs
