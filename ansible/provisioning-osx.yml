@@ -1,7 +1,6 @@
 ---
 - hosts: dev-osx
   roles:
-    - role: osx-config
     - role: osx-brew
     - role: osx-ansible
     # - role: dev-docker
