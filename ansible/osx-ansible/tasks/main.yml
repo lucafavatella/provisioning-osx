@@ -1,3 +1,0 @@
----
-- name: Upgrade Ansible
-  homebrew: state=latest name=ansible

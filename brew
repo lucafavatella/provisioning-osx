@@ -1,0 +1,68 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+## Run commands in shell with minimal environment.
+##
+## The minimal environment is /etc/profile (ref Bash man page, section
+## "INVOCATION") and information added by the login utility (ref man
+## page of login).
+ush() {
+    local C="$1"
+    env -i HOME=$HOME TERM=$TERM sh -c ". /etc/profile; $C"
+}
+
+br() {
+    local As="$@"
+    ush "set -e; export PATH=${HOMEBREW_PREFIX}/bin:\$PATH && HOMEBREW_CASK_OPTS=\"${HOMEBREW_CASK_OPTS}\" brew $As"
+}
+
+br_cleanup() {
+    br cleanup > /dev/null 2>&1
+    br cask cleanup > /dev/null
+}
+
+br_doctor() {
+    br doctor > /dev/null 2>&1 || true
+    br cask doctor > /dev/null
+}
+
+HOMEBREW_PREFIX="$1"
+HOMEBREW_CASK_OPTS="$2"
+
+br update
+br install caskroom/cask/brew-cask
+
+#br upgrade
+
+br cask install iterm2
+br install tmux
+br install bash-completion
+br install emacs
+
+#br install checkbashisms
+#br install dash
+
+#br cask install caskroom/versions/firefoxdeveloperedition
+#br cask install flash
+
+#br cask install virtualbox ## XXX sudo?
+#br cask install vagrant ## XXX sudo?
+#br install docker-machine ## boot2docker
+#br install ansible
+#br install ssh-copy-id
+
+#br install jq
+#br install pup
+
+#br install --HEAD homebrew/head-only/kerl
+#br install rust
+#br cask install haskell-platform
+#br install idris
+#br cask install android-studio
+
+## Entertainment
+br install --with-deps dinkypumpkin/get_iplayer/get_iplayer
+
+br_cleanup
+br_doctor

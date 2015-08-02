@@ -1,3 +1,0 @@
----
-- name: Install Docker
-  homebrew: state=latest name=boot2docker

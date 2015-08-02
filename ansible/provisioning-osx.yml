@@ -1,8 +1,4 @@
 ---
 - hosts: dev-osx
   roles:
-    - role: osx-brew
-    - role: osx-ansible
-    # - role: dev-docker
-    - role: dev-common
     # - role: dev-erlang

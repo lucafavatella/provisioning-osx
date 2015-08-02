@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+HOMEBREW_PREFIX=~/homebrew
+HOMEBREW_CASK_OPTS="--caskroom=~/homebrew-cask"
+
+git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
+[ -e ${HOMEBREW_PREFIX} ] || git clone https://github.com/Homebrew/homebrew.git ${HOMEBREW_PREFIX}
+./brew ${HOMEBREW_PREFIX} ${HOMEBREW_CASK_OPTS}

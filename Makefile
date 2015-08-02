@@ -1,9 +1,10 @@
-all: provisioning-osx
 .PHONY: all
+all: provision-osx
 
-bootstrap:
-	./bootstrap
-.PHONY: bootstrap
+.PHONY: provision-osx
+provision-osx:
+	@./provision_osx
+	$(info Consider running ./.osx)
 
 ANSIBLE_OPTS=-i hosts -c local
 
