@@ -1,4 +1,0 @@
----
-- hosts: dev-osx
-  roles:
-    # - role: dev-erlang
