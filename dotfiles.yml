@@ -1,0 +1,10 @@
+---
+- hosts: dev-osx
+  tasks:
+    - git: repo={{ dotfiles_repo }} dest={{ dotfiles_prefix }} update=no
+    - file: path=~/{{ item }} state=link src={{ dotfiles_prefix }}/{{ item }}
+      with_items:
+        - .bash_profile
+        - .tmux.conf
+        - .gitconfig
+        - .emacs

@@ -4,7 +4,10 @@
 
 HOMEBREW_PREFIX=~/homebrew
 HOMEBREW_CASK_OPTS="--caskroom=~/homebrew-cask"
+DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
+DOTFILES_PREFIX=~/dev/dotfiles
 
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
 [ -e ${HOMEBREW_PREFIX} ] || git clone https://github.com/Homebrew/homebrew.git ${HOMEBREW_PREFIX}
 ./brew ${HOMEBREW_PREFIX} ${HOMEBREW_CASK_OPTS}
+ansible-playbook dotfiles.yml -v -i ansible/hosts -e dotfiles_repo=${DOTFILES_REPO} -e dotfiles_prefix=${DOTFILES_PREFIX} -c local

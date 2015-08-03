@@ -49,7 +49,7 @@ br install emacs
 #br cask install virtualbox ## XXX sudo?
 #br cask install vagrant ## XXX sudo?
 #br install docker-machine ## boot2docker
-#br install ansible
+br install ansible
 #br install ssh-copy-id
 
 #br install jq
