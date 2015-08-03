@@ -7,6 +7,7 @@ HOMEBREW_CASK_OPTS="--caskroom=~/homebrew-cask"
 DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
 DOTFILES_PREFIX=~/dev/dotfiles
 
+echo "Consider running ./.osx" >&2
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
 [ -e ${HOMEBREW_PREFIX} ] || git clone https://github.com/Homebrew/homebrew.git ${HOMEBREW_PREFIX}
 ./brew ${HOMEBREW_PREFIX} ${HOMEBREW_CASK_OPTS}
