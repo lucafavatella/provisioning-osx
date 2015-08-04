@@ -9,6 +9,6 @@ DOTFILES_PREFIX=~/dev/dotfiles
 
 echo "Consider running ./.osx" >&2
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
-[ -e ${HOMEBREW_PREFIX} ] || git clone https://github.com/Homebrew/homebrew.git ${HOMEBREW_PREFIX}
-./brew ${HOMEBREW_PREFIX} ${HOMEBREW_CASK_OPTS}
-ansible-playbook dotfiles.yml -v -i ansible/hosts -e dotfiles_repo=${DOTFILES_REPO} -e dotfiles_prefix=${DOTFILES_PREFIX} -c local
+[ -e $HOMEBREW_PREFIX ] || git clone https://github.com/Homebrew/homebrew.git $HOMEBREW_PREFIX
+./brew $HOMEBREW_PREFIX $HOMEBREW_CASK_OPTS
+env PATH=$HOMEBREW_PREFIX:$PATH ansible-playbook dotfiles.yml -v -i ansible/hosts -e dotfiles_repo=$DOTFILES_REPO -e dotfiles_prefix=$DOTFILES_PREFIX -c local
