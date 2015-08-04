@@ -62,7 +62,6 @@ br install ansible
 #br install idris
 #br cask install android-studio
 
-## Entertainment
 br install --with-deps dinkypumpkin/get_iplayer/get_iplayer
 
 br_cleanup
