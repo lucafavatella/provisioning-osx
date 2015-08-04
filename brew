@@ -31,9 +31,9 @@ HOMEBREW_PREFIX="$1"
 HOMEBREW_CASK_OPTS="$2"
 
 br update
-br install caskroom/cask/brew-cask
+br upgrade
 
-#br upgrade
+br install caskroom/cask/brew-cask
 
 br cask install iterm2
 br install tmux
