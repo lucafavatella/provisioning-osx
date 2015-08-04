@@ -38,6 +38,7 @@ br install caskroom/cask/brew-cask
 br cask install iterm2
 br install tmux
 br install bash-completion
+br install git ## For git-completion.
 br install emacs
 
 #br install checkbashisms
