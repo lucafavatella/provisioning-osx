@@ -62,6 +62,9 @@ br install ansible
 #br install idris
 #br cask install android-studio
 
+## Ref: https://github.com/leoliu/ggtags/wiki/Install-Global-with-support-for-exuberant-ctags#homebrew-on-mac-os-x
+brew install global --with-exuberant-ctags --with-pygments ## TODO Move global Formula to using https://github.com/universal-ctags/homebrew-universal-ctags
+
 br install --with-deps dinkypumpkin/get_iplayer/get_iplayer
 
 br_cleanup
