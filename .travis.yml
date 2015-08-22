@@ -1,0 +1,27 @@
+language: objective-c ## Run job on Mac OS X infrastructure.
+before_install:
+  - printenv
+  - ls -la ~
+  - cat ~/build.sh
+install:
+  - command -v brew
+  - if [ $(command -v brew) != "/usr/local/bin/brew" ]; then exit 1; fi
+  - if [ $(command -v brew-cask) ]; then exit 1; fi
+  - echo $PATH
+  - if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
+  - export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||")
+  - echo $PATH
+  - if [ $(command -v brew) ]; then exit 1; fi
+  - if [ $(command -v brew-cask) ]; then exit 1; fi
+script:
+  - if [ $(command -v brew) ]; then exit 1; fi
+  - if [ $(command -v brew-cask) ]; then exit 1; fi
+  - ls -la /Library/Caches || true
+  - ls -la ~/Library/Caches || true
+  - ls -la /Library/Caches/Homebrew || true
+  - ls -la ~/Library/Caches/Homebrew || true
+  - mkdir ~/sandbox
+  - ./provision_osx ~/sandbox
+after_script:
+  - ls -la ~
+  - ls -la ~/sandbox
