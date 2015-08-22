@@ -1,6 +1,12 @@
-Provisioning of development OS X box
+## Provisioning of development Mac OS X box
+[![Build Status](https://travis-ci.org/lucafavatella/provisioning-osx.svg?branch=master)](https://travis-ci.org/lucafavatella/provisioning-osx)
 
-TODO
+```
+$ ./provision_osx
+```
+
+### TODO
+
 * Wrap all brew-related stuff in lib/brew then link it to ~/bin/brew, then remove export of vars in dotfiles. (Partial ref wrt bin/ http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrlocalLocalHierarchy )
 * Teach brew not to put stuff in system-wide cache (I suspect issues with multiple users accessing same cache).
 * Gather fact in Ansible depending on output of command line (e.g. kerl - see if build is already installed - new module in galaxy?) in order not to try to build OTP anytime but only if not built yet
