@@ -1,8 +1,8 @@
 ---
 - hosts: dev-osx
   tasks:
-    - git: repo={{ dotfiles_repo }} dest={{ dotfiles_prefix }} update=no
-    - file: path=~/{{ item }} state=link src={{ dotfiles_prefix }}/{{ item }}
+    - git: repo={{ dotfiles_repo }} dest={{ dotfiles_dir }} update=no
+    - file: path={{ dotfiles_prefix }}/{{ item }} state=link src={{ dotfiles_dir }}/{{ item }}
       with_items:
         - .bash_profile
         - .tmux.conf
