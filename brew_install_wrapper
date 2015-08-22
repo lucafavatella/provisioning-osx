@@ -1,0 +1,27 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+brew_cleanup() {
+    brew cleanup > /dev/null 2>&1
+    brew cask cleanup > /dev/null
+}
+
+brew_doctor() {
+    brew doctor > /dev/null 2>&1 || true
+    brew cask doctor > /dev/null
+}
+
+BREW_INSTALL1="${1:?}" ## Mandatory.
+BREW_INSTALL2="${2:?}" ## Mandatory.
+
+brew update
+brew upgrade
+
+brew install caskroom/cask/brew-cask
+
+sh -c "$BREW_INSTALL1"
+sh -c "$BREW_INSTALL2"
+
+brew_cleanup
+brew_doctor

@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+BREW_INSTALL1="${1:?}" ## Mandatory.
+BREW_INSTALL2="${2:?}" ## Mandatory.
+
+S="./brew_install_wrapper \"${BREW_INSTALL1}\" \"${BREW_INSTALL2}\""
+lib/ush -v --path-prefix "$(pwd)/lib:" "$S"

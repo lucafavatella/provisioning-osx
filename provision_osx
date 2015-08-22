@@ -2,15 +2,10 @@
 
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
 
-DOTFILES_PREFIX="${1:-~}" ## Default to home.
-
-HOMEBREW_PREFIX=~/homebrew
-HOMEBREW_CASK_OPTS=--caskroom=~/homebrew-cask
-DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
-DOTFILES_DIR=~/dev/dotfiles
+BREW_INSTALL="${1:-$(pwd)/brew_install}" ## Overridden for testing.
+DOTFILES_PREFIX="${2:-~}" ## Overridden for testing.
 
 echo "Consider running ./.osx" >&2
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
-[ -e $HOMEBREW_PREFIX ] || git clone https://github.com/Homebrew/homebrew.git $HOMEBREW_PREFIX
-./brew $HOMEBREW_PREFIX $HOMEBREW_CASK_OPTS
-env PATH=$HOMEBREW_PREFIX/bin:$PATH ansible-playbook dotfiles.yml -v -i ansible/hosts -e dotfiles_repo=$DOTFILES_REPO -e dotfiles_dir=$DOTFILES_DIR -e dotfiles_prefix=$DOTFILES_PREFIX -c local
+./run_brew "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
+./link_dotfiles "$DOTFILES_PREFIX"

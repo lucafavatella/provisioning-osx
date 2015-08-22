@@ -1,0 +1,43 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+## Run the commands read from the specified string in a shell with
+## minimal environment, relying on the env command in the PATH.
+##
+## The minimal environment is /etc/profile (ref Bash man page, section
+## "INVOCATION") and information added by the login utility (ref man
+## page of login).
+
+print_usage() {
+    echo "usage: ush [-v] [--path-prefix PATH_PREFIX_W_TRAILING_SEMICOLON] string" >&2
+}
+
+is_valid_path_prefix() {
+    local P="$1"
+    [ ${#P} -ge 2 ] && [ ${P:0:1} != ":" ] && [ ${P: -1} = ":" ]
+}
+
+V=false
+PATH_PREFIX=
+case "$1" in
+    -v)
+        V=true
+        shift;;
+    *)
+esac
+case "$1" in
+    --path-prefix)
+        shift
+        $(is_valid_path_prefix "$1") || print_usage
+        PATH_PREFIX="$1"
+        shift;;
+    *)
+esac
+[ $# -eq 1 ] || print_usage
+
+C0="$1"
+
+C1=". /etc/profile; export PATH=\"${PATH_PREFIX}\${PATH}\"; $C0"
+$V && echo "$C1" >&2
+env -i HOME="$HOME" TERM="$TERM" sh -c "$C1"
