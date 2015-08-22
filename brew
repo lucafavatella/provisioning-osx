@@ -58,7 +58,7 @@ br install ansible
 
 #br install --HEAD homebrew/head-only/kerl
 #br install rust
-#br cask install haskell-platform
+#br cask install haskell-platform ## Requires sudo.
 #br install idris
 #br cask install android-studio
 
