@@ -3,7 +3,7 @@
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
 
 HOMEBREW_PREFIX=~/homebrew
-HOMEBREW_CASK_OPTS="--caskroom=~/homebrew-cask"
+HOMEBREW_CASK_OPTS=--caskroom=~/homebrew-cask
 DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
 DOTFILES_PREFIX=~/dev/dotfiles
 
