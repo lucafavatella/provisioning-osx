@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+brew cask install flash
+
+#brew cask install virtualbox ## XXX sudo?
+#brew cask install vagrant ## XXX sudo?
+
+#brew cask install haskell-platform ## Requires sudo.

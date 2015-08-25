@@ -5,6 +5,14 @@
 $ ./provision_osx
 ```
 
+```
+$ ./run_brew_as_admin
+```
+
+```
+$ ./.osx ## TODO Test.
+```
+
 ### TODO
 
 * Teach brew not to put stuff in system-wide cache (I suspect issues with multiple users accessing same cache).

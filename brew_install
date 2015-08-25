@@ -12,10 +12,7 @@ brew install emacs
 #brew install dash
 
 #brew cask install caskroom/versions/firefoxdeveloperedition
-#brew cask install flash
 
-#brew cask install virtualbox ## XXX sudo?
-#brew cask install vagrant ## XXX sudo?
 #brew install docker-machine ## boot2docker
 brew install ansible
 #brew install ssh-copy-id
@@ -25,7 +22,6 @@ brew install ansible
 
 #brew install --HEAD homebrew/head-only/kerl
 #brew install rust
-#brew cask install haskell-platform ## Requires sudo.
 #brew install idris
 #brew cask install android-studio
 
