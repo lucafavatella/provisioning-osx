@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+BIN_DIR="${1:?}" ## Mandatory.
+
+HOMEBREW_PREFIX=$(PATH="$(pwd)/lib:$PATH" lib/brew --prefix)
+S="ansible-playbook bins.yml -v -i ansible/hosts -e bin_dir=$BIN_DIR -c local"
+lib/ush -v --path-prefix "${HOMEBREW_PREFIX}/bin:" "$S"

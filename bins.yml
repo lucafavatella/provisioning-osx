@@ -1,0 +1,8 @@
+---
+- hosts: dev-osx
+  tasks:
+    - file: path=~/bin state=directory ## Ref http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrlocalLocalHierarchy
+    - file: path=~/bin/{{ item }} state=link src={{ bin_dir }}/{{ item }}
+      with_items:
+        - ush
+        - brew
