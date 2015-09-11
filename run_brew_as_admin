@@ -2,7 +2,5 @@
 
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
 
-BREW_INSTALL_AS_ADMIN="$(pwd)/brew_install_as_admin"
-
-S="./brew_install_wrapper true \"${BREW_INSTALL_AS_ADMIN}\""
+S="./brew_install_wrapper true \"$(pwd)/brew_install_as_admin\""
 lib/ush -v --path-prefix "$(pwd)/lib:" "$S"
