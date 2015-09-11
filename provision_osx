@@ -12,3 +12,4 @@ git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command
 ./run_brew "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
 ./link_bins "$BIN_DIR"
 ./link_dotfiles "$DOTFILES_PREFIX"
+echo "Consider running ./run_brew_as_admin" >&2
