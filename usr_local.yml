@@ -1,0 +1,19 @@
+---
+## Refs:
+## * FHS /usr/local: http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrlocalLocalHierarchy
+## * Permissions of /usr/local in Debian: http://serverfault.com/questions/388749/do-usr-local-and-usr-local-bin-need-to-be-group-writable-if-so-why
+## * OSX wheel group: http://superuser.com/questions/191955/what-is-the-wheel-user-in-os-x
+- hosts: dev-osx
+  tasks:
+    - file: path=/usr/local state=directory owner=root group=wheel mode=0755
+    - file: path=/usr/local/{{ item }} state=directory owner=root group=wheel mode=0755
+      with_items:
+        - bin
+        - etc
+        - games
+        - include
+        - lib
+        - man
+        - sbin
+        - share
+        - src
