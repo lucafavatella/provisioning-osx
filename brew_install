@@ -13,7 +13,8 @@ brew install emacs
 
 #brew cask install caskroom/versions/firefoxdeveloperedition
 
-#brew install docker-machine ## boot2docker
+brew install docker
+brew install docker-machine ## Downloads boot2docker.iso
 brew install ansible
 #brew install ssh-copy-id
 

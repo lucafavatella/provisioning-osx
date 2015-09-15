@@ -4,7 +4,7 @@
 
 brew cask install flash
 
-#brew cask install virtualbox ## XXX sudo?
+brew cask install virtualbox
 brew cask install vagrant
 
 #brew cask install haskell-platform ## Requires sudo.
