@@ -11,7 +11,7 @@ brew install emacs
 #brew install checkbashisms
 #brew install dash
 
-#brew cask install caskroom/versions/firefoxdeveloperedition
+brew cask install caskroom/versions/firefoxdeveloperedition
 
 brew install docker
 brew install docker-machine ## Downloads boot2docker.iso
