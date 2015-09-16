@@ -1,0 +1,2 @@
+#!/bin/sh
+docker run -it --rm -v /Users/$(whoami):/Users/$(whoami) -w $(pwd) -e CLASSPATH java:openjdk-8-jdk "$@"
