@@ -2,7 +2,13 @@
 - hosts: dev-osx
   tasks:
     - file: path=~/bin state=directory ## Ref http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrlocalLocalHierarchy
-    - file: path=~/bin/{{ item }} state=link src={{ bin_dir }}/{{ item }}
+    - file: path=~/bin/{{ item }} state=link src={{ provisioning_osx_bin_dir }}/{{ item }}
       with_items:
         - ush
         - brew
+    - git: repo={{ docker_bin_repo }} dest={{ docker_bin_dir }} update=no
+    - file: path=~/bin/{{ item }} state=link src={{ docker_bin_dir }}/{{ item }}
+      with_items:
+        - docker-openjdk-8-jdk
+        - java
+        - javac

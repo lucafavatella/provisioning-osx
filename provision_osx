@@ -5,11 +5,11 @@
 BREW_INSTALL="${1:-$(pwd)/brew_install}" ## Overridden for testing.
 DOTFILES_PREFIX="${2:-~}" ## Overridden for testing.
 
-BIN_DIR="$(pwd)/lib"
+PROVISIONING_OSX_BIN_DIR="$(pwd)/lib"
 
 echo "Consider running ./.osx" >&2
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
 ./run_brew "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
-./link_bins "$BIN_DIR"
+./link_bins "$PROVISIONING_OSX_BIN_DIR"
 ./link_dotfiles "$DOTFILES_PREFIX"
 echo "Consider running ./run_brew_as_admin" >&2
