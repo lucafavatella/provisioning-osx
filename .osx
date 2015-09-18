@@ -609,12 +609,22 @@ defaults write com.apple.appstore WebKitDeveloperExtras -bool true
 defaults write com.apple.appstore ShowDebugMenu -bool true
 
 ###############################################################################
+# SizeUp.app                                                                  #
+###############################################################################
+
+# Start SizeUp at login
+defaults write com.irradiatedsoftware.SizeUp StartAtLogin -bool true
+
+# Don’t show the preferences window on next start
+defaults write com.irradiatedsoftware.SizeUp ShowPrefsOnNextStart -bool false
+
+###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
 
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
 	"Dock" "Finder" \
-	"Safari" "SystemUIServer" "Terminal" \
+	"Safari" "SizeUp" "SystemUIServer" "Terminal" \
 	"iCal"; do
 	killall "${app}" > /dev/null 2>&1
 done
