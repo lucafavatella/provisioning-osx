@@ -5,6 +5,9 @@
 # Exit at first command with a non-zero status
 set -e
 
+# Display commands
+#set -x
+
 # Do not run as administrator by default
 case "${1:---disable-sudo}" in
     --enable-sudo)
