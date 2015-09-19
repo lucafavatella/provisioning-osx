@@ -1,5 +1,6 @@
 language: objective-c ## Run job on Mac OS X infrastructure.
 before_install:
+  - uname -a
   - printenv
   - ls -la ~
   - cat ~/build.sh
