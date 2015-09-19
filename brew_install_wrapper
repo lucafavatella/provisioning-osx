@@ -15,7 +15,7 @@ brew_doctor() {
 BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
-brew update
+brew update ## Synonym of `brew cask update`. Ref https://github.com/caskroom/homebrew-cask/blob/v0.56.0/doc/src/brew-cask.1.md#commands
 brew upgrade
 
 brew install caskroom/cask/brew-cask
