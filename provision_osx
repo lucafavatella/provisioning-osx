@@ -2,7 +2,7 @@
 
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
 
-set -e
+#set -x
 
 epoch_s_utc() {
     date +%s
