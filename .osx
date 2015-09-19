@@ -648,6 +648,6 @@ for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
 	"Dock" "Finder" \
 	"Safari" "SizeUp" "SystemUIServer" "Terminal" \
 	"iCal"; do
-	sudo killall "${app}" > /dev/null 2>&1 | { s=$?; [ $s -eq 0 ] || echo "Attempt to kill affected application '${app}' failed with status '$s' and reason '$out'. Continuing ignoring failure."; }
+	killall "${app}" > /dev/null 2>&1 | { s=$?; [ $s -eq 0 ] || echo "Attempt to kill affected application '${app}' failed with status '$s' and reason '$out'. Continuing ignoring failure."; }
 done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
