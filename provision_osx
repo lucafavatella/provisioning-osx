@@ -9,7 +9,7 @@ epoch_s_utc() {
 }
 
 tic() {
-    tic_time=$(epoch_s_utc)
+    tic_time=$(epoch_s_utc) ## HACK Non-local variable.
 }
 
 toc() {
