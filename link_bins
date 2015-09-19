@@ -8,5 +8,5 @@ DOCKER_BIN_REPO=https://github.com/lucafavatella/docker-bin.git
 DOCKER_BIN_DIR=~/dev/docker-bin
 
 HOMEBREW_PREFIX=$(PATH="$(pwd)/lib:$PATH" lib/brew --prefix)
-S="ansible-playbook bins.yml -v -i ansible/hosts -e provisioning_osx_bin_dir=$PROVISIONING_OSX_BIN_DIR -e docker_bin_repo=$DOCKER_BIN_REPO -e docker_bin_dir=$DOCKER_BIN_DIR -c local"
+S="ansible-playbook bins.yml -i ansible/hosts -e provisioning_osx_bin_dir=$PROVISIONING_OSX_BIN_DIR -e docker_bin_repo=$DOCKER_BIN_REPO -e docker_bin_dir=$DOCKER_BIN_DIR -c local"
 lib/ush -v --path-prefix "${HOMEBREW_PREFIX}/bin:" "$S"

@@ -9,13 +9,15 @@ PROVISIONING_OSX_BIN_DIR="$(pwd)/lib"
 
 set -e
 
+C=$(basename "$0")
+
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
 
 ./run_brew "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
-echo "Consider running ./run_brew_as_admin" >&2
+echo "[$C] Consider running ./run_brew_as_admin" >&2
 
-./.osx
-echo "Consider running ./.osx --enable-sudo" >&2
+./.osx | grep -v "^Dropping command 'sudo .*'. Pass option '--enable-sudo' in order not to drop command.$"
+echo "[$C] Consider running ./.osx --enable-sudo" >&2
 
 ./link_bins "$PROVISIONING_OSX_BIN_DIR"
 ./link_dotfiles "$DOTFILES_PREFIX"
