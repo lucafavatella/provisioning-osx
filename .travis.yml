@@ -22,6 +22,7 @@ script:
   - ls -la /Library/Caches/Homebrew || true
   - ls -la ~/Library/Caches/Homebrew || true
   - mkdir ~/sandbox
+  - /usr/libexec/PlistBuddy -c "Print :FK_StandardViewSettings" ~/Library/Preferences/com.apple.finder.plist ## XXX Temporary debug statement for error https://github.com/johnfmorton/Dotfiles-for-easy-Mac-set-up/blob/3614ad4568f02535d6a65f6c809e4c0577175754/possible%20errors.txt#L6 http://osxnotes.net/osx.txt
   - ./provision_osx "$BREW_INSTALL" ~/sandbox
 after_script:
   - ls -la ~
