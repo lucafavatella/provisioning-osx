@@ -4,13 +4,36 @@
 
 set -e
 
+epoch_s_utc() {
+    date +%s
+}
+
+tic() {
+    tic_time=$(epoch_s_utc)
+}
+
+toc() {
+    local Seconds=$(expr $(epoch_s_utc) - $tic_time)
+    unset tic_time
+    echo $Seconds
+}
+
 log() {
     local C=$(basename "$0")
-    echo "[$C] $1"
+    echo "[$C] ${1:?}"
 }
 
 log_e() {
-    log "$1" >&2
+    log "${1:?}" >&2
+}
+
+log_start() {
+    log "[${1:?}] ${2:?}"
+    tic
+}
+
+log_end() {
+    log "[${1:?}] Took $(toc) second(s)."
 }
 
 BREW_INSTALL="${1:-$(pwd)/brew_install}" ## Overridden for testing.
@@ -20,12 +43,21 @@ PROVISIONING_OSX_BIN_DIR="$(pwd)/lib"
 
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
 
+log_start "Homebrew" "Ensuring software is installed..."
 ./run_brew "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
+log_end "Homebrew"
 log_e "Consider running './run_brew_as_admin'"
 log_e "You should manually run 'brew cask install --force' of any Homebrew Casks you deem requiring upgrade" ## Ref https://github.com/caskroom/homebrew-cask/issues/4678
 
-./.osx | grep -v "^Dropping command 'sudo .*'. Pass option '--enable-sudo' in order not to drop command.$"
+log_start ".osx" "Setting sensible defaults for OS X and installed software..."
+./.osx | grep -v "^Dropping command 'sudo .*'\. Pass option '--enable-sudo' in order not to drop command\.$"
+log_end ".osx"
 log_e "Consider running './.osx --enable-sudo'"
 
+log_start "~/bin/*" "Linking local binaries..."
 ./link_bins "$PROVISIONING_OSX_BIN_DIR"
+log_end "~/bin/*"
+
+log_start "~/.*" "Linking dotfiles..."
 ./link_dotfiles "$DOTFILES_PREFIX"
+log_end "~/.*"
