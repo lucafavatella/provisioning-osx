@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+set -x
+
+./run_brew_as_admin
+echo "Consider running './.osx --enable-sudo'" >&2 ## XXX Not running directly in order to avoid SIGSEV
