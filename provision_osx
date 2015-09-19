@@ -7,6 +7,8 @@ DOTFILES_PREFIX="${2:-~}" ## Overridden for testing.
 
 PROVISIONING_OSX_BIN_DIR="$(pwd)/lib"
 
+set -e
+
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
 
 ./run_brew "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
