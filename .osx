@@ -8,14 +8,7 @@ set -e
 # Display commands
 #set -x
 
-# Do not run as administrator by default
-case "${1:---disable-sudo}" in
-    --enable-sudo)
-        ENABLE_SUDO=yes;;
-    --disable-sudo)
-        ENABLE_SUDO=no;;
-esac
-SUDO_CMD="$(command -v sudo)"
+# Sudo wrapper
 sudo() {
     if test $ENABLE_SUDO = yes; then
         "$SUDO_CMD" "$@"
@@ -23,6 +16,17 @@ sudo() {
         echo "Dropping command 'sudo $@'. Pass option '--enable-sudo' in order not to drop command."
     fi
 }
+
+# Do not run as administrator by default
+case "${1:---disable-sudo}" in
+    --enable-sudo)
+        ENABLE_SUDO=yes;;
+    --disable-sudo)
+        ENABLE_SUDO=no;;
+esac
+
+# Get real sudo command
+SUDO_CMD="$(command -v sudo)"
 
 # Ask for the administrator password upfront
 sudo -v
