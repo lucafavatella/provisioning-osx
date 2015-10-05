@@ -6,7 +6,7 @@
       with_items:
         - ush
         - brew
-    - git: repo={{ docker_bin_repo }} dest={{ docker_bin_dir }} update=no
+    - git: remote=provisioning-osx repo={{ docker_bin_repo }} dest={{ docker_bin_dir }}
     - file: path=~/bin/{{ item }} state=link src={{ docker_bin_dir }}/{{ item }}
       with_items:
         - docker-openjdk-8-jdk
