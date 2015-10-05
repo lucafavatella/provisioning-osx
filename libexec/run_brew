@@ -5,5 +5,5 @@
 BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
-S="./brew_install_wrapper \"${BREW_INSTALL1}\" \"${BREW_INSTALL2}\""
-lib/ush -v --path-prefix "$(pwd)/lib:" "$S"
+S="libexec/brew_install_wrapper \"${BREW_INSTALL1}\" \"${BREW_INSTALL2}\""
+bin/ush -v --path-prefix "$(pwd)/bin:" "$S"

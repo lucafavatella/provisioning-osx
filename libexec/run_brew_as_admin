@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+libexec/make_usr_local
+S="libexec/brew_install_wrapper true \"$(pwd)/libexec/brew_install_as_admin\""
+bin/ush -v --path-prefix "$(pwd)/bin:" "$S"

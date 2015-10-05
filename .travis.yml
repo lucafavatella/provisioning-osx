@@ -22,7 +22,7 @@ script:
   - ls -la /Library/Caches/Homebrew || true
   - ls -la ~/Library/Caches/Homebrew || true
   - mkdir ~/sandbox
-  - ./provision_osx "$BREW_INSTALL" ~/sandbox
+  - bin/provision_osx "$BREW_INSTALL" ~/sandbox
 after_script:
   - ls -la ~
   - ls -la ~/sandbox

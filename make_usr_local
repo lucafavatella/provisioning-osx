@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
-
-HOMEBREW_PREFIX=$(PATH="$(pwd)/lib:$PATH" lib/brew --prefix)
-S="ansible-playbook usr_local.yml -i ansible/hosts -c local --ask-become-pass --become"
-lib/ush -v --path-prefix "${HOMEBREW_PREFIX}/bin:" "$S"

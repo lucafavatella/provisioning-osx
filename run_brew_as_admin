@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
-
-./make_usr_local
-S="./brew_install_wrapper true \"$(pwd)/brew_install_as_admin\""
-lib/ush -v --path-prefix "$(pwd)/lib:" "$S"
