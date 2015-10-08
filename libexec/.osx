@@ -8,31 +8,20 @@ set -e
 # Display commands
 #set -x
 
-# Do not run as administrator by default
-case "${1:---disable-sudo}" in
-    --enable-sudo)
-        ENABLE_SUDO=yes;;
-    --disable-sudo)
-        ENABLE_SUDO=no;;
-esac
+# If script executed as the superuser (assumption: using sudo), ...
+if [ "$UID" -ne 0 ]; then
+    # ... keep-alive: update existing `sudo` time stamp until `.osx` has finished
+    while true; do sudo -n true; sleep 1; kill -0 "$$" || exit; done 2>/dev/null & ## XXX Sleeping 1s rather than 60s is a quick workaround for preventing .osx script to keep (downstream) pipe open for 60s. Can this line be deleted at all? Is 1s good enough timeout? Can parent notify child before dying (i.e. completing execution of .osx) so that child terminate earlier than 60s? Can child process close all file descriptors - in order not to keep pipe open at parent death - without keeping sudo alive for commands running in same shell after .osx? Refs: https://stackoverflow.com/questions/284325/how-to-make-child-process-die-after-parent-exits/2035683#2035683 https://stackoverflow.com/questions/284325/how-to-make-child-process-die-after-parent-exits/285134#285134 https://github.com/mathiasbynens/dotfiles/blame/9e09c6a0dacd297d46dd3988f2ce8b7281d8e318/.osx#L5-L9
+fi
 
-# Get real sudo command - *before* defining the sudo function
-readonly SUDO_CMD="$(command -v sudo)"
-
-# Sudo wrapper
+# Skip items requiring sudo if script not executed as the superuser
 sudo() {
-    if test $ENABLE_SUDO = yes; then
-        "$SUDO_CMD" "$@"
+    if [ "$UID" -ne 0 ]; then
+        echo "Dropping command 'sudo $@'. Execute as the superuser - using sudo - in order not to drop command." >&2
     else
-        echo "Dropping command 'sudo $@'. Pass option '--enable-sudo' in order not to drop command."
+        "$@"
     fi
 }
-
-# Ask for the administrator password upfront
-sudo -v
-
-# Keep-alive: update existing `sudo` time stamp until `.osx` has finished
-while true; do sudo -n true; sleep 1; kill -0 "$$" || exit; done 2>/dev/null & ## XXX Sleeping 1s rather than 60s is a quick workaround for preventing .osx script to keep (downstream) pipe open for 60s. Can this line be deleted at all? Is 1s good enough timeout? Can parent notify child before dying (i.e. completing execution of .osx) so that child terminate earlier than 60s? Can child process close all file descriptors - in order not to keep pipe open at parent death - without keeping sudo alive for commands running in same shell after .osx? Refs: https://stackoverflow.com/questions/284325/how-to-make-child-process-die-after-parent-exits/2035683#2035683 https://stackoverflow.com/questions/284325/how-to-make-child-process-die-after-parent-exits/285134#285134 https://github.com/mathiasbynens/dotfiles/blame/9e09c6a0dacd297d46dd3988f2ce8b7281d8e318/.osx#L5-L9
 
 ###############################################################################
 # General UI/UX                                                               #
