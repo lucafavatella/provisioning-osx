@@ -5,4 +5,4 @@
 set -x
 
 libexec/run_brew_as_admin
-sudo libexec/.osx
+libexec/.osx --enable-sudo
