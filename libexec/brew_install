@@ -17,6 +17,7 @@ brew install homebrew/dupes/gdb
 
 brew cask install caskroom/versions/firefoxdeveloperedition
 
+brew install packer
 brew install docker
 brew install docker-machine ## Downloads boot2docker.iso
 brew install ansible
