@@ -1,0 +1,16 @@
+#!/bin/sh
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+## Ensure Docker daemon is started - on Docker Machine - and return
+## Machine name.
+##
+## Also log additional info on standard error.
+
+D=virtualbox
+M=docker-bin
+
+{ docker-machine create -d "$D" "$M" 2> /dev/null && echo "Created VirtualBox VM '${M}'."; } >&2 || true ## Keep progress report during creation.
+{ DA=$(docker-machine inspect "$M" | jq '.DriverName'); test "$DA" = "\"${D}\"" || { echo "Actual DriverName '$DA' for Docker Machine '$M' differs from expected '$D'." >&2; exit 1; }; }
+docker-machine start "$M" > /dev/null
+echo "$M"
