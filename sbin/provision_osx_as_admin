@@ -4,5 +4,8 @@
 
 set -x
 
-libexec/run_brew_as_admin
-libexec/.osx --enable-sudo
+ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
+
+"${ROOT_DIR}/libexec/make_usr_local" "$ROOT_DIR"
+"${ROOT_DIR}/libexec/run_brew_as_admin" "$ROOT_DIR"
+"${ROOT_DIR}/libexec/.osx" --enable-sudo

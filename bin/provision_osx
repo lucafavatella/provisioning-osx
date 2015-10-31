@@ -36,28 +36,28 @@ log_end() {
     log "[${1:?}] Took $(toc) second(s)."
 }
 
-BREW_INSTALL="${1:-$(pwd)/libexec/brew_install}" ## Overridden for testing.
-DOTFILES_PREFIX="${2:-~}" ## Overridden for testing.
+ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 
-PROVISIONING_OSX_BIN_DIR="$(pwd)/bin"
+BREW_INSTALL="${1:-${ROOT_DIR}/libexec/brew_install}" ## Overridden for testing.
+DOTFILES_PREFIX="${2:-~}" ## Overridden for testing.
 
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
 
 log_start "Homebrew" "Ensuring software is installed..."
-libexec/run_brew "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
+"${ROOT_DIR}/libexec/run_brew" "$ROOT_DIR" "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
 log_end "Homebrew"
 log_e "You should manually run 'brew cask install --force' of any Homebrew Casks you deem requiring upgrade" ## Ref https://github.com/caskroom/homebrew-cask/issues/4678
 
 log_start ".osx" "Setting sensible defaults for OS X and installed software..."
-libexec/.osx 2>&1 | grep -v "^Dropping command 'sudo .*'\. Pass option '--enable-sudo' in order not to drop command\.$"
+"${ROOT_DIR}/libexec/.osx" 2>&1 | grep -v "^Dropping command 'sudo .*'\. Pass option '--enable-sudo' in order not to drop command\.$"
 log_end ".osx"
 
 log_start "~/bin/*" "Linking local binaries..."
-libexec/link_bins "$PROVISIONING_OSX_BIN_DIR"
+"${ROOT_DIR}/libexec/link_bins" "$ROOT_DIR"
 log_end "~/bin/*"
 
 log_start "~/.*" "Linking dotfiles..."
-libexec/link_dotfiles "$DOTFILES_PREFIX"
+"${ROOT_DIR}/libexec/link_dotfiles" "$ROOT_DIR" "$DOTFILES_PREFIX"
 log_end "~/.*"
 
-log_e "Consider running 'sbin/provision_osx_as_admin'"
+log_e "Consider running '${ROOT_DIR}/sbin/provision_osx_as_admin'"

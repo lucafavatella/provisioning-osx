@@ -2,8 +2,9 @@
 
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
 
-BREW_INSTALL1="${1:?}" ## Mandatory.
-BREW_INSTALL2="${2:?}" ## Mandatory.
+ROOT_DIR="${1:?}" ## Mandatory.
+BREW_INSTALL1="${2:?}" ## Mandatory.
+BREW_INSTALL2="${3:?}" ## Mandatory.
 
-S="libexec/brew_install_wrapper \"${BREW_INSTALL1}\" \"${BREW_INSTALL2}\""
-bin/ush -v --path-prefix "$(pwd)/bin:" "$S"
+S="${ROOT_DIR}/libexec/brew_install_wrapper \"${BREW_INSTALL1}\" \"${BREW_INSTALL2}\""
+"${ROOT_DIR}/bin/ush" -v --path-prefix "${ROOT_DIR}/bin:" "$S"
