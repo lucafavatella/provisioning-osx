@@ -1,0 +1,18 @@
+---
+- hosts: dev-osx
+  tasks:
+    - file: path=~/dev state=directory ## dev(elopment)
+    - file: path=~/{{ item }} state=directory
+      with_items: ## Ref http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrlocalLocalHierarchy
+        - bin
+        # - lib
+    - file: path=~/bin/{{ item }} state=link src={{ provisioning_osx_root_dir }}/bin/{{ item }}
+      with_items:
+        - ush
+        - brew
+    - git: remote=provisioning-osx repo={{ docker_bin_repo }} dest={{ docker_bin_dir }}
+    - file: path=~/bin/{{ item }} state=link src={{ docker_bin_dir }}/{{ item }}
+      with_items:
+        - docker-openjdk-8-jdk
+        - java
+        - javac

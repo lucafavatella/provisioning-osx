@@ -52,9 +52,9 @@ log_start ".osx" "Setting sensible defaults for OS X and installed software..."
 "${ROOT_DIR}/libexec/.osx" 2>&1 | grep -v "^Dropping command 'sudo .*'\. Pass option '--enable-sudo' in order not to drop command\.$"
 log_end ".osx"
 
-log_start "~/bin/*" "Linking local binaries..."
-"${ROOT_DIR}/libexec/link_bins" "$ROOT_DIR"
-log_end "~/bin/*"
+log_start "~" "Linking binaries/libs in home..."
+"${ROOT_DIR}/libexec/link_home" "$ROOT_DIR"
+log_end "~"
 
 log_start "~/.*" "Linking dotfiles..."
 "${ROOT_DIR}/libexec/link_dotfiles" "$ROOT_DIR" "$DOTFILES_PREFIX"
