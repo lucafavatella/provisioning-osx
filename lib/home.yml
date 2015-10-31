@@ -15,6 +15,7 @@
     - git: remote=provisioning-osx repo={{ docker_bin_repo }} dest={{ docker_bin_dir }}
     - file: path=~/bin/{{ item }} state=link src={{ docker_bin_dir }}/{{ item }}
       with_items:
+        - docker-daemon-on-machine-start
         - docker-openjdk-8-jdk
         - java
         - javac
