@@ -12,7 +12,7 @@
         - ush
         - brew
 
-    - git: remote=provisioning-osx repo={{ docker_bin_repo }} dest={{ docker_bin_dir }}
+    - git: repo={{ docker_bin_repo }} version=master dest={{ docker_bin_dir }} remote=provisioning-osx
     - file: path=~/bin/{{ item }} state=link src={{ docker_bin_dir }}/{{ item }}
       with_items:
         - docker-daemon-on-machine-start

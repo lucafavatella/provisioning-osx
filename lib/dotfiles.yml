@@ -1,7 +1,7 @@
 ---
 - hosts: dev-osx
   tasks:
-    - git: remote=provisioning-osx repo={{ dotfiles_repo }} dest={{ dotfiles_dir }}
+    - git: repo={{ dotfiles_repo }} version=master dest={{ dotfiles_dir }} remote=provisioning-osx
     - file: path={{ dotfiles_prefix }}/{{ item }} state=link src={{ dotfiles_dir }}/{{ item }}
       with_items:
         - .bash_profile
