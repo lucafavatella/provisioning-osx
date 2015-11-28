@@ -1,5 +1,5 @@
 ---
-- hosts: dev-osx
+- hosts: localhost
   tasks:
     - git: repo={{ dotfiles_repo }} version=master dest={{ dotfiles_dir }} remote=provisioning-osx
     - file: path={{ dotfiles_prefix }}/{{ item }} state=link src={{ dotfiles_dir }}/{{ item }}
