@@ -13,7 +13,7 @@ brew install emacs
 #brew install checkbashisms
 #brew install dash
 brew install cmake
-brew install homebrew/dupes/gdb
+brew install gdb
 
 brew cask install caskroom/versions/firefoxdeveloperedition
 
