@@ -8,3 +8,4 @@ brew cask install virtualbox
 brew cask install vagrant
 
 #brew cask install haskell-platform ## Requires sudo.
+brew cask install java

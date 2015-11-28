@@ -17,6 +17,3 @@
       with_items:
         - docker-daemon-on-machine-start
         - docker-openjdk-8-jdk
-        - javac
-        - java
-        - jar
