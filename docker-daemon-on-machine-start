@@ -9,13 +9,17 @@
 ##
 ## Recommended usage:
 ## ```
-## type -p docker-daemon-on-machine-start > /dev/null \
-##    && { M="$(docker-daemon-on-machine-start)" \
-##               || { echo "Error while starting Docker daemon on Docker Machine." >&2; \
-##                    exit 1; }; } \
-##    && { eval "$(docker-machine env ${M})" \
-##               || { echo "Error while setting environment for Docker client." >&2; \
-##                    exit 1; }; }
+## type -p docker-daemon-on-machine-start > /dev/null && \
+##     { M="$(docker-daemon-on-machine-start)" || \
+##             { echo "Error while starting Docker daemon on Docker Machine. Exiting." >&2
+##               exit 1
+##             }
+##     } && \
+##         { eval "$(docker-machine env ${M})" || \
+##                 { echo "Error while setting environment for Docker client. Exiting." >&2
+##                   exit 1
+##                 }
+##         }
 ## ```
 
 D=virtualbox
