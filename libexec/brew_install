@@ -23,7 +23,7 @@ brew install docker-machine ## Downloads boot2docker.iso
 brew install ansible
 #brew install ssh-copy-id
 
-#brew install jq
+brew install jq
 #brew install pup
 
 #brew install --HEAD homebrew/head-only/kerl
