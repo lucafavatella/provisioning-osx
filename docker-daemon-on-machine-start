@@ -72,7 +72,7 @@ dm_ensure_started() {
 }
 
 D=virtualbox
-M=docker-bin
+M="${1:-docker-bin}"
 
 { dm_ensure_created "$D" "$M" || \
         { echo "Failed ensuring that machine '$M' is created. Exiting." >&2
