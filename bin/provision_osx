@@ -48,13 +48,9 @@ log_start "Homebrew" "Ensuring software is installed..."
 log_end "Homebrew"
 log_e "You should manually run 'brew cask install --force' of any Homebrew Casks you deem requiring upgrade" ## Ref https://github.com/caskroom/homebrew-cask/issues/4678
 
-log_start "~/bin/*" "Linking binaries in home..."
-"${ROOT_DIR}/libexec/link_home" "$ROOT_DIR"
-log_end "~/bin/*"
-
-log_start "~/.*" "Linking dotfiles..."
-"${ROOT_DIR}/libexec/link_dotfiles" "$ROOT_DIR" "$DOTFILES_PREFIX"
-log_end "~/.*"
+log_start "~/" "Linking dotfiles and binaries in home..."
+"${ROOT_DIR}/libexec/link_home" "$ROOT_DIR" "$DOTFILES_PREFIX"
+log_end "~/"
 
 log_start ".osx" "Setting sensible defaults for OS X and installed software..."
 "${ROOT_DIR}/libexec/.osx" 2>&1 | grep -v "^Dropping command 'sudo .*'\. Pass option '--enable-sudo' in order not to drop command\.$"

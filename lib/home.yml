@@ -1,10 +1,20 @@
 ---
 - hosts: localhost
   tasks:
-    - file: path=~/dev state=directory ## dev(elopment)
+
+    - git: repo={{ dotfiles_repo }} version=master dest={{ dotfiles_dir }} remote=provisioning-osx refspec=+refs/heads/master:refs/remotes/provisioning-osx/master
+      with_sequence: count=2 ## HACK Update ref then checkout.
+    - file: path={{ dotfiles_prefix }}/{{ item }} state=link src={{ dotfiles_dir }}/{{ item }}
+      with_items:
+        - .bash_profile
+        - .tmux.conf
+        - .gitconfig
+        - .emacs
 
     - file: path=~/{{ item }} state=directory
-      with_items: ## Ref http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrlocalLocalHierarchy
+      with_items:
+        - dev ## dev(elopment)
+        ## Ref http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrlocalLocalHierarchy
         - bin
 
     - file: path=~/bin/{{ item }} state=link src={{ provisioning_osx_root_dir }}/bin/{{ item }}
