@@ -7,5 +7,6 @@ brew cask install flash
 brew cask install virtualbox
 brew cask install vagrant
 
-#brew cask install haskell-platform ## Requires sudo.
+#brew cask install haskell-platform ## Requires sudo. ## TODO Investigate why installation fail.
+brew cask install idris
 brew cask install java
