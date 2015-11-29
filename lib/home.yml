@@ -1,30 +1,82 @@
 ---
 - hosts: localhost
+  vars:
+    managed_dotfiles:
+      - .bash_profile
+      - .tmux.conf
+      - .gitconfig
+      - .emacs
+    managed_dirs:
+      - dev ## dev(elopment)
+      ##
+      ## Ref http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrlocalLocalHierarchy
+      - bin
+    managed_bins_from_provisioning:
+      - ush
+      - brew
+    managed_bins_from_docker:
+      - docker-daemon-on-machine-start
+      - docker-openjdk-8-jdk
+
   tasks:
 
-    - git: repo={{ dotfiles_repo }} version=master dest={{ dotfiles_dir }} remote=provisioning-osx refspec=+refs/heads/master:refs/remotes/provisioning-osx/master
+    ## Dotfiles e.g. ~/.*
+
+    - git:
+        repo={{ dotfiles_repo }} version=master
+        dest={{ dotfiles_dir }} remote=provisioning-osx
+        refspec=+refs/heads/master:refs/remotes/provisioning-osx/master
       with_sequence: count=2 ## HACK Update ref then checkout.
-    - file: path={{ dotfiles_prefix }}/{{ item }} state=link src={{ dotfiles_dir }}/{{ item }}
-      with_items:
-        - .bash_profile
-        - .tmux.conf
-        - .gitconfig
-        - .emacs
 
-    - file: path=~/{{ item }} state=directory
-      with_items:
-        - dev ## dev(elopment)
-        ## Ref http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrlocalLocalHierarchy
-        - bin
+    - file:
+        path={{ home_prefix }}/{{ item }}
+        state=link
+        src={{ dotfiles_dir }}/{{ item }}
+      with_items: managed_dotfiles
 
-    - file: path=~/bin/{{ item }} state=link src={{ provisioning_osx_root_dir }}/bin/{{ item }}
-      with_items:
-        - ush
-        - brew
+    ## Top directories e.g. ~/*
 
-    - git: repo={{ docker_bin_repo }} version=master dest={{ docker_bin_dir }} remote=provisioning-osx refspec=+refs/heads/master:refs/remotes/provisioning-osx/master
+    - file:
+        path={{ home_prefix }}/{{ item }}
+        state=directory
+      with_items: managed_dirs
+
+    ## Binaries e.g. ~/bin/*
+
+    - file:
+        path={{ home_prefix }}/bin/{{ item }}
+        state=link
+        src={{ provisioning_osx_root_dir }}/bin/{{ item }}
+      with_items: managed_bins_from_provisioning
+
+    - git:
+        repo={{ docker_bin_repo }} version=master
+        dest={{ docker_bin_dir }} remote=provisioning-osx
+        refspec=+refs/heads/master:refs/remotes/provisioning-osx/master
       with_sequence: count=2 ## HACK Update ref then checkout.
-    - file: path=~/bin/{{ item }} state=link src={{ docker_bin_dir }}/{{ item }}
-      with_items:
-        - docker-daemon-on-machine-start
-        - docker-openjdk-8-jdk
+
+    - file:
+        path={{ home_prefix }}/bin/{{ item }}
+        state=link
+        src={{ docker_bin_dir }}/{{ item }}
+      with_items: managed_bins_from_docker
+
+    ## Whitelist files and directories, logging suspicious ones
+    ##
+    ## Do not use `file: ... state=absent` as that deletes.
+
+    - find: paths="{{ home_prefix }}" patterns=".*" file_type=file hidden=True
+      register: tmp
+    - debug: msg="Unexpected dotfiles {{ tmp.files | map(attribute='path') | map('basename') | difference(managed_dotfiles) | join(', ') }}"
+
+    - find: paths="{{ home_prefix }}" patterns=".*" file_type=directory hidden=True
+      register: tmp
+    - debug: msg="Directories whose name begins with a dot {{ tmp.files | map(attribute='path') | map('basename') | join(', ') }}"
+
+    - find: paths="{{ home_prefix }}" file_type=directory
+      register: tmp
+    - debug: msg="Unexpected top directories {{ tmp.files | map(attribute='path') | map('basename') | difference(managed_dirs) | join(', ') }}"
+
+    - find: paths="{{ home_prefix }}/bin" file_type=directory hidden=True
+      register: tmp
+    - debug: msg="Unexpected binaries {{ tmp.files | map(attribute='path') | map('basename') | difference(managed_bins_from_provisioning) | difference(managed_bins_from_docker) | join(', ') }}"
