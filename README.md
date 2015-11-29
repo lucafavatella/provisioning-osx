@@ -5,6 +5,10 @@
 $ bin/provision_osx
 ```
 
+```
+$ sbin/provision_osx_as_admin
+```
+
 ### TODO
 
 * Whitelist folders. Refs: http://serverfault.com/questions/710020/ansible-whitelist-directory-contents http://stackoverflow.com/questions/16385507/ansible-delete-unmanaged-files-from-directory/18016700#18016700
