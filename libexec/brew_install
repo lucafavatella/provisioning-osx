@@ -25,7 +25,7 @@ brew install ansible
 #brew install gdb
 brew install global --with-exuberant-ctags --with-pygments ## Ref: https://github.com/leoliu/ggtags/wiki/Install-Global-with-support-for-exuberant-ctags#homebrew-on-mac-os-x ## TODO Move global Formula to using https://github.com/universal-ctags/homebrew-universal-ctags
 brew install jq
-#brew install --HEAD homebrew/head-only/kerl
+brew install --HEAD homebrew/head-only/kerl
 brew install pstree
 #brew install pup
 #brew install rust
