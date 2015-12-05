@@ -61,6 +61,12 @@
         src={{ docker_bin_dir }}/{{ item }}
       with_items: managed_bins_from_docker
 
+    ## Misc
+
+    - file:
+        path={{ home_prefix }}/dev/kerl/installations
+        state=directory
+
     ## Whitelist files and directories, logging suspicious ones
     ##
     ## Do not use `file: ... state=absent` as that deletes.
