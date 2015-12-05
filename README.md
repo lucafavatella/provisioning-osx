@@ -1,9 +1,13 @@
 ## Provisioning of development Mac OS X box
 [![Build Status](https://travis-ci.org/lucafavatella/provisioning-osx.svg?branch=master)](https://travis-ci.org/lucafavatella/provisioning-osx)
 
+Run:
+
 ```
 $ bin/provision_osx
 ```
+
+... then:
 
 ```
 $ sbin/provision_osx_as_admin
