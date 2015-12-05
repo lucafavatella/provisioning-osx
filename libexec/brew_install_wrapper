@@ -3,13 +3,13 @@
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
 
 brew_cleanup() {
-    brew cleanup > /dev/null 2>&1
-    brew cask cleanup > /dev/null
+    local C; C=$(brew cleanup -s 2>&1) || { echo "'brew cleanup -s' failed. Exiting. Info: $C" >&2; exit 1; }
+    local CC; CC=$(brew cask cleanup 2>&1) || { echo "'brew cask cleanup' failed. Exiting. Info: $CC" >&2; exit 1; }
 }
 
 brew_doctor() {
-    brew doctor > /dev/null 2>&1 || true
-    brew cask doctor > /dev/null
+    local D; D=$(brew doctor 2>&1) || { echo "'brew doctor' detected potential problems. Continuing. Info: $D" >&2; }
+    local CD; CD=$(brew cask doctor 2>&1) || { echo "'brew cask doctor' detected potential problems. Exiting. Info: $CD" >&2; exit 1; }
 }
 
 BREW_INSTALL1="${1:?}" ## Mandatory.
