@@ -4,5 +4,5 @@
 
 ROOT_DIR="${1:?}" ## Mandatory.
 
-S="${ROOT_DIR}/libexec/brew_install_wrapper true \"${ROOT_DIR}/libexec/brew_install_as_admin\""
+S="${ROOT_DIR}/libexec/brew_install_as_admin"
 "${ROOT_DIR}/bin/ush" -v --path-prefix "${ROOT_DIR}/bin:" "$S"
