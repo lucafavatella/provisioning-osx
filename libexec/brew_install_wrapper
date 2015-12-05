@@ -11,11 +11,8 @@ log_e() {
     log "${1:?}" >&2
 }
 
-brew_untap_unofficial() {
-    for T in $(brew tap | grep -v -e "$(brew tap --list-official)"); do
-        log "'brew untap'-ing unofficial tap '$T'"
-        brew untap "$T"
-    done
+brew_unofficial_taps() {
+    brew tap | grep -v -e "$(brew tap --list-official)"
 }
 
 brew_cleanup() {
@@ -32,8 +29,8 @@ BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
 brew update ## Synonym of `brew cask update`. Ref https://github.com/caskroom/homebrew-cask/blob/v0.56.0/doc/src/brew-cask.1.md#commands
+log_e "Detected unofficial taps. Continuing. Info:\n$(brew_unofficial_taps)"
 brew upgrade
-brew_untap_unofficial
 
 brew install caskroom/cask/brew-cask
 
