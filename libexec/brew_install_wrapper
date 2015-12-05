@@ -2,14 +2,23 @@
 
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
 
+log() {
+    local C=$(basename "$0")
+    echo "[$C] ${1:?}"
+}
+
+log_e() {
+    log "${1:?}" >&2
+}
+
 brew_cleanup() {
-    local C; C=$(brew cleanup -s 2>&1) || { echo "'brew cleanup -s' failed. Exiting. Info: $C" >&2; exit 1; }
-    local CC; CC=$(brew cask cleanup 2>&1) || { echo "'brew cask cleanup' failed. Exiting. Info: $CC" >&2; exit 1; }
+    local C; C=$(brew cleanup -s 2>&1) || { log_e "'brew cleanup -s' failed. Exiting. Info:\n$C"; exit 1; }
+    local CC; CC=$(brew cask cleanup 2>&1) || { log_e "'brew cask cleanup' failed. Exiting. Info:\n$CC"; exit 1; }
 }
 
 brew_doctor() {
-    local D; D=$(brew doctor 2>&1) || { echo "'brew doctor' detected potential problems. Continuing. Info: $D" >&2; }
-    local CD; CD=$(brew cask doctor 2>&1) || { echo "'brew cask doctor' detected potential problems. Exiting. Info: $CD" >&2; exit 1; }
+    local D; D=$(brew doctor 2>&1) || { log_e "'brew doctor' detected potential problems. Continuing. Info:\n$D"; }
+    local CD; CD=$(brew cask doctor 2>&1) || { log_e "'brew cask doctor' detected potential problems. Exiting. Info:\n$CD"; exit 1; }
 }
 
 BREW_INSTALL1="${1:?}" ## Mandatory.
