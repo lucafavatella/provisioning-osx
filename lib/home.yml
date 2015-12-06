@@ -17,6 +17,8 @@
     managed_bins_from_docker:
       - docker-daemon-on-machine-start
       - docker-openjdk-8-jdk
+    otp_var_1: 18.1
+    otp_var_2: git-2c2c82d-all-options-but-hipe-w-fix-03d40f1
 
   tasks:
 
@@ -61,11 +63,41 @@
         src={{ docker_bin_dir }}/{{ item }}
       with_items: managed_bins_from_docker
 
-    ## Misc
+    ## Erlang/OTP
+    ##
+    ## * `--enable-lock-counter` looks enough for supporting `lcnt` application
+    ## * Dialyzer in OTP 17.3 has known issue (197a846-17.3-w-dialyzer-fix-for-warnings_as_errors)
+    ## * For OTP [< R16B01](https://github.com/erlang/otp/commit/03ad5eab59f7ca51099d7ccc60b27effc4d42383) use [option re file descriptors](https://github.com/Homebrew/homebrew/issues/6143)
 
     - file:
         path={{ home_prefix }}/dev/kerl/installations
         state=directory
+
+    - command: kerl update releases
+
+    - shell:
+        CFLAGS="-I$(brew --prefix)/include" kerl build {{ otp_var_1 }} {{ otp_var_1 }}
+        creates=~/.kerl/builds/{{ otp_var_1 }}
+
+    - command:
+        kerl install {{ otp_var_1 }} {{ home_prefix }}/dev/kerl/installations/{{ otp_var_1 }}
+        creates={{ home_prefix }}/dev/kerl/installations/{{ otp_var_1 }}
+
+    - shell:
+        ## --enable-lock-checking --enable-lock-counter --enable-fp-exceptions are erts-only
+        ##
+        ## Xcode 7.0 supports only the `address` sanitizer - not the
+        ## `undefined` (behaviour) one.  A custom compiler e.g. gcc
+        ## from Homebrew (with `CC=gcc-5` and `CXX=g++-5`) would
+        ## support the `undefined` sanitizer, but the `wx` application
+        ## needs the Apple compiler for using the Cocoa bits of
+        ## Objective-C hence stick to Apple compiler.
+        CFLAGS="-I$(brew --prefix)/include" KERL_CONFIGURE_OPTIONS="--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl" kerl build git "https://github.com/lucafavatella/otp.git" 03d40f1 {{ otp_var_2 }}
+        creates=~/.kerl/builds/{{ otp_var_2 }}
+
+    - command:
+        kerl install {{ otp_var_2 }} {{ home_prefix }}/dev/kerl/installations/{{ otp_var_2 }}
+        creates={{ home_prefix }}/dev/kerl/installations/{{ otp_var_2 }}
 
     ## Whitelist files and directories, logging suspicious ones
     ##
