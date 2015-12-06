@@ -19,15 +19,19 @@ brew install ansible
 #brew install ssh-copy-id
 
 #brew cask install android-studio
-#brew install dash
+#brew install bats
 #brew install checkbashisms
 #brew install cmake
+#brew install dash
 #brew install gdb
 brew install global --with-exuberant-ctags --with-pygments ## Ref: https://github.com/leoliu/ggtags/wiki/Install-Global-with-support-for-exuberant-ctags#homebrew-on-mac-os-x ## TODO Move global Formula to using https://github.com/universal-ctags/homebrew-universal-ctags
 brew install jq
 brew install --HEAD homebrew/head-only/kerl
+#brew install p7zip
 brew install pstree
 #brew install pup
 #brew install rust
+#brew install valgrind
+#brew install watch
 
 brew install --with-deps dinkypumpkin/get_iplayer/get_iplayer
