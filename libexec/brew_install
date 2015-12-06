@@ -19,6 +19,7 @@ brew install ansible
 #brew install ssh-copy-id
 
 #brew cask install android-studio
+brew install autoconf
 #brew install bats
 #brew install checkbashisms
 #brew install cmake
