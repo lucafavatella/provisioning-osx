@@ -25,7 +25,7 @@ brew install autoconf
 #brew install cmake
 #brew install dash
 #brew install gdb
-brew install global --with-exuberant-ctags --with-pygments ## Ref: https://github.com/leoliu/ggtags/wiki/Install-Global-with-support-for-exuberant-ctags#homebrew-on-mac-os-x ## TODO Move global Formula to using https://github.com/universal-ctags/homebrew-universal-ctags
+{ brew rm ctags || true; } && brew install --HEAD universal-ctags/homebrew-universal-ctags/universal-ctags && brew install global --with-exuberant-ctags --with-pygments ## HACK Using unofficial universal-ctags while using official global that depends on (exuberant-)ctags.
 brew install jq
 brew install --HEAD homebrew/head-only/kerl
 #brew install p7zip
