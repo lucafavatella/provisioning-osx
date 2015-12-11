@@ -32,6 +32,7 @@ brew install --HEAD homebrew/head-only/kerl
 #brew install p7zip
 brew install pstree
 #brew install pup
+#brew install python # Installs pip. Ref https://github.com/Homebrew/homebrew/blob/0333865e5d831faa6fd6a414fe19e486898aceba/Library/Formula/python.rb#L321
 #brew install rust
 brew install unixodbc ## Install unixodbc - for building Erlang/OTP (on MacOSX >= 10.9). Building OTP R15B03-1 fails for missing `sql.h`; building more recent OTP releases simply skip the odbc application. See also [ref1](https://github.com/iriscouch/build-couchdb/issues/94#issuecomment-27160850) [ref2](https://coolchevy.org.ua/2014/04/08/kerl-easy-building-and-installing-of-erlangotp-instances/).
 #brew install valgrind
