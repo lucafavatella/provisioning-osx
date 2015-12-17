@@ -33,5 +33,5 @@ matrix:
     - env: BREW_INSTALL=
   fast_finish: true
 env:
-  - BREW_INSTALL=true
+  - BREW_INSTALL="brew install --HEAD homebrew/head-only/kerl"
   - BREW_INSTALL=
