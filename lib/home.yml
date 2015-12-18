@@ -20,7 +20,7 @@
     emacs_prelude_repo: https://github.com/bbatsov/prelude.git
     emacs_prelude_dir: "{{ home_prefix }}/.emacs-prelude.d/.emacs.d"
     otp_var_1: 18.1
-    otp_var_2: git-2c2c82d-all-options-but-hipe-w-fix-03d40f1
+    otp_var_2: git-aeb26c1-all-options-but-hipe
 
   tasks:
 
