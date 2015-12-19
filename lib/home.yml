@@ -31,12 +31,24 @@
       ## (2c2c82d) `--enable-lock-checking --enable-lock-counter
       ## --enable-fp-exceptions` are erts-only.
       ##
-      ## (2c2c82d) Xcode 7.0 supports only the `address` sanitizer -
-      ## not the `undefined` (behaviour) one.  A custom compiler
-      ## e.g. gcc from Homebrew (with `CC=gcc-5` and `CXX=g++-5`)
-      ## would support the `undefined` sanitizer, but the `wx`
-      ## application needs the Apple compiler for using the Cocoa bits
-      ## of Objective-C hence stick to Apple compiler.
+      ## (2c2c82d) The `wx` application needs the Apple compiler for
+      ## using the Cocoa bits of Objective-C, but Xcode 7.0 supports
+      ## only the `address` sanitizer - not the `undefined`
+      ## (behaviour) one.  Options:
+      ## * Stick to Apple compiler (preferred option);
+      ## ** Pros:
+      ## *** Build `wx`.
+      ## ** Cons:
+      ## *** Disable `undefined` sanitizer for all OTP.
+      ## * Use custom compiler e.g. gcc from Homebrew (with `CC=gcc-5`
+      ##   and `CXX=g++-5`).
+      ## ** Pros:
+      ## *** Enable `undefined` sanitizer for all OTP (but `wx`).
+      ## ** Cons:
+      ## *** Worse user experience (slower, more output) for many
+      ##     harmless undefined behaviours;
+      ## *** Do not build `wx` (using
+      ##    `KERL_CONFIGURE_DISABLE_APPLICATIONS="wx"`).
       configure_options_2c2c82d_all_but_hipe: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl"
 
   tasks:
