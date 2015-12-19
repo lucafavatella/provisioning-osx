@@ -1,0 +1,71 @@
+---
+- hosts: localhost
+  vars:
+    kerl_build_dir: "~/.kerl/builds" ## HACK Assumption: `KERL_BUILD_DIR` not changed in `~/.kerlrc`
+    install_dir: "{{ home_prefix }}/dev/kerl/installations"
+    ##
+    otp_git_url: "https://github.com/erlang/otp.git"
+    cflags_osx: "-I$(brew --prefix)/include"
+    ##
+    ## (2014 Jun) `--enable-lock-counter` looks enough for supporting
+    ## `lcnt` application.
+    ##
+    ## (2c2c82d) `--enable-lock-checking --enable-lock-counter
+    ## --enable-fp-exceptions` are erts-only.
+    ##
+    ## (2c2c82d) The `wx` application needs the Apple compiler for
+    ## using the Cocoa bits of Objective-C, but Xcode 7.0 supports
+    ## only the `address` sanitizer - not the `undefined` (behaviour)
+    ## one.  Options:
+    ## * Stick to Apple compiler (preferred option);
+    ## ** Pros:
+    ## *** Build `wx`.
+    ## ** Cons:
+    ## *** Disable `undefined` sanitizer for all OTP.
+    ## * Use custom compiler e.g. gcc from Homebrew (with `CC=gcc-5`
+    ##   and `CXX=g++-5`).
+    ## ** Pros:
+    ## *** Enable `undefined` sanitizer for all OTP (but `wx`).
+    ## ** Cons:
+    ## *** Worse user experience (slower, more output) for many
+    ##     harmless undefined behaviours;
+    ## *** Do not build `wx` (using
+    ##    `KERL_CONFIGURE_DISABLE_APPLICATIONS="wx"`).
+    configure_options_2c2c82d_all_but_hipe: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl"
+    git_builds:
+      - version: OTP-18.2.1 ## Latest OTP 18 point release.
+        url: "{{ otp_git_url }}"
+        cflags: "{{ cflags_osx }}"
+        configure_options: ""
+        name: OTP-18.2.1
+      - version: aeb26c1 ## Recent master.
+        url: "{{ otp_git_url }}"
+        cflags: "{{ cflags_osx }}"
+        configure_options: "{{ configure_options_2c2c82d_all_but_hipe }}"
+        name: git-aeb26c1-all-options-but-hipe
+      ## - version: OTP-17.5.6.6 ## Latest OTP 17 point release.
+      ##
+      ##   Dialyzer in OTP 17.3 has known issue
+      ##   (197a846-17.3-w-dialyzer-fix-for-warnings_as_errors).
+      ##
+      ## - version: OTP_R16B03-1 ## Latest OTP 16 point release.
+      ##
+      ##   For OTP [< R16B01](https://github.com/erlang/otp/commit/03ad5ea) use
+      ##   [option re file descriptors](https://github.com/Homebrew/homebrew/issues/6143)
+
+  tasks:
+
+    - file:
+        path={{ install_dir }}
+        state=directory
+
+    ## - command: kerl update releases ## Prefer building Erlang/OTP from git.
+
+    - include:
+        kerl_build_git_and_install.yml
+        cflags={{ item.cflags }}
+        kerl_configure_options={{ item.configure_options}}
+        git_url={{ item.url }}
+        git_version={{ item.version }}
+        build_name={{ item.name }}
+      with_items: "{{ git_builds }}"

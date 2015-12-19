@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+ROOT_DIR="${1:?}" ## Mandatory.
+
+HOME_PREFIX="$HOME"
+
+HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix)
+E0="-e home_prefix=${HOME_PREFIX}"
+S="ansible-playbook ${ROOT_DIR}/lib/home_kerl.yml -i ${ROOT_DIR}/lib/hosts $E0"
+"${ROOT_DIR}/bin/ush" -v --path-prefix "${HOMEBREW_PREFIX}/bin:" "$S"

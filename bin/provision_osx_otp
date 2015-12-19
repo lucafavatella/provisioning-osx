@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+#set -x
+
+log() {
+    local C=$(basename "$0")
+    echo "[$C] ${1:?}"
+}
+
+log_e() {
+    log "${1:?}" >&2
+}
+
+ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
+
+log_e "You are supposed to have run not only '${ROOT_DIR}/bin/provision_osx' but also '${ROOT_DIR}/sbin/provision_osx_as_admin' (for 'javac')"
+"${ROOT_DIR}/libexec/setup_home_kerl" "$ROOT_DIR"

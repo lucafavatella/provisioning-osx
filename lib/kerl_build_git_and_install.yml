@@ -1,12 +1,5 @@
 ---
-- include:
-    kerl_build_git.yml
-    cflags={{ cflags }}
-    kerl_build_dir={{ build_dir }}
-    kerl_configure_options={{ configure_options }}
-    git_url={{ git_url }}
-    git_version={{ git_version }}
-    build_name={{ build_name }}
+- include: kerl_build_git.yml
 
 - command:
     kerl install {{ build_name }} {{ install_dir }}/{{ build_name }}
