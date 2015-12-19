@@ -19,8 +19,13 @@
       - docker-openjdk-8-jdk
     emacs_prelude_repo: https://github.com/bbatsov/prelude.git
     emacs_prelude_dir: "{{ home_prefix }}/.emacs-prelude.d/.emacs.d"
-    otp_var_1: 18.1
-    otp_var_2: git-aeb26c1-all-options-but-hipe
+    otp_18_1:
+      release: 18.1
+      build_name: 18.1
+    otp_master:
+      git_url: "https://github.com/erlang/otp.git"
+      git_version: aeb26c1
+      build_name: git-aeb26c1-all-options-but-hipe
 
   tasks:
 
@@ -84,12 +89,12 @@
     - command: kerl update releases
 
     - shell:
-        CFLAGS="-I$(brew --prefix)/include" kerl build {{ otp_var_1 }} {{ otp_var_1 }}
-        creates=~/.kerl/builds/{{ otp_var_1 }}
+        CFLAGS="-I$(brew --prefix)/include" kerl build {{ otp_18_1.release }} {{ otp_18_1.build_name }}
+        creates=~/.kerl/builds/{{ otp_18_1.build_name }}
 
     - command:
-        kerl install {{ otp_var_1 }} {{ home_prefix }}/dev/kerl/installations/{{ otp_var_1 }}
-        creates={{ home_prefix }}/dev/kerl/installations/{{ otp_var_1 }}
+        kerl install {{ otp_18_1.build_name }} {{ home_prefix }}/dev/kerl/installations/{{ otp_18_1.build_name }}
+        creates={{ home_prefix }}/dev/kerl/installations/{{ otp_18_1.build_name }}
 
     - shell:
         ## --enable-lock-checking --enable-lock-counter --enable-fp-exceptions are erts-only
@@ -100,12 +105,12 @@
         ## support the `undefined` sanitizer, but the `wx` application
         ## needs the Apple compiler for using the Cocoa bits of
         ## Objective-C hence stick to Apple compiler.
-        CFLAGS="-I$(brew --prefix)/include" KERL_CONFIGURE_OPTIONS="--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl" kerl build git "https://github.com/lucafavatella/otp.git" 03d40f1 {{ otp_var_2 }}
-        creates=~/.kerl/builds/{{ otp_var_2 }}
+        CFLAGS="-I$(brew --prefix)/include" KERL_CONFIGURE_OPTIONS="--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl" kerl build git {{ otp_master.git_url }} {{ otp_master.git_version }} {{ otp_master.build_name }}
+        creates=~/.kerl/builds/{{ otp_master.build_name }}
 
     - command:
-        kerl install {{ otp_var_2 }} {{ home_prefix }}/dev/kerl/installations/{{ otp_var_2 }}
-        creates={{ home_prefix }}/dev/kerl/installations/{{ otp_var_2 }}
+        kerl install {{ otp_master.build_name }} {{ home_prefix }}/dev/kerl/installations/{{ otp_master.build_name }}
+        creates={{ home_prefix }}/dev/kerl/installations/{{ otp_master.build_name }}
 
     ## Whitelist files and directories, logging suspicious ones
     ##
