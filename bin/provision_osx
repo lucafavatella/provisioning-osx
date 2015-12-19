@@ -38,8 +38,9 @@ log_end() {
 
 ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 
-BREW_INSTALL="${1:-${ROOT_DIR}/libexec/brew_install}" ## Overridden for testing.
-HOME_PREFIX="${2:-${HOME}}" ## Overridden for testing.
+HOME_PREFIX="${1:-${HOME}}" ## Overridden for testing.
+BREW_INSTALL="${2:-${ROOT_DIR}/libexec/brew_install}" ## Overridden for testing.
+ENABLE_KERL="${3:-true}" ## Overridden for testing.
 
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
 
@@ -49,7 +50,7 @@ log_end "Homebrew"
 log_e "You should manually run 'brew cask install --force' of any Homebrew Casks you deem requiring upgrade" ## Ref https://github.com/caskroom/homebrew-cask/issues/4678
 
 log_start "~/" "Setup home..."
-"${ROOT_DIR}/libexec/setup_home" "$ROOT_DIR" "$HOME_PREFIX"
+"${ROOT_DIR}/libexec/setup_home" "$ROOT_DIR" "$HOME_PREFIX" "$ENABLE_KERL"
 log_end "~/"
 
 log_start ".osx" "Setting sensible defaults for OS X and installed software..."

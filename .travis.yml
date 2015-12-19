@@ -22,7 +22,7 @@ script:
   - ls -la /Library/Caches/Homebrew || true
   - ls -la ~/Library/Caches/Homebrew || true
   - mkdir ~/sandbox
-  - bin/provision_osx "$BREW_INSTALL" ~/sandbox
+  - bin/provision_osx ~/sandbox "$BREW_INSTALL" "$ENABLE_KERL"
 after_script:
   - ls -la ~
   - ls -la ~/sandbox
@@ -30,8 +30,8 @@ notifications:
   email: false
 matrix:
   allow_failures:
-    - env: BREW_INSTALL=
+    - env: BREW_INSTALL= ENABLE_KERL=
   fast_finish: true
 env:
-  - BREW_INSTALL="brew install --HEAD homebrew/head-only/kerl"
-  - BREW_INSTALL=
+  - BREW_INSTALL=true ENABLE_KERL=false
+  - BREW_INSTALL= ENABLE_KERL=

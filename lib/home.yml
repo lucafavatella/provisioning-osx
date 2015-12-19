@@ -124,6 +124,7 @@
           ##   R16B01](https://github.com/erlang/otp/commit/03ad5ea)
           ##   use [option re file
           ##   descriptors](https://github.com/Homebrew/homebrew/issues/6143)
+      when: "{{ enable_kerl | bool }}"
 
     ## Whitelist files and directories, logging suspicious ones
     ##
