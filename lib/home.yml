@@ -19,13 +19,25 @@
       - docker-openjdk-8-jdk
     emacs_prelude_repo: https://github.com/bbatsov/prelude.git
     emacs_prelude_dir: "{{ home_prefix }}/.emacs-prelude.d/.emacs.d"
-    otp_18_1:
-      release: 18.1
-      build_name: 18.1
-    otp_master:
-      git_url: "https://github.com/erlang/otp.git"
-      git_version: aeb26c1
-      build_name: git-aeb26c1-all-options-but-hipe
+    kerl:
+      build_dir: "~/.kerl/builds" ## HACK Assumption: `KERL_BUILD_DIR` not changed in `~/.kerlrc`
+      install_dir: "{{ home_prefix }}/dev/kerl/installations"
+      otp_git_url: "https://github.com/erlang/otp.git"
+      cflags_osx: "-I$(brew --prefix)/include"
+      ##
+      ## (2014 Jun) `--enable-lock-counter` looks enough for
+      ## supporting `lcnt` application.
+      ##
+      ## (2c2c82d) `--enable-lock-checking --enable-lock-counter
+      ## --enable-fp-exceptions` are erts-only.
+      ##
+      ## (2c2c82d) Xcode 7.0 supports only the `address` sanitizer -
+      ## not the `undefined` (behaviour) one.  A custom compiler
+      ## e.g. gcc from Homebrew (with `CC=gcc-5` and `CXX=g++-5`)
+      ## would support the `undefined` sanitizer, but the `wx`
+      ## application needs the Apple compiler for using the Cocoa bits
+      ## of Objective-C hence stick to Apple compiler.
+      configure_options_2c2c82d_all_but_hipe: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl"
 
   tasks:
 
@@ -77,40 +89,41 @@
       with_items: managed_bins_from_docker
 
     ## Erlang/OTP
-    ##
-    ## * `--enable-lock-counter` looks enough for supporting `lcnt` application
-    ## * Dialyzer in OTP 17.3 has known issue (197a846-17.3-w-dialyzer-fix-for-warnings_as_errors)
-    ## * For OTP [< R16B01](https://github.com/erlang/otp/commit/03ad5eab59f7ca51099d7ccc60b27effc4d42383) use [option re file descriptors](https://github.com/Homebrew/homebrew/issues/6143)
 
     - file:
-        path={{ home_prefix }}/dev/kerl/installations
+        path={{ kerl.install_dir }}
         state=directory
 
-    - command: kerl update releases
-
-    - shell:
-        CFLAGS="-I$(brew --prefix)/include" kerl build {{ otp_18_1.release }} {{ otp_18_1.build_name }}
-        creates=~/.kerl/builds/{{ otp_18_1.build_name }}
-
-    - command:
-        kerl install {{ otp_18_1.build_name }} {{ home_prefix }}/dev/kerl/installations/{{ otp_18_1.build_name }}
-        creates={{ home_prefix }}/dev/kerl/installations/{{ otp_18_1.build_name }}
-
-    - shell:
-        ## --enable-lock-checking --enable-lock-counter --enable-fp-exceptions are erts-only
-        ##
-        ## Xcode 7.0 supports only the `address` sanitizer - not the
-        ## `undefined` (behaviour) one.  A custom compiler e.g. gcc
-        ## from Homebrew (with `CC=gcc-5` and `CXX=g++-5`) would
-        ## support the `undefined` sanitizer, but the `wx` application
-        ## needs the Apple compiler for using the Cocoa bits of
-        ## Objective-C hence stick to Apple compiler.
-        CFLAGS="-I$(brew --prefix)/include" KERL_CONFIGURE_OPTIONS="--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl" kerl build git {{ otp_master.git_url }} {{ otp_master.git_version }} {{ otp_master.build_name }}
-        creates=~/.kerl/builds/{{ otp_master.build_name }}
-
-    - command:
-        kerl install {{ otp_master.build_name }} {{ home_prefix }}/dev/kerl/installations/{{ otp_master.build_name }}
-        creates={{ home_prefix }}/dev/kerl/installations/{{ otp_master.build_name }}
+    - include: kerl.yml
+      vars:
+        build_dir: "{{ kerl.build_dir }}"
+        install_dir: "{{ kerl.install_dir }}"
+        git_builds:
+          otp_18:
+            url: "{{ kerl.otp_git_url }}"
+            version: OTP-18.2.1 ## Latest OTP 18 point release.
+            cflags: "{{ kerl.cflags_osx }}"
+            configure_options: ""
+            name: OTP-18.2.1
+          otp_19:
+            url: "{{ kerl.otp_git_url }}"
+            version: aeb26c1 ## Recent master.
+            cflags: "{{ kerl.cflags_osx }}"
+            configure_options: "{{ kerl.configure_options_2c2c82d_all_but_hipe }}"
+            name: git-aeb26c1-all-options-but-hipe
+          ## otp_17:
+          ##   version: OTP-17.5.6.6 ## Latest OTP 17 point release.
+          ##
+          ##   Dialyzer in OTP 17.3 has known issue
+          ##   (197a846-17.3-w-dialyzer-fix-for-warnings_as_errors).
+          ##
+          ## otp_16:
+          ##   version: OTP_R16B03-1 ## Latest OTP 16 point release.
+          ##
+          ##   For OTP [<
+          ##   R16B01](https://github.com/erlang/otp/commit/03ad5ea)
+          ##   use [option re file
+          ##   descriptors](https://github.com/Homebrew/homebrew/issues/6143)
 
     ## Whitelist files and directories, logging suspicious ones
     ##

@@ -1,0 +1,13 @@
+---
+## - command: kerl update releases ## Prefer building Erlang/OTP from git.
+
+- include:
+    kerl_build_git_and_install.yml
+    build_dir={{ build_dir }}
+    install_dir={{ install_dir }}
+    cflags={{ item.value.cflags }}
+    configure_options={{ item.value.configure_options}}
+    git_url={{ item.value.url }}
+    git_version={{ item.value.version }}
+    build_name={{ item.value.name }}
+  with_dict: "{{ git_builds }}"

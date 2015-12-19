@@ -15,6 +15,7 @@ $ sbin/provision_osx_as_admin
 
 ### TODO
 
+* Move building OTP out of main script as it requires java installed - that is installed as root
 * Teach Emacs to conditionally hide C ifdef
 * Teach universal-ctags arity of Erlang functions
 * Log unknown files/dirs as warnings, hinting command for deletion
