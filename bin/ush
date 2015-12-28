@@ -14,8 +14,7 @@ print_usage() {
 }
 
 is_valid_path_prefix() {
-    local P="$1"
-    [ ${#P} -ge 2 ] && [ ${P:0:1} != ":" ] && [ ${P: -1} = ":" ]
+    [ ${#1} -ge 2 ] && [ ${1:0:1} != ":" ] && [ ${1: -1:1} = ":" ] ## At least two chars long, first char is not ':', last char is ':'.
 }
 
 V=false
@@ -29,12 +28,12 @@ esac
 case "$1" in
     --path-prefix)
         shift
-        $(is_valid_path_prefix "$1") || print_usage
+        $(is_valid_path_prefix "$1") || { print_usage; exit 1; }
         PATH_PREFIX="$1"
         shift;;
     *)
 esac
-[ $# -eq 1 ] || print_usage
+[ $# -eq 1 ] || { print_usage; exit 1; }
 
 C0="$1"
 

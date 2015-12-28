@@ -18,6 +18,13 @@ $ sbin/provision_osx_as_admin
 $ bin/provision_osx_otp
 ```
 
+### Tests
+
+Run tests:
+```
+$ bats tests/
+```
+
 ### TODO
 
 * Teach Emacs to conditionally hide C ifdef
