@@ -20,7 +20,7 @@ brew install --devel ansible
 
 #brew cask install android-studio
 brew install autoconf
-#brew install bats
+brew install bats
 #brew install checkbashisms
 #brew install cmake
 #brew install dash
