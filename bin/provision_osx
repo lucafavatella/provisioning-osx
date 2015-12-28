@@ -9,18 +9,16 @@ epoch_s_utc() {
 }
 
 tic() {
-    tic_time=$(epoch_s_utc) ## HACK Non-local variable.
+    tic_time=$(epoch_s_utc) ## Non-local variable.
 }
 
 toc() {
-    local Seconds=$(expr $(epoch_s_utc) - $tic_time)
+    echo $(expr $(epoch_s_utc) - $tic_time)
     unset tic_time
-    echo $Seconds
 }
 
 log() {
-    local C=$(basename "$0")
-    echo "[$C] ${1:?}"
+    echo "[$(basename $0)] ${1:?}"
 }
 
 log_e() {
