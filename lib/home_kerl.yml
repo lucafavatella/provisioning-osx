@@ -38,12 +38,12 @@
         cflags: "{{ cflags_osx }}"
         configure_options: ""
         name: OTP-18.2.1
-      - version: aeb26c1 ## Recent master.
+      - version: f4bb08f ## Recent master.
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_2c2c82d_all_but_hipe }}"
-        name: git-aeb26c1-all-options-but-hipe
-      ## - version: OTP-17.5.6.6 ## Latest OTP 17 point release.
+        name: git-f4bb08f-all-options-but-hipe
+      ## - version: OTP-17.5.6.7 ## Latest OTP 17 point release.
       ##
       ##   Dialyzer in OTP 17.3 has known issue
       ##   (197a846-17.3-w-dialyzer-fix-for-warnings_as_errors).
