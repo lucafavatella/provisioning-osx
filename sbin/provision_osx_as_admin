@@ -5,8 +5,7 @@
 set -x
 
 log() {
-    local C=$(basename "$0")
-    echo "[$C] ${1:?}"
+    echo "[$(basename $0)] ${1:?}"
 }
 
 log_e() {
