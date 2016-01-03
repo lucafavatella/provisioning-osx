@@ -1,10 +1,11 @@
-#!/bin/sh -e
+#!/bin/bash -e
+
+## Using `bash` and not `sh` for non-POSIX `local`.
 
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
 
 log() {
-    local C=$(basename "$0")
-    echo "[$C] ${1:?}"
+    echo "[$(basename $0)] ${1:?}"
 }
 
 log_e() {
