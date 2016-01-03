@@ -5,5 +5,5 @@
 ROOT_DIR="${1:?}" ## Mandatory.
 
 HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix)
-S="ansible-playbook ${ROOT_DIR}/lib/usr_local.yml -i ${ROOT_DIR}/lib/hosts --ask-become-pass --become"
+S="ansible-playbook ${ROOT_DIR}/lib/usr_local.yml -i ${ROOT_DIR}/lib/hosts --ask-become-pass"
 "${ROOT_DIR}/bin/ush" -v --path-prefix "${HOMEBREW_PREFIX}/bin:" "$S"
