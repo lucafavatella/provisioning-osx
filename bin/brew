@@ -5,7 +5,7 @@
 HOMEBREW_REPO=https://github.com/Homebrew/homebrew.git
 HOMEBREW_PREFIX=~/homebrew
 HOMEBREW_CACHE=~/Library/Caches/Homebrew
-HOMEBREW_CASK_OPTS=--caskroom=~/homebrew-cask/Caskroom
+HOMEBREW_CASK_OPTS="--caskroom=~/homebrew-cask/Caskroom --binarydir=~/homebrew-cask/bin"
 
 test -e "$HOMEBREW_PREFIX" || ush "git clone $HOMEBREW_REPO $HOMEBREW_PREFIX"
 
