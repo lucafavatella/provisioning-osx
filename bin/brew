@@ -7,7 +7,7 @@ HOMEBREW_PREFIX=~/homebrew
 HOMEBREW_CACHE=~/Library/Caches/Homebrew
 HOMEBREW_CASK_OPTS=--caskroom=~/homebrew-cask
 
-[ -e "$HOMEBREW_PREFIX" ] || ush "git clone $HOMEBREW_REPO $HOMEBREW_PREFIX"
+test -e "$HOMEBREW_PREFIX" || ush "git clone $HOMEBREW_REPO $HOMEBREW_PREFIX"
 
 P="$@"
 
