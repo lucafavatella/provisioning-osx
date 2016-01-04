@@ -27,6 +27,8 @@ $ bats tests/
 
 ### TODO
 
+* Review brew casks really requiring sudo - putting binaries in ~
+* Consider installing in `/usr/local/bin` (rather than `~/homebrew-cask/bin`) binaries of casks installed using sudo
 * Teach Emacs to conditionally hide C ifdef
 * Teach universal-ctags arity of Erlang functions
 * Log unknown files/dirs as warnings, hinting command for deletion
