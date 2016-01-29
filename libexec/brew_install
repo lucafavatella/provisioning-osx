@@ -21,6 +21,7 @@ brew install docker-machine ## Downloads boot2docker.iso
 brew install ansible
 #brew install ssh-copy-id
 
+#brew install android-platform-tools ## adb
 #brew cask install android-studio
 brew install autoconf
 brew install bats
