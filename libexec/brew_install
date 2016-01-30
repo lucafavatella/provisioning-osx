@@ -15,7 +15,7 @@ brew cask install caskroom/versions/firefoxdeveloperedition
 #brew install packer
 brew install docker
 brew install docker-machine ## Downloads boot2docker.iso
-brew install --devel ansible
+brew install ansible
 #brew install ssh-copy-id
 
 #brew cask install android-studio
