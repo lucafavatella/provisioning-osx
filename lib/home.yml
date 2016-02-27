@@ -34,14 +34,14 @@
         path={{ home_prefix }}/{{ item }}
         state=link
         src={{ dotfiles_dir }}/{{ item }}
-      with_items: managed_dotfiles
+      with_items: "{{ managed_dotfiles }}"
 
     ## Top directories e.g. ~/*
 
     - file:
         path={{ home_prefix }}/{{ item }}
         state=directory
-      with_items: managed_dirs
+      with_items: "{{ managed_dirs }}"
 
     - git:
         repo={{ emacs_prelude_repo }} version=master
@@ -55,7 +55,7 @@
         path={{ home_prefix }}/bin/{{ item }}
         state=link
         src={{ provisioning_osx_root_dir }}/bin/{{ item }}
-      with_items: managed_bins_from_provisioning
+      with_items: "{{ managed_bins_from_provisioning }}"
 
     - git:
         repo={{ docker_bin_repo }} version=master
@@ -67,7 +67,7 @@
         path={{ home_prefix }}/bin/{{ item }}
         state=link
         src={{ docker_bin_dir }}/{{ item }}
-      with_items: managed_bins_from_docker
+      with_items: "{{ managed_bins_from_docker }}"
 
     ## Whitelist files and directories, logging suspicious ones
     ##
