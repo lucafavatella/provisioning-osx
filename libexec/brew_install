@@ -27,6 +27,7 @@ brew install bats
 #brew install gcc
 #brew install gdb
 { brew rm ctags || true; } && { brew rm universal-ctags/homebrew-universal-ctags/universal-ctags && brew install --HEAD universal-ctags/homebrew-universal-ctags/universal-ctags; } && { brew install global --with-ctags --with-pygments || true; } ## HACK Using unofficial universal-ctags while using official global that depends on (exuberant-)ctags.
+brew install ghc cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris
 brew install jq
 { brew rm homebrew/head-only/kerl && brew install --HEAD homebrew/head-only/kerl; }
 #brew install node ## Installs `npm` too.
