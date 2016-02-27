@@ -26,9 +26,9 @@ brew install bats
 #brew install dash
 #brew install gcc
 #brew install gdb
-{ brew rm ctags || true; } && brew install --HEAD universal-ctags/homebrew-universal-ctags/universal-ctags && { brew install global --with-ctags --with-pygments || true; } ## HACK Using unofficial universal-ctags while using official global that depends on (exuberant-)ctags.
+{ brew rm ctags || true; } && { brew rm universal-ctags/homebrew-universal-ctags/universal-ctags && brew install --HEAD universal-ctags/homebrew-universal-ctags/universal-ctags; } && { brew install global --with-ctags --with-pygments || true; } ## HACK Using unofficial universal-ctags while using official global that depends on (exuberant-)ctags.
 brew install jq
-brew install --HEAD homebrew/head-only/kerl
+{ brew rm homebrew/head-only/kerl && brew install --HEAD homebrew/head-only/kerl; }
 #brew install node ## Installs `npm` too.
 brew install p7zip ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
 brew install pstree
