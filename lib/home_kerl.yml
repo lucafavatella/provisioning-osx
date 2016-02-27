@@ -33,17 +33,17 @@
     ##    `KERL_CONFIGURE_DISABLE_APPLICATIONS="wx"`).
     configure_options_2c2c82d_all_but_hipe: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl"
     git_builds:
-      - version: OTP-18.2.1 ## Latest OTP 18 point release.
+      - version: OTP-18.2.4 ## Latest OTP 18 point release.
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: ""
-        name: OTP-18.2.1
-      - version: f4bb08f ## Recent master.
+        name: OTP-18.2.4
+      - version: 10a218b ## Recent master.
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_2c2c82d_all_but_hipe }}"
-        name: git-f4bb08f-all-options-but-hipe
-      ## - version: OTP-17.5.6.7 ## Latest OTP 17 point release.
+        name: git-10a218b-all-options-but-hipe
+      ## - version: OTP-17.5.6.8 ## Latest OTP 17 point release.
       ##
       ##   Dialyzer in OTP 17.3 has known issue
       ##   (197a846-17.3-w-dialyzer-fix-for-warnings_as_errors).
