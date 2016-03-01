@@ -27,6 +27,7 @@ $ bats tests/
 
 ### TODO
 
+* Test running bin/provision_osx on box without brew installed. Where is brew ensured to be installed?
 * Consider installing in `/usr/local/bin` (rather than `~/homebrew-cask/bin`) binaries of casks installed using sudo
 * Teach Emacs to conditionally hide C ifdef
 * Teach universal-ctags arity of Erlang functions
