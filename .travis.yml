@@ -9,7 +9,7 @@ install:
   - command -v brew
   - if [ $(command -v brew) != "/usr/local/bin/brew" ]; then exit 1; fi
   - if [ $(command -v brew-cask) ]; then exit 1; fi
-  - brew uninstall --force brew-cask ## [brew_install_wrapper] 'brew cask cleanup' failed. Exiting. Info:\nError: No such file or directory - /Users/travis/Library/Caches/Homebrew/Casks\n  Most likely, this means you have an outdated version of homebrew-cask. Please run:\n      brew uninstall --force brew-cask; brew untap phinze/cask; brew update; brew cleanup; brew cask cleanup
+  - if [ $(brew ls | fgrep brew-cask) ]; then exit 1; fi
   - echo $PATH
   - if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
   - export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||")
@@ -22,6 +22,7 @@ script:
   - ls -la ~/Library/Caches || true
   - ls -la /Library/Caches/Homebrew || true
   - ls -la ~/Library/Caches/Homebrew || true
+  - mkdir -p ~/Library/Caches/Homebrew/Casks ## Temporary workaround until https://github.com/caskroom/homebrew-cask/issues/18606 is fixed.
   - mkdir ~/sandbox
   - bin/provision_osx ~/sandbox "$BREW_INSTALL"
 after_script:
