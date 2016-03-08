@@ -15,7 +15,6 @@ install:
   - export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||")
   - echo $PATH
   - if [ $(command -v brew) ]; then exit 1; fi
-  - if [ $(command -v brew-cask) ]; then exit 1; fi
 script:
   - if [ $(command -v brew) ]; then exit 1; fi
   - if [ $(command -v brew-cask) ]; then exit 1; fi
