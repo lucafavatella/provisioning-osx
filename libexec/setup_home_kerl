@@ -8,5 +8,6 @@ HOME_PREFIX="$HOME"
 
 HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix)
 E0="-e home_prefix=${HOME_PREFIX}"
-S="ansible-playbook ${ROOT_DIR}/lib/home_kerl.yml -i ${ROOT_DIR}/lib/hosts $E0"
+E1="-e homebrew_prefix=${HOMEBREW_PREFIX}"
+S="ansible-playbook ${ROOT_DIR}/lib/home_kerl.yml -i ${ROOT_DIR}/lib/hosts $E0 $E1"
 "${ROOT_DIR}/bin/ush" -v --path-prefix "${HOMEBREW_PREFIX}/bin:" "$S"
