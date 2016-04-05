@@ -2,6 +2,8 @@
 
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
 
+ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
+
 brew cask install sizeup ## TODO Move to Spectacle https://www.spectacleapp.com - see also .osx
 
 brew cask install iterm2
@@ -9,8 +11,7 @@ brew install tmux
 brew install bash-completion
 brew install git ## For git-completion.
 brew install emacs
-
-brew cask install caskroom/versions/firefoxdeveloperedition
+HOMEBREW_EDITOR="brew cat emacs | ${ROOT_DIR}/libexec/to_emacs-keg-only >" brew edit --force emacs-keg-only && brew install emacs-keg-only --devel --with-cocoa
 
 #brew install packer
 brew install docker
