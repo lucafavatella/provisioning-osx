@@ -29,11 +29,11 @@ brew_doctor() {
 BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
+brew uninstall --force brew-cask ## TODO Delete in July 2017. Ref https://github.com/caskroom/homebrew-cask/blob/1cabcbbf6ac6b2c1ea23920cbc388d108b11c0e3/README.md#important-december-2015-update-homebrew-cask-will-now-be-kept-up-to-date-together-with-homebrew-see-15381-for-details-if-you-havent-yet-run-brew-uninstall---force-brew-cask-brew-update-to-switch-to-the-new-system
+
 brew update ## Synonym of `brew cask update`. Ref https://github.com/caskroom/homebrew-cask/blob/v0.56.0/doc/src/brew-cask.1.md#commands
 log_e "Detected unofficial taps. Continuing. Info:"$'\n'"$(brew_unofficial_taps)" ## TODO Show only if there are any.
 brew upgrade
-
-brew install caskroom/cask/brew-cask
 
 sh -c "$BREW_INSTALL1"
 sh -c "$BREW_INSTALL2"
