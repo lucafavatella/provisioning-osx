@@ -6,7 +6,7 @@ ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 
 brew cask install sizeup ## TODO Move to Spectacle https://www.spectacleapp.com - see also .osx
 
-brew cask install iterm2
+brew cask install Caskroom/versions/iterm2-beta
 brew install tmux
 brew install bash-completion
 brew install git ## For git-completion.
