@@ -1,39 +1,72 @@
 os: osx
 language: c
 before_install:
+  ## Debug
   - uname -a
   - printenv
   - ls -la ~
   - cat ~/build.sh
+  ## Functions
+  - exit_if_in_path() { if [ $(command -v "${1:?}") ]; then exit 1; fi; }
 install:
+  ## [P* jobs] Make job precondition: Recent setuptools in order to workaround docker-py issue - for ansible. `pip install -U setuptools` not allowed. Refs https://github.com/docker/docker-py/issues/1019 https://github.com/pypa/pip/issues/1480#issuecomment-42097978 https://github.com/travis-ci/travis-ci/issues/2312#issuecomment-122850231
+  - python --version
+  - pip list setuptools
+  - case $JOB in T) ;; *) git clone https://github.com/MacPython/terryfy;; esac
+  - case $JOB in T) ;; *) source terryfy/travis_tools.sh;; esac
+  - case $JOB in T) ;; *) get_python_environment macpython 2.7.11;; esac
+  - python --version
+  - pip list setuptools
+  ## [T job] Make job precondition: `bats` in PATH
+  - case $JOB in T) brew install bats;; *) ;; esac
+  ## [P* jobs] Make job precondition: no `brew` or `brew-cask` in PATH
   - command -v brew
   - if [ $(command -v brew) != "/usr/local/bin/brew" ]; then exit 1; fi
-  - if [ $(command -v brew-cask) ]; then exit 1; fi
+  - exit_if_in_path brew-cask
   - if [ $(brew ls | fgrep brew-cask) ]; then exit 1; fi
   - echo $PATH
   - if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
-  - export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||")
+  - case $JOB in T) ;; *) export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||");; esac
   - echo $PATH
-  - if [ $(command -v brew) ]; then exit 1; fi
+  ## [PO job] Make job precondition: Workaround for travis_wait handling incorrectly spaces in parameters.
+  - printf "%s\n%s\n" "#!/bin/sh" "brew install kerl && brew install openssl && brew install unixodbc && brew install wxmac" > ci.PO.BREW_INSTALL
+  - chmod u+x ci.PO.BREW_INSTALL
 script:
-  - if [ $(command -v brew) ]; then exit 1; fi
-  - if [ $(command -v brew-cask) ]; then exit 1; fi
+  ## [P* jobs] Check job precondition: no `brew` or `brew-cask` in PATH
+  - case $JOB in T) ;; *) exit_if_in_path brew;; esac
+  - case $JOB in T) ;; *) exit_if_in_path brew-cask;; esac
+  ## [P* jobs] Debug - brew caches
   - ls -la /Library/Caches || true
   - ls -la ~/Library/Caches || true
   - ls -la /Library/Caches/Homebrew || true
   - ls -la ~/Library/Caches/Homebrew || true
-  - mkdir -p ~/Library/Caches/Homebrew/Casks ## Temporary workaround until https://github.com/caskroom/homebrew-cask/issues/18606 is fixed.
-  - mkdir ~/sandbox
-  - travis_wait 20 bin/provision_osx ~/sandbox "$BREW_INSTALL"
+  ## [P* jobs] Temporary workaround until https://github.com/caskroom/homebrew-cask/issues/18606 is fixed.
+  - case $JOB in T) ;; *) mkdir -p ~/Library/Caches/Homebrew/Casks;; esac
+  ## [T job] Main
+  - case $JOB in T) bats tests/;; *) ;; esac
+  ## [P* jobs] Main
+  - case $JOB in T) ;; *) mkdir ~/sandbox;; esac
+  - case $JOB in T) ;; *) travis_wait 20 bin/provision_osx ~/sandbox "$BREW_INSTALL";; esac ## https://github.com/travis-ci/travis-build/blob/deploy.2014-11-12.21-09/lib/travis/build/templates/header.sh#L119-L122
+  - case $JOB in T) ;; P) ;; PA) ;; PAO) ;; PO) ;; esac
+  - case $JOB in T) ;; P) ;; PA|PAO) sbin/provision_osx_as_admin;; PO) ;; esac
+  - case $JOB in T) ;; P) ;; PA) ;; PAO|PO) travis_wait 30 bin/provision_osx_otp;; esac
 after_script:
-  - ls -la ~
-  - ls -la ~/sandbox
+  ## [P* jobs] Debug
+  - case $JOB in T) ;; *) ls -la ~;; esac
+  - case $JOB in T) ;; *) ls -la ~/sandbox;; esac
 notifications:
   email: false
 matrix:
   allow_failures:
-    - env: BREW_INSTALL=
+    - env: JOB=P BREW_INSTALL=
+    - env: JOB=PA BREW_INSTALL=
+    - env: JOB=PAO BREW_INSTALL=
+    - env: JOB=PO BREW_INSTALL="./ci.PO.BREW_INSTALL" ## Ref https://github.com/kerl/kerl/issues/120
   fast_finish: true
 env:
-  - BREW_INSTALL=true
-  - BREW_INSTALL=
+  - JOB=T
+  - JOB=P BREW_INSTALL=true
+  - JOB=P BREW_INSTALL=
+  - JOB=PA BREW_INSTALL=
+  - JOB=PAO BREW_INSTALL=
+  - JOB=PO BREW_INSTALL="./ci.PO.BREW_INSTALL" ## Out-of-process OTP installation without `javac`.
