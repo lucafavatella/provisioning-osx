@@ -32,6 +32,7 @@ brew install ghc cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update
 brew cask install caskroom/versions/intellij-idea-ce
 brew install jq
 { { brew rm homebrew/head-only/kerl || true; } && brew install --HEAD homebrew/head-only/kerl; }
+brew install https://raw.githubusercontent.com/lucafavatella/homebrew-sixel/40d25254585d2efc3be2983f00b85b29b785aa7d/mlterm.rb
 #brew install node ## Installs `npm` too.
 brew install openssl ## Install openssl - for building Erlang/OTP without skipping the crypto application [on MacOSX >= 10.11](http://erlang.org/pipermail/erlang-questions/2015-October/086386.html).
 brew install p7zip ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
