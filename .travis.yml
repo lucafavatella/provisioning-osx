@@ -24,7 +24,7 @@ script:
   - ls -la ~/Library/Caches/Homebrew || true
   - mkdir -p ~/Library/Caches/Homebrew/Casks ## Temporary workaround until https://github.com/caskroom/homebrew-cask/issues/18606 is fixed.
   - mkdir ~/sandbox
-  - bin/provision_osx ~/sandbox "$BREW_INSTALL"
+  - travis_wait 20 bin/provision_osx ~/sandbox "$BREW_INSTALL"
 after_script:
   - ls -la ~
   - ls -la ~/sandbox
