@@ -33,16 +33,16 @@
     ##    `KERL_CONFIGURE_DISABLE_APPLICATIONS="wx"`).
     configure_options_2c2c82d_all_but_hipe: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl={{ homebrew_prefix }}/opt/openssl"
     git_builds:
-      - version: OTP-18.2.4 ## Latest OTP 18 point release.
+      - version: OTP-18.3.1 ## Latest OTP 18 point release.
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "--with-ssl={{ homebrew_prefix }}/opt/openssl"
-        name: OTP-18.2.4
-      - version: 10a218b ## Recent master.
+        name: OTP-18.3.1
+      - version: 9e3d98d ## Recent master.
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_2c2c82d_all_but_hipe }}"
-        name: git-10a218b-all-options-but-hipe
+        name: git-9e3d98d-all-options-but-hipe
       ## - version: OTP-17.5.6.8 ## Latest OTP 17 point release.
       ##
       ##   Dialyzer in OTP 17.3 has known issue
