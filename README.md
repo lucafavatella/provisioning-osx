@@ -1,5 +1,6 @@
 ## Provisioning of development Mac OS X box
 [![Build Status](https://travis-ci.org/lucafavatella/provisioning-osx.svg?branch=master)](https://travis-ci.org/lucafavatella/provisioning-osx)
+[![Code Climate](https://codeclimate.com/github/lucafavatella/provisioning-osx/badges/gpa.svg)](https://codeclimate.com/github/lucafavatella/provisioning-osx)
 
 Run:
 
