@@ -6,10 +6,11 @@ HOMEBREW_REPO=https://github.com/Homebrew/homebrew.git
 HOMEBREW_PREFIX=~/homebrew
 HOMEBREW_CACHE=~/Library/Caches/Homebrew
 HOMEBREW_CASK_OPTS="--caskroom=~/homebrew-cask/Caskroom --binarydir=~/homebrew-cask/bin"
+HOMEBREW_NO_ANALYTICS=1
 
 test -e "$HOMEBREW_PREFIX" || ush "git clone $HOMEBREW_REPO $HOMEBREW_PREFIX"
 
 P="$@"
 
-S="set -e; HOMEBREW_CACHE=\"${HOMEBREW_CACHE}\" HOMEBREW_EDITOR=\"${HOMEBREW_EDITOR}\" HOMEBREW_CASK_OPTS=\"${HOMEBREW_CASK_OPTS}\" brew $P"
+S="set -e; HOMEBREW_CACHE=\"${HOMEBREW_CACHE}\" HOMEBREW_EDITOR=\"${HOMEBREW_EDITOR}\" HOMEBREW_NO_ANALYTICS=\"${HOMEBREW_NO_ANALYTICS}\" HOMEBREW_CASK_OPTS=\"${HOMEBREW_CASK_OPTS}\" brew $P"
 ush --path-prefix "${HOMEBREW_PREFIX}/bin:" "$S"
