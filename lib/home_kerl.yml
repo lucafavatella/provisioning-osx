@@ -43,7 +43,7 @@
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_2c2c82d_all_but_hipe }}"
         name: git-9e3d98d-all-options-but-hipe
-      ## - version: OTP-17.5.6.8 ## Latest OTP 17 point release.
+      ## - version: OTP-17.5.6.9 ## Latest OTP 17 point release.
       ##
       ##   Dialyzer in OTP 17.3 has known issue
       ##   (197a846-17.3-w-dialyzer-fix-for-warnings_as_errors).
