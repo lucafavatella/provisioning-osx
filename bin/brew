@@ -5,12 +5,16 @@
 HOMEBREW_REPO=https://github.com/Homebrew/homebrew.git
 HOMEBREW_PREFIX=~/homebrew
 HOMEBREW_CACHE=~/Library/Caches/Homebrew
+HOMEBREW_NO_ANALYTICS=1 ## Ref https://github.com/Homebrew/brew/blob/1451553188276117a574b2abe8957cb60ef7ced7/share/doc/homebrew/Analytics.md#opting-out
+HOMEBREW_ANALYTICS_USER_UUID=~/.homebrew_analytics_user_uuid
 HOMEBREW_CASK_OPTS="--caskroom=~/homebrew-cask/Caskroom --binarydir=~/homebrew-cask/bin"
-HOMEBREW_NO_ANALYTICS=1
+
+P="$@"
 
 test -e "$HOMEBREW_PREFIX" || ush "git clone $HOMEBREW_REPO $HOMEBREW_PREFIX"
 
-P="$@"
+## Ref https://github.com/Homebrew/brew/blob/1451553188276117a574b2abe8957cb60ef7ced7/share/doc/homebrew/Analytics.md#what
+test ! -e "$HOMEBREW_ANALYTICS_USER_UUID" || { echo "Found file '${HOMEBREW_ANALYTICS_USER_UUID}'. Have you run 'brew' without 'HOMEBREW_NO_ANALYTICS=1' set? Delete the file and try again. Exiting." >&2; exit 1; }
 
 S="set -e; HOMEBREW_CACHE=\"${HOMEBREW_CACHE}\" HOMEBREW_EDITOR=\"${HOMEBREW_EDITOR}\" HOMEBREW_NO_ANALYTICS=\"${HOMEBREW_NO_ANALYTICS}\" HOMEBREW_CASK_OPTS=\"${HOMEBREW_CASK_OPTS}\" brew $P"
 ush --path-prefix "${HOMEBREW_PREFIX}/bin:" "$S"
