@@ -13,7 +13,7 @@ tic() {
 }
 
 toc() {
-    echo $(expr $(epoch_s_utc) - $tic_time)
+    expr $(epoch_s_utc) - $tic_time
     unset tic_time
 }
 
