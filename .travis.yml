@@ -5,7 +5,6 @@ before_install:
   - uname -a
   - printenv
   - ls -la ~
-  - cat ~/build.sh
   ## Functions
   - exit_if_in_path() { if [ $(command -v "${1:?}") ]; then exit 1; fi; }
 install:
