@@ -40,8 +40,6 @@ script:
   - ls -la ~/Library/Caches || true
   - ls -la /Library/Caches/Homebrew || true
   - ls -la ~/Library/Caches/Homebrew || true
-  ## [P* jobs] Temporary workaround until https://github.com/caskroom/homebrew-cask/issues/18606 is fixed.
-  - case $JOB in T) ;; *) mkdir -p ~/Library/Caches/Homebrew/Casks;; esac
   ## [T job] Main
   - case $JOB in T) bats tests/;; *) ;; esac
   ## [P* jobs] Main
