@@ -27,9 +27,6 @@ install:
   - if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
   - case $JOB in T) ;; *) export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||");; esac
   - echo $PATH
-  ## [PO job] Make job precondition: Workaround for travis_wait handling incorrectly spaces in parameters.
-  - printf "%s\n%s\n" "#!/bin/sh" "brew install kerl && brew install openssl && brew install unixodbc && brew install wxmac" > ci.PO.BREW_INSTALL
-  - chmod u+x ci.PO.BREW_INSTALL
 script:
   ## [P* jobs] Check job precondition: no `brew` or `brew-cask` in PATH
   - case $JOB in T) ;; *) exit_if_in_path brew;; esac
@@ -43,7 +40,7 @@ script:
   - case $JOB in T) bats tests/;; *) ;; esac
   ## [P* jobs] Main
   - case $JOB in T) ;; *) mkdir ~/sandbox;; esac
-  - case $JOB in T) ;; *) travis_wait 30 bin/provision_osx ~/sandbox "$BREW_INSTALL";; esac ## https://github.com/travis-ci/travis-build/blob/deploy.2014-11-12.21-09/lib/travis/build/templates/header.sh#L119-L122
+  - case $JOB in T) ;; *) travis_wait 30 bin/provision_osx ~/sandbox "$BREW_INSTALL";; esac
   - case $JOB in T) ;; P) ;; PA) ;; PAO) ;; PO) ;; esac
   - case $JOB in T) ;; P) ;; PA|PAO) sbin/provision_osx_as_admin;; PO) ;; esac
   - case $JOB in T) ;; P) ;; PA) ;; PAO|PO) travis_wait 30 bin/provision_osx_otp;; esac
@@ -58,7 +55,7 @@ matrix:
     - env: JOB=P BREW_INSTALL=
     - env: JOB=PA BREW_INSTALL=
     - env: JOB=PAO BREW_INSTALL=
-    - env: JOB=PO BREW_INSTALL="./ci.PO.BREW_INSTALL"
+    - env: JOB=PO BREW_INSTALL="ci.d/brew_install_otp"
   fast_finish: true
 env:
   - JOB=T
@@ -66,4 +63,4 @@ env:
   - JOB=P BREW_INSTALL=
   - JOB=PA BREW_INSTALL=
   - JOB=PAO BREW_INSTALL=
-  - JOB=PO BREW_INSTALL="./ci.PO.BREW_INSTALL" ## Out-of-process OTP installation without `javac`.
+  - JOB=PO BREW_INSTALL="ci.d/brew_install_otp" ## Out-of-process OTP installation without `javac`.

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+## Copyright (C) 2015-2016 Luca Favatella <slackydeb@gmail.com>
+
+set -e
+
+brew install kerl
+brew install openssl
+brew install unixodbc
+brew install wxmac
