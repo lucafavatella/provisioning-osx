@@ -34,10 +34,10 @@ brew install checkbashisms
 #brew install gdb
 { brew rm ctags || true; } && { { brew rm universal-ctags/universal-ctags/universal-ctags || true; } && brew install --HEAD universal-ctags/universal-ctags/universal-ctags; } && { brew install global --with-ctags --with-pygments || true; } ## HACK Using unofficial universal-ctags while using official global that depends on (exuberant-)ctags.
 #brew install ghc cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris
-brew cask install caskroom/versions/intellij-idea-ce
+#brew cask install caskroom/versions/intellij-idea-ce
 brew install jq
 brew install kerl
-brew install saitoha/sixel/mlterm
+#brew install saitoha/sixel/mlterm
 #brew install node ## Installs `npm` too.
 brew install openssl ## Install openssl - for building Erlang/OTP without skipping the crypto application [on MacOSX >= 10.11](http://erlang.org/pipermail/erlang-questions/2015-October/086386.html).
 brew install p7zip ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
@@ -53,7 +53,7 @@ brew install unixodbc ## Install unixodbc - for building Erlang/OTP (on MacOSX >
 brew install watch
 brew install wxmac ## Install wxWidgets - for building Erlang/OTP.
 
-brew install --with-deps dinkypumpkin/get_iplayer/get_iplayer
+#brew install --with-deps dinkypumpkin/get_iplayer/get_iplayer
 
 #brew cask install hipchat
-brew cask install libreoffice
+#brew cask install libreoffice
