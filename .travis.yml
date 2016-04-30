@@ -51,7 +51,6 @@ notifications:
   email: false
 matrix:
   allow_failures:
-    - env: JOB=P BREW_INSTALL=
     - env: JOB=PA BREW_INSTALL=
     - env: JOB=PAO BREW_INSTALL=
     - env: JOB=PO BREW_INSTALL="ci.d/brew_install_otp"
