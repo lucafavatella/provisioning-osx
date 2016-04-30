@@ -28,7 +28,6 @@ $ bats tests/
 
 ### TODO
 
-* Images on terminal - refs https://en.wikipedia.org/wiki/VT340 https://en.wikipedia.org/wiki/Sixel https://gitlab.com/gnachman/iterm2/issues/3240
 * Consider installing in `/usr/local/bin` (rather than `~/homebrew-cask/bin`) binaries of casks installed using sudo
 * Teach Emacs to conditionally hide C ifdef
 * Teach universal-ctags arity of Erlang functions

@@ -8,7 +8,7 @@ ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 
 brew cask install sizeup ## TODO Move to Spectacle https://www.spectacleapp.com - see also .osx
 
-brew cask install Caskroom/versions/iterm2-beta
+brew cask install Caskroom/versions/iterm2-beta ## No Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
 brew install tmux
 brew install bash-completion
 brew install git ## For git-completion.
@@ -37,7 +37,7 @@ brew install checkbashisms
 #brew cask install caskroom/versions/intellij-idea-ce
 brew install jq
 brew install kerl
-#brew install saitoha/sixel/mlterm
+#brew install saitoha/sixel/mlterm ## Refs https://en.wikipedia.org/wiki/VT340 https://en.wikipedia.org/wiki/Sixel
 #brew install node ## Installs `npm` too.
 brew install openssl ## Install openssl - for building Erlang/OTP without skipping the crypto application [on MacOSX >= 10.11](http://erlang.org/pipermail/erlang-questions/2015-October/086386.html).
 brew install p7zip ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
