@@ -5,8 +5,6 @@ before_install:
   - uname -a
   - printenv
   - ls -la ~
-  ## Functions
-  - exit_if_in_path() { if [ $(command -v "${1:?}") ]; then exit 1; fi; }
 install:
   ## [P* jobs] Make job precondition: Recent setuptools in order to workaround docker-py issue - for ansible. `pip install -U setuptools` not allowed. Refs https://github.com/docker/docker-py/issues/1019 https://github.com/pypa/pip/issues/1480#issuecomment-42097978 https://github.com/travis-ci/travis-ci/issues/2312#issuecomment-122850231
   - python --version
@@ -21,7 +19,7 @@ install:
   ## [P* jobs] Make job precondition: no `brew` or `brew-cask` in PATH
   - command -v brew
   - if [ $(command -v brew) != "/usr/local/bin/brew" ]; then exit 1; fi
-  - exit_if_in_path brew-cask
+  - ci.d/exit_if_in_path brew-cask
   - if [ $(brew ls | fgrep brew-cask) ]; then exit 1; fi
   - echo $PATH
   - if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
@@ -29,8 +27,8 @@ install:
   - echo $PATH
 script:
   ## [P* jobs] Check job precondition: no `brew` or `brew-cask` in PATH
-  - case $JOB in T) ;; *) exit_if_in_path brew;; esac
-  - case $JOB in T) ;; *) exit_if_in_path brew-cask;; esac
+  - case $JOB in T) ;; *) ci.d/exit_if_in_path brew;; esac
+  - case $JOB in T) ;; *) ci.d/exit_if_in_path brew-cask;; esac
   ## [P* jobs] Debug - brew caches
   - ls -la /Library/Caches || true
   - ls -la ~/Library/Caches || true
