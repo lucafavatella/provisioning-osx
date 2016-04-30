@@ -4,7 +4,8 @@ before_install:
   ## Debug
   - uname -a
   - printenv
-  - ls -la ~
+  ## [P* jobs] Debug
+  - case $JOB in T) ;; P|PA|PAO|PO) ls -la ~;; esac
 install:
   ## [P* jobs] Make job precondition: Recent setuptools in order to workaround docker-py issue - for ansible. `pip install -U setuptools` not allowed. Refs https://github.com/docker/docker-py/issues/1019 https://github.com/pypa/pip/issues/1480#issuecomment-42097978 https://github.com/travis-ci/travis-ci/issues/2312#issuecomment-122850231
   - python --version
@@ -15,7 +16,7 @@ install:
   - python --version
   - pip list setuptools
   ## [T job] Make job precondition: `bats` in PATH
-  - case $JOB in T) brew install bats;; *) ;; esac
+  - case $JOB in T) brew install bats;; P|PA|PAO|PO) ;; esac
   ## [P* jobs] Make job precondition: no `brew` or `brew-cask` in PATH
   - command -v brew
   - if [ $(command -v brew) != "/usr/local/bin/brew" ]; then exit 1; fi
@@ -23,29 +24,29 @@ install:
   - if [ $(brew ls | fgrep brew-cask) ]; then exit 1; fi
   - echo $PATH
   - if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
-  - case $JOB in T) ;; *) export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||");; esac
+  - case $JOB in T) ;; P|PA|PAO|PO) export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||");; esac
   - echo $PATH
 script:
   ## [P* jobs] Check job precondition: no `brew` or `brew-cask` in PATH
-  - case $JOB in T) ;; *) ci.d/exit_if_in_path brew;; esac
-  - case $JOB in T) ;; *) ci.d/exit_if_in_path brew-cask;; esac
+  - case $JOB in T) ;; P|PA|PAO|PO) ci.d/exit_if_in_path brew;; esac
+  - case $JOB in T) ;; P|PA|PAO|PO) ci.d/exit_if_in_path brew-cask;; esac
   ## [P* jobs] Debug - brew caches
   - ls -la /Library/Caches || true
   - ls -la ~/Library/Caches || true
   - ls -la /Library/Caches/Homebrew || true
   - ls -la ~/Library/Caches/Homebrew || true
   ## [T job] Main
-  - case $JOB in T) bats tests/;; *) ;; esac
+  - case $JOB in T) bats tests/;; P|PA|PAO|PO) ;; esac
   ## [P* jobs] Main
-  - case $JOB in T) ;; *) mkdir ~/sandbox;; esac
-  - case $JOB in T) ;; *) travis_wait 30 bin/provision_osx ~/sandbox "$BREW_INSTALL";; esac
+  - case $JOB in T) ;; P|PA|PAO|PO) mkdir ~/sandbox;; esac
+  - case $JOB in T) ;; P|PA|PAO|PO) travis_wait 30 bin/provision_osx ~/sandbox "$BREW_INSTALL";; esac
   - case $JOB in T) ;; P) ;; PA) ;; PAO) ;; PO) ;; esac
   - case $JOB in T) ;; P) ;; PA|PAO) sbin/provision_osx_as_admin;; PO) ;; esac
   - case $JOB in T) ;; P) ;; PA) ;; PAO|PO) travis_wait 30 bin/provision_osx_otp;; esac
 after_script:
   ## [P* jobs] Debug
-  - case $JOB in T) ;; *) ls -la ~;; esac
-  - case $JOB in T) ;; *) ls -la ~/sandbox;; esac
+  - case $JOB in T) ;; P|PA|PAO|PO) ls -la ~;; esac
+  - case $JOB in T) ;; P|PA|PAO|PO) ls -la ~/sandbox;; esac
 notifications:
   email: false
 matrix:
