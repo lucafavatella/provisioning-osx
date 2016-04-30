@@ -1,6 +1,8 @@
-#!/bin/sh -e
+#!/bin/sh
 
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+set -e
 
 ROOT_DIR="${1:?}" ## Mandatory.
 BREW_INSTALL1="${2:?}" ## Mandatory.

@@ -1,6 +1,8 @@
-#!/bin/sh -e
+#!/bin/sh
 
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+
+set -e
 
 HOMEBREW_REPO=https://github.com/Homebrew/homebrew.git
 HOMEBREW_PREFIX=~/homebrew

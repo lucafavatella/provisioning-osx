@@ -1,8 +1,8 @@
-#!/bin/sh -e
+#!/bin/sh
 
 ## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
 
-#set -x
+set -e
 
 log() {
     echo "[$(basename $0)] ${1:?}"
