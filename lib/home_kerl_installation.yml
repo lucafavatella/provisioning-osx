@@ -33,22 +33,24 @@
     ##    `KERL_CONFIGURE_DISABLE_APPLICATIONS="wx"`).
     configure_options_2c2c82d_all_but_hipe: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl={{ homebrew_prefix }}/opt/openssl"
     git_builds:
-      - version: OTP-18.3.1 ## Latest OTP 18 point release.
+      OTP-18.3.1: ## Latest OTP 18 point release.
+        version: "OTP-18.3.1"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "--with-ssl={{ homebrew_prefix }}/opt/openssl"
         name: OTP-18.3.1
-      - version: 9e3d98d ## Recent master.
+      9e3d98d: ## Recent master.
+        version: "9e3d98d"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_2c2c82d_all_but_hipe }}"
         name: git-9e3d98d-all-options-but-hipe
-      ## - version: OTP-17.5.6.9 ## Latest OTP 17 point release.
+      ## OTP-17.5.6.9 ## Latest OTP 17 point release.
       ##
       ##   Dialyzer in OTP 17.3 has known issue
       ##   (197a846-17.3-w-dialyzer-fix-for-warnings_as_errors).
       ##
-      ## - version: OTP_R16B03-1 ## Latest OTP 16 point release.
+      ## OTP_R16B03-1 ## Latest OTP 16 point release.
       ##
       ##   For OTP [< R16B01](https://github.com/erlang/otp/commit/03ad5ea) use
       ##   [option re file descriptors](https://github.com/Homebrew/homebrew/issues/6143)
@@ -59,8 +61,6 @@
         path={{ install_dir }}
         state=directory
 
-    ## - command: kerl update releases ## Prefer building Erlang/OTP from git.
-
     - include:
         kerl_build_git_and_install.yml
         cflags={{ item.cflags }}
@@ -68,4 +68,5 @@
         git_url={{ item.url }}
         git_version={{ item.version }}
         build_name={{ item.name }}
-      with_items: "{{ git_builds }}"
+      with_items:
+        - "{{ git_builds[git_build_id] }}"
