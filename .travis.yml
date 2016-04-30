@@ -59,7 +59,7 @@ matrix:
     - env: JOB=P BREW_INSTALL=
     - env: JOB=PA BREW_INSTALL=
     - env: JOB=PAO BREW_INSTALL=
-    - env: JOB=PO BREW_INSTALL="./ci.PO.BREW_INSTALL" ## Ref https://github.com/kerl/kerl/issues/120
+    - env: JOB=PO BREW_INSTALL="./ci.PO.BREW_INSTALL"
   fast_finish: true
 env:
   - JOB=T
