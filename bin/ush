@@ -12,7 +12,7 @@ set -e
 ## page of login).
 
 print_usage() {
-    echo "usage: ush [-v] [--path-prefix PATH_PREFIX_W_TRAILING_SEMICOLON] string" >&2
+    echo "usage: ush [-v] [--path-prefix PATH_PREFIX_W_TRAILING_COLON] string" >&2
 }
 
 is_valid_path_prefix() {
