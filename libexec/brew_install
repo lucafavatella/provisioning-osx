@@ -15,7 +15,23 @@ brew install git ## For git-completion.
 brew install emacs
 (HOMEBREW_EDITOR="brew cat emacs | ${ROOT_DIR}/libexec/to_emacs-keg-only >" brew edit --force emacs-keg-only && brew install emacs-keg-only --devel --with-cocoa)
 
-brew cask install caskroom/versions/firefoxdeveloperedition
+## Refs:
+## * curl `-z`, curl `-w`: http://blog.yjl.im/2012/03/downloading-only-when-modified-using.html
+## * `If-Modified-Since` HTTP header field: https://tools.ietf.org/html/rfc7232#section-3.3
+## * `304` HTTP status code: https://tools.ietf.org/html/rfc7232#section-4.1
+##
+## In alternative to curl `-z <file>` option, modification date
+## (mtime) of file could be retrieved using (non-POSIX) `stat`
+## e.g. `stat -f '%Sm' -t '%Y%m%d%H%M%S' ...`.
+##
+## If curl `-z <date expression>` option needed, related standard for
+## expressing time is RFC 5322.
+FfC=$(curl -s -S -L --head -o /dev/null -w '%{http_code}' -z $(brew cask ls firefoxdeveloperedition | grep 'FirefoxDeveloperEdition.app.* -> .*FirefoxDeveloperEdition.app' | head -n1 | sed 's/ -> /@/' | cut -d '@' -f 2 | sed "s/^'\(.*\)'$/\1/")/Contents $(brew cask cat firefoxdeveloperedition | grep '^  url ' | head -n1 | sed "s/^  url '\(.*\)'$/\1/"))
+case "$FfC" in
+    304) echo "No more recent Firefox Developer Edition to install. Skipping." >&2;;
+    200) brew cask install --force caskroom/versions/firefoxdeveloperedition;;
+    *) echo "Check for Firefox Developer Edition returned unknown HTTP status code '${FfC}'. Exiting." >&2; exit 1
+esac
 
 #brew install packer
 brew install docker
