@@ -5,11 +5,13 @@
 set -e
 
 ROOT_DIR="${1:?}" ## Mandatory.
+GIT_BUILD_ID="${2:?}" ## Mandatory.
 
 HOME_PREFIX="$HOME"
 
 HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix)
 E0="-e home_prefix=${HOME_PREFIX}"
 E1="-e homebrew_prefix=${HOMEBREW_PREFIX}"
-S="ansible-playbook ${ROOT_DIR}/lib/home_kerl.yml -i ${ROOT_DIR}/lib/hosts $E0 $E1"
+E2="-e git_build_id=${GIT_BUILD_ID}"
+S="ansible-playbook ${ROOT_DIR}/lib/home_kerl_installation.yml -i ${ROOT_DIR}/lib/hosts $E0 $E1 $E2"
 "${ROOT_DIR}/bin/ush" -v --path-prefix "${HOMEBREW_PREFIX}/bin:" "$S"

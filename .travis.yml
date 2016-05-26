@@ -1,4 +1,5 @@
 os: osx
+osx_image: xcode7.1 ## `xcode7.1` -> OS X 10.10 - [ref](https://docs.travis-ci.com/user/osx-ci-environment#OS-X-Version). Avoid `xcode7` as it looked like stopping job for no reason, and it appears to have been unreliable also for [at least another user](https://github.com/travis-ci/travis-ci/issues/5925).
 language: c
 before_install:
   ## Debug
@@ -7,21 +8,13 @@ before_install:
   ## [P* jobs] Debug
   - case $JOB in T) ;; P|PA|PAO|PO) ls -la ~;; esac
 install:
-  ## [P* jobs] Make job precondition: Recent setuptools in order to workaround docker-py issue - for ansible. `pip install -U setuptools` not allowed. Refs https://github.com/docker/docker-py/issues/1019 https://github.com/pypa/pip/issues/1480#issuecomment-42097978 https://github.com/travis-ci/travis-ci/issues/2312#issuecomment-122850231
-  - python --version
-  - pip list setuptools
-  - case $JOB in T) ;; *) git clone https://github.com/MacPython/terryfy;; esac
-  - case $JOB in T) ;; *) source terryfy/travis_tools.sh;; esac
-  - case $JOB in T) ;; *) get_python_environment macpython 2.7.11;; esac
-  - python --version
-  - pip list setuptools
   ## [T job] Make job precondition: `bats` in PATH
   - case $JOB in T) brew install bats;; P|PA|PAO|PO) ;; esac
   ## [P* jobs] Make job precondition: no `brew` or `brew-cask` in PATH
   - command -v brew
   - if [ $(command -v brew) != "/usr/local/bin/brew" ]; then exit 1; fi
+  - brew ls | fgrep brew-cask
   - ci.d/exit_if_in_path brew-cask
-  - if [ $(brew ls | fgrep brew-cask) ]; then exit 1; fi
   - echo $PATH
   - if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
   - case $JOB in T) ;; P|PA|PAO|PO) export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||");; esac
@@ -42,7 +35,7 @@ script:
   - case $JOB in T) ;; P|PA|PAO|PO) travis_wait 45 bin/provision_osx ~/sandbox "$BREW_INSTALL";; esac
   - case $JOB in T) ;; P) ;; PA) ;; PAO) ;; PO) ;; esac
   - case $JOB in T) ;; P) ;; PA|PAO) sbin/provision_osx_as_admin;; PO) ;; esac
-  - case $JOB in T) ;; P) ;; PA) ;; PAO|PO) travis_wait 30 bin/provision_osx_otp;; esac
+  - case $JOB in T) ;; P) ;; PA) ;; PAO|PO) travis_wait 45 bin/provision_osx_otp "$OTP_GIT_BUILD_IDS";; esac
 after_script:
   ## [P* jobs] Debug
   - case $JOB in T) ;; P|PA|PAO|PO) ls -la ~;; esac
@@ -63,3 +56,5 @@ env:
   # - JOB=PA BREW_INSTALL=
   # - JOB=PAO BREW_INSTALL=
   - JOB=PO BREW_INSTALL="ci.d/brew_install_otp" ## Out-of-process OTP installation without `javac`.
+  - JOB=PO BREW_INSTALL="ci.d/brew_install_otp" OTP_GIT_BUILD_IDS="OTP-18.3.1" ## Out-of-process OTP installation without `javac`.
+  - JOB=PO BREW_INSTALL="ci.d/brew_install_otp" OTP_GIT_BUILD_IDS="9e3d98d" ## Out-of-process OTP installation without `javac`.
