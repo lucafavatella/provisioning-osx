@@ -28,6 +28,7 @@ $ bats tests/
 
 ### TODO
 
+* Install libiodbc rather than unixodbc for Erlang/OTP? Ref https://github.com/BrewTestBot/homebrew-core/commit/88c3063fa708a0ea962edb810ae78bd684f7d538
 * Consider installing in `/usr/local/bin` (rather than `~/homebrew-cask/bin`) binaries of casks installed using sudo
 * Teach Emacs to conditionally hide C ifdef
 * Teach universal-ctags arity of Erlang functions
