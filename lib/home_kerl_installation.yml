@@ -10,8 +10,9 @@
     ## (2014 Jun) `--enable-lock-counter` looks enough for supporting
     ## `lcnt` application.
     ##
-    ## (2c2c82d) `--enable-lock-checking --enable-lock-counter
-    ## --enable-fp-exceptions` are erts-only.
+    ## (2ea950f) `--enable-lock-checking --enable-lock-counter
+    ## --enable-fp-exceptions --with-microstate-accounting` are
+    ## erts-only.
     ##
     ## (2c2c82d) The `wx` application needs the Apple compiler for
     ## using the Cocoa bits of Objective-C, but Xcode 7.0 supports
@@ -31,20 +32,20 @@
     ##     harmless undefined behaviours;
     ## *** Do not build `wx` (using
     ##    `KERL_CONFIGURE_DISABLE_APPLICATIONS="wx"`).
-    configure_options_2c2c82d_all_but_hipe: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-darwin-64bit --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-javac --with-ssl={{ homebrew_prefix }}/opt/openssl"
+    configure_options_2ea950f_all_but_hipe: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-microstate-accounting=extra --with-javac --with-ssl={{ homebrew_prefix }}/opt/openssl"
     git_builds:
+      89adc0e: ## Recent master.
+        version: "89adc0e"
+        url: "{{ otp_git_url }}"
+        cflags: "{{ cflags_osx }}"
+        configure_options: "{{ configure_options_2ea950f_all_but_hipe }}"
+        name: git-89adc0e-all-options-but-hipe
       OTP-18.3.1: ## Latest OTP 18 point release.
         version: "OTP-18.3.1"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "--with-ssl={{ homebrew_prefix }}/opt/openssl"
         name: OTP-18.3.1
-      9e3d98d: ## Recent master.
-        version: "9e3d98d"
-        url: "{{ otp_git_url }}"
-        cflags: "{{ cflags_osx }}"
-        configure_options: "{{ configure_options_2c2c82d_all_but_hipe }}"
-        name: git-9e3d98d-all-options-but-hipe
       ## OTP-17.5.6.9 ## Latest OTP 17 point release.
       ##
       ##   Dialyzer in OTP 17.3 has known issue
