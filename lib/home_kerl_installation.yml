@@ -40,6 +40,12 @@
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_2ea950f_all_but_hipe }}"
         name: git-89adc0e-all-options-but-hipe
+      OTP-19.0-rc1: ## Latest OTP 19 point release.
+        version: "OTP-19.0-rc1"
+        url: "{{ otp_git_url }}"
+        cflags: "{{ cflags_osx }}"
+        configure_options: "--with-ssl={{ homebrew_prefix }}/opt/openssl"
+        name: OTP-19.0-rc1
       OTP-18.3.3: ## Latest OTP 18 point release.
         version: "OTP-18.3.3"
         url: "{{ otp_git_url }}"
