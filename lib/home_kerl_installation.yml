@@ -40,12 +40,12 @@
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_2ea950f_all_but_hipe }}"
         name: git-89adc0e-all-options-but-hipe
-      OTP-18.3.1: ## Latest OTP 18 point release.
-        version: "OTP-18.3.1"
+      OTP-18.3.3: ## Latest OTP 18 point release.
+        version: "OTP-18.3.3"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "--with-ssl={{ homebrew_prefix }}/opt/openssl"
-        name: OTP-18.3.1
+        name: OTP-18.3.3
       ## OTP-17.5.6.9 ## Latest OTP 17 point release.
       ##
       ##   Dialyzer in OTP 17.3 has known issue
