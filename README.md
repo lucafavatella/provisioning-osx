@@ -28,6 +28,7 @@ $ bats tests/
 
 ### TODO
 
+* Put sub-repos e.g. dotfiles in provisioning-osx.d - as same level as provisioning-osx (this) folder
 * Move away from `set -e` in non-trivial shell scripts
 * Consider installing in `/usr/local/bin` (rather than `~/homebrew-cask/bin`) binaries of casks installed using sudo
 * Teach Emacs to conditionally hide C ifdef
