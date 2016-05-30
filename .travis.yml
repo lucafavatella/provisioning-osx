@@ -57,4 +57,4 @@ env:
   # - JOB=PAO BREW_INSTALL=
   - JOB=PO BREW_INSTALL="ci.d/brew_install_otp" ## Out-of-process OTP installation without `javac`.
   - JOB=PO BREW_INSTALL="ci.d/brew_install_otp" OTP_GIT_BUILD_IDS="OTP-18.3.3" ## Out-of-process OTP installation without `javac`.
-  - JOB=PO BREW_INSTALL="ci.d/brew_install_otp" OTP_GIT_BUILD_IDS="2ea950f" ## Out-of-process OTP installation without `javac`.
+  - JOB=PO BREW_INSTALL="ci.d/brew_install_otp" OTP_GIT_BUILD_IDS="9e1cf7d" ## Out-of-process OTP installation without `javac`.

@@ -32,14 +32,14 @@
     ##     harmless undefined behaviours;
     ## *** Do not build `wx` (using
     ##    `KERL_CONFIGURE_DISABLE_APPLICATIONS="wx"`).
-    configure_options_2ea950f_all_but_hipe: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-microstate-accounting=extra --with-javac --with-ssl={{ homebrew_prefix }}/opt/openssl"
+    configure_options_9e1cf7d_all_but_hipe: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-microstate-accounting=extra --with-javac --with-ssl={{ homebrew_prefix }}/opt/openssl"
     git_builds:
-      89adc0e: ## Recent master.
-        version: "89adc0e"
+      9e1cf7d: ## Recent master.
+        version: "9e1cf7d"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
-        configure_options: "{{ configure_options_2ea950f_all_but_hipe }}"
-        name: git-89adc0e-all-options-but-hipe
+        configure_options: "{{ configure_options_9e1cf7d_all_but_hipe }}"
+        name: git-9e1cf7d-all-options-but-hipe
       OTP-19.0-rc1: ## Latest OTP 19 point release.
         version: "OTP-19.0-rc1"
         url: "{{ otp_git_url }}"
