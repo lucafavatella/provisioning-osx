@@ -8,7 +8,7 @@ ROOT_DIR="${1:?}" ## Mandatory.
 
 HOME_PREFIX="$HOME"
 
-DOTFILES_DIR=~/dev/dotfiles ## Copied from `setup_home`.
+DOTFILES_DIR="${ROOT_DIR}/home/provisioning-osx.d/dotfiles" ## Copied from `setup_home`.
 
 HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix)
 E0="-e home_prefix=${HOME_PREFIX}"
