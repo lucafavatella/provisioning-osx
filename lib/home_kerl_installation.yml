@@ -39,15 +39,15 @@
     ## library dependency.  Prefer disabling ODBC until the `odbc`
     ## application supports linking to unixODBC (ref
     ## http://bugs.erlang.org/browse/ERL-121 ).
-    configure_options_9e1cf7d_all_but_hipe_and_odbc: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-microstate-accounting=extra --with-javac --with-ssl={{ openssl_prefix }} --without-odbc"
+    configure_options_5add0e9_all_but_hipe_and_odbc: "--enable-threads --enable-dirty-schedulers --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --enable-sharing-preserving --enable-m64-build --enable-sanitizers=address --with-dynamic-trace=dtrace --with-microstate-accounting=extra --with-javac --with-ssl={{ openssl_prefix }} --without-odbc"
     configure_options_default_w_ssl_wo_odbc: "--with-ssl={{ openssl_prefix }} --without-odbc"
     git_builds:
-      git-9e1cf7d-all-options-but-hipe-and-odbc: ## Recent master.
-        version: "9e1cf7d"
+      git-5add0e9-all-options-but-hipe-and-odbc: ## Recent master.
+        version: "5add0e9"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
-        configure_options: "{{ configure_options_9e1cf7d_all_but_hipe_and_odbc }}"
-        name: git-9e1cf7d-all-options-but-hipe-and-odbc
+        configure_options: "{{ configure_options_5add0e9_all_but_hipe_and_odbc }}"
+        name: git-5add0e9-all-options-but-hipe-and-odbc
       OTP-19.0-rc1: ## Latest OTP 19 point release.
         version: "OTP-19.0-rc1"
         url: "{{ otp_git_url }}"
