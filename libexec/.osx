@@ -645,9 +645,10 @@ defaults write com.irradiatedsoftware.SizeUp ShowPrefsOnNextStart -bool false
 # Kill affected applications                                                  #
 ###############################################################################
 
+# Do not kill Safari even if affected
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
 	"Dock" "Finder" \
-	"Safari" "SizeUp" "SystemUIServer" "Terminal" \
+	"SizeUp" "SystemUIServer" "Terminal" \
 	"iCal"; do
 	out="$(killall ${app} 2>&1)" || { s=${?}; echo "Attempt to kill affected application '${app}' failed with status '${s}' and reason '${out}'. Continuing ignoring failure." >&2; }
 done
