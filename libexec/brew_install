@@ -57,7 +57,7 @@ brew install kerl
 #brew install node ## Installs `npm` too.
 brew install openssl ## Install openssl - for building Erlang/OTP without skipping the crypto application [on MacOSX >= 10.11](http://erlang.org/pipermail/erlang-questions/2015-October/086386.html).
 brew install p7zip ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
-#brew install plantuml ## Known issue https://github.com/Homebrew/homebrew-core/pull/1464
+#brew install plantuml
 brew install pstree
 #brew install pup
 brew install python && "$(brew --prefix python)/bin/pip" install --upgrade pip setuptools ## Ref https://github.com/Homebrew/homebrew/blob/0333865e5d831faa6fd6a414fe19e486898aceba/Library/Formula/python.rb#L321-L322
