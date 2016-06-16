@@ -33,7 +33,6 @@ script:
   ## [P* jobs] Main
   - case $JOB in T) ;; P|PA|PAO|PO) mkdir ~/sandbox;; esac
   - case $JOB in T) ;; P|PA|PAO|PO) travis_wait 45 bin/provision_osx ~/sandbox "$BREW_INSTALL";; esac
-  - case $JOB in T) ;; P) ;; PA) ;; PAO) ;; PO) ;; esac
   - case $JOB in T) ;; P) ;; PA|PAO) sbin/provision_osx_as_admin;; PO) ;; esac
   - case $JOB in T) ;; P) ;; PA) ;; PAO|PO) travis_wait 45 bin/provision_osx_otp "$OTP_GIT_BUILD_IDS";; esac
 after_script:
