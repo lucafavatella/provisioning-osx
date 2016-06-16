@@ -48,6 +48,7 @@ matrix:
     - env: JOB=PA BREW_INSTALL=
     - env: JOB=PAO BREW_INSTALL=
     - env: JOB=PO BREW_INSTALL="ci.d/brew_install_otp"
+    - env: JOB=PO BREW_INSTALL="ci.d/brew_install_otp" OTP_GIT_BUILD_IDS="git-7979f72-all-options-but-hipe-and-odbc"
   fast_finish: true
 env:
   - JOB=T
