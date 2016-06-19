@@ -32,6 +32,7 @@ BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
 brew update ## Synonym of `brew cask update`. Ref https://github.com/caskroom/homebrew-cask/blob/v0.56.0/doc/src/brew-cask.1.md#commands
+brew update ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/806cfeee189bb6e08209186c46e21e84777b78df/.github/CONTRIBUTING.md#report-a-bug
 log_e "Detected unofficial taps. Continuing. Info:"$'\n'"$(brew_unofficial_taps)" ## TODO Show only if there are any.
 brew upgrade
 
