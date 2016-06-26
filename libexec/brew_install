@@ -9,7 +9,7 @@ ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 brew cask install sizeup ## TODO Move to Spectacle https://www.spectacleapp.com - see also .osx
 
 brew cask install Caskroom/versions/iterm2-beta ## No Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
-brew install tmux
+brew install --force-bottle tmux
 brew install bash-completion
 brew install git ## For git-completion.
 brew install emacs
@@ -36,7 +36,7 @@ esac
 #brew install packer
 brew install docker
 brew install docker-machine ## Downloads boot2docker.iso
-brew install ansible
+brew install --force-bottle ansible
 #brew install ssh-copy-id
 
 #brew install android-platform-tools ## adb
@@ -49,9 +49,9 @@ brew install checkbashisms
 #brew install gcc
 #brew install gdb
 { brew rm ctags || true; } && { { brew rm universal-ctags/universal-ctags/universal-ctags || true; } && brew install --HEAD universal-ctags/universal-ctags/universal-ctags; } && { brew install global --with-ctags --with-pygments || true; } ## HACK Using unofficial universal-ctags while using official global that depends on (exuberant-)ctags.
-#brew install ghc cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris
+#brew install --force-bottle ghc && brew install cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris
 #brew cask install caskroom/versions/intellij-idea-ce
-brew install jq
+brew install --force-bottle jq
 brew install kerl
 #brew install saitoha/sixel/mlterm ## Refs https://en.wikipedia.org/wiki/VT340 https://en.wikipedia.org/wiki/Sixel
 #brew install node ## Installs `npm` too.
@@ -64,10 +64,10 @@ brew install python && "$(brew --prefix python)/bin/pip" install --upgrade pip s
 brew install python3 && "$(brew --prefix python3)/bin/pip3" install --upgrade pip setuptools ## Ref https://github.com/Homebrew/homebrew/blob/cfcbf92dedb275bdf06597745d9dcd392dcb2fbb/Library/Formula/python3.rb#L314-L315
 #brew install rust
 #brew install shellcheck
-brew install sqlite
+brew install --force-bottle sqlite
 #brew install valgrind
 brew install watch
-brew install wxmac ## Install wxWidgets - for building Erlang/OTP.
+brew install --force-bottle wxmac ## Install wxWidgets - for building Erlang/OTP.
 
 #brew install --with-deps dinkypumpkin/get_iplayer/get_iplayer
 
