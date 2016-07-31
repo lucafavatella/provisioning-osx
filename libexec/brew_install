@@ -26,8 +26,19 @@ brew install emacs
 ##
 ## If curl `-z <date expression>` option needed, related standard for
 ## expressing time is RFC 5322.
-FfC=$(curl -s -S -L --head -o /dev/null -w '%{http_code}' -z $(brew cask ls firefoxdeveloperedition | grep 'FirefoxDeveloperEdition.app.* -> .*FirefoxDeveloperEdition.app' | head -n1 | sed 's/ -> /@/' | cut -d '@' -f 2 | sed "s/^'\(.*\)'$/\1/")/Contents $(brew cask cat firefoxdeveloperedition | grep '^  url ' | head -n1 | sed "s/^  url '\(.*\)'$/\1/"))
-case "$FfC" in
+##
+##
+## Sample `brew cask ls firefoxdeveloperedition` output:
+## ```
+## ==> Apps managed by brew-cask:
+## ~/'Applications/FirefoxDeveloperEdition.app'
+## ==> Staged content:
+## /Users/luca/homebrew-cask/Caskroom/firefoxdeveloperedition/latest (0 files)
+## ```
+FfD=$(brew cask ls firefoxdeveloperedition | grep 'Caskroom' | head -n 1 | sed -n 's/^\(.*\) (0 files)$/\1/p')
+test -d "$FfD" || echo "Firefox-related directory '$FfD' not found: first time installation? Continuing."
+FfC=$(curl -s -S -L --head -o /dev/null -w '%{http_code}' -z "${FfD:?}" $(brew cask cat firefoxdeveloperedition | grep '^  url ' | head -n 1 | sed "s/^  url '\(.*\)'$/\1/"))
+case "${FfC:?}" in
     304) echo "No more recent Firefox Developer Edition to install. Skipping." >&2;;
     200) brew cask install --force caskroom/versions/firefoxdeveloperedition;;
     *) echo "Check for Firefox Developer Edition returned unknown HTTP status code '${FfC}'. Exiting." >&2; exit 1
