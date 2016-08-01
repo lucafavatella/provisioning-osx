@@ -37,7 +37,7 @@ brew install emacs
 ## ```
 FfD=$(brew cask ls firefoxdeveloperedition | grep 'Caskroom' | head -n 1 | sed -n 's/^\(.*\) (0 files)$/\1/p')
 test -d "$FfD" || echo "Firefox-related directory '$FfD' not found: first time installation? Continuing."
-FfC=$(curl -s -S -L --head -o /dev/null -w '%{http_code}' -z "${FfD:?}" $(brew cask cat firefoxdeveloperedition | grep '^  url ' | head -n 1 | sed "s/^  url '\(.*\)'$/\1/"))
+FfC=$(curl -s -S -L --head -o /dev/null -w '%{http_code}' -z "$FfD" $(brew cask cat firefoxdeveloperedition | grep '^  url ' | head -n 1 | sed "s/^  url '\(.*\)'$/\1/"))
 case "${FfC:?}" in
     304) echo "No more recent Firefox Developer Edition to install. Skipping." >&2;;
     200) brew cask install --force caskroom/versions/firefoxdeveloperedition;;
