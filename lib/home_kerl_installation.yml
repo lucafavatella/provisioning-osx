@@ -54,12 +54,12 @@
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_default_w_ssl_wo_odbc }}"
         name: OTP-19.0.2
-      OTP-18.3.4.2: ## Latest OTP 18 point release.
-        version: "OTP-18.3.4.2"
+      OTP-18.3.4.3: ## Latest OTP 18 point release.
+        version: "OTP-18.3.4.3"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_default_w_ssl_wo_odbc }}"
-        name: OTP-18.3.4.2
+        name: OTP-18.3.4.3
       OTP-17.5.6.9: ## Latest OTP 17 point release.
         version: "OTP-17.5.6.9"
         url: "{{ otp_git_url }}"
