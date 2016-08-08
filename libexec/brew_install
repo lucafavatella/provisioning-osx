@@ -6,8 +6,6 @@ set -e
 
 ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 
-brew cask install sizeup ## TODO Move to Spectacle https://www.spectacleapp.com - see also .osx
-
 brew cask install Caskroom/versions/iterm2-beta ## No Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
 brew install --force-bottle tmux
 brew install bash-completion

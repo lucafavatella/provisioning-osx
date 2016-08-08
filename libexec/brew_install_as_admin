@@ -4,6 +4,8 @@
 
 set -e
 
+brew cask install spectacle
+
 brew cask install flash
 
 brew cask install virtualbox
