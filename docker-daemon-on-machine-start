@@ -89,6 +89,12 @@ M="${1:-docker-bin}"
       }
 }
 
+{ dm_ensure_started "$M" || \
+        { echo "Failed ensuring that machine '$M' is started. Exiting." >&2
+          exit 1
+        }
+} >&2
+
 ## Best effort lazy idempotent upgrade of Docker daemon on machine.
 ##
 ## Assumption: machine can be restarted at any time.
@@ -99,12 +105,6 @@ M="${1:-docker-bin}"
                 docker-machine upgrade "$M" || \
                     echo "Failed upgrade of Docker Machine '$M'. Ignoring." >&2
               }
-        }
-} >&2
-
-{ dm_ensure_started "$M" || \
-        { echo "Failed ensuring that machine '$M' is started. Exiting." >&2
-          exit 1
         }
 } >&2
 
