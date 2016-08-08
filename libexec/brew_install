@@ -47,7 +47,7 @@ esac
 #brew install packer
 brew install docker
 brew install docker-machine ## Downloads boot2docker.iso
-brew install docker-machine-driver-xhyve
+#brew install docker-machine-driver-xhyve ## docker-machine does not adhere to the specified driver. See https://github.com/zchee/docker-machine-driver-xhyve/issues/128
 brew install --force-bottle ansible
 #brew install ssh-copy-id
 
