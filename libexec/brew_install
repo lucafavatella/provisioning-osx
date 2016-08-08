@@ -47,6 +47,7 @@ esac
 #brew install packer
 brew install docker
 brew install docker-machine ## Downloads boot2docker.iso
+brew install docker-machine-driver-xhyve
 brew install --force-bottle ansible
 #brew install ssh-copy-id
 
