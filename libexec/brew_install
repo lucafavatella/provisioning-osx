@@ -54,6 +54,8 @@ brew install --force-bottle ansible
 brew install autoconf
 #brew install bats
 brew install checkbashisms
+#brew install cvs
+#brew install homebrew/versions/cvsps2
 #brew install cmake
 #brew install dash
 #brew install gcc
