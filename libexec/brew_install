@@ -60,7 +60,7 @@ brew install checkbashisms
 #brew install dash
 #brew install gcc
 #brew install gdb
-{ brew rm ctags || true; } && { { brew rm universal-ctags/universal-ctags/universal-ctags || true; } && brew install --HEAD universal-ctags/universal-ctags/universal-ctags; } && { { brew rm global || true; } && brew install lucafavatella/core/global --HEAD --with-ctags --with-pygments || exit 1; } && brew test global
+{ brew rm ctags || true; } && { { brew rm universal-ctags/universal-ctags/universal-ctags || true; } && brew install --HEAD universal-ctags/universal-ctags/universal-ctags; } && { { brew rm global || true; } && brew install lucafavatella/core/global-universal-ctags --HEAD --with-ctags --with-pygments || exit 1; }
 #brew install --force-bottle ghc && brew install cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris
 #brew cask install caskroom/versions/intellij-idea-ce
 #brew install --force-bottle jq
