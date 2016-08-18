@@ -24,16 +24,7 @@ brew install emacs
 ##
 ## If curl `-z <date expression>` option needed, related standard for
 ## expressing time is RFC 5322.
-##
-##
-## Sample `brew cask ls firefoxdeveloperedition` output:
-## ```
-## ==> Apps managed by brew-cask:
-## ~/'Applications/FirefoxDeveloperEdition.app'
-## ==> Staged content:
-## /Users/luca/homebrew-cask/Caskroom/firefoxdeveloperedition/latest (0 files)
-## ```
-FfD=$(brew cask ls firefoxdeveloperedition | grep 'Caskroom' | head -n 1 | sed -n 's/^\(.*\) (0 files)$/\1/p')
+FfD="${HOME}/homebrew-cask/Caskroom/firefoxdeveloperedition/latest" ## HACK
 test -d "$FfD" || echo "Firefox-related directory '$FfD' not found: first time installation? Continuing."
 FfC=$(curl -s -S -L --head -o /dev/null -w '%{http_code}' -z "$FfD" $(brew cask cat firefoxdeveloperedition | grep '^  url ' | head -n 1 | sed "s/^  url '\(.*\)'$/\1/"))
 case "${FfC:?}" in
