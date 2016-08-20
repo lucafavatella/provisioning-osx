@@ -51,7 +51,7 @@ brew install checkbashisms
 #brew install dash
 #brew install gcc
 #brew install gdb
-{ brew rm ctags || true; } && { { brew rm universal-ctags/universal-ctags/universal-ctags || true; } && brew install --HEAD universal-ctags/universal-ctags/universal-ctags; } && { brew install lucafavatella/core/global --with-universal-ctags --with-pygments || exit 1; } && { cat $(brew --prefix global)/share/gtags/gtags.conf | sed 's/^	:tc=native:$/	:tc=pygments:/' > $(brew --prefix)/etc/gtags.conf || exit 1; }
+{ brew rm ctags || true; } && { { brew rm universal-ctags/universal-ctags/universal-ctags || true; } && brew install --HEAD universal-ctags/universal-ctags/universal-ctags; } && { brew install lucafavatella/core/global --with-universal-ctags --with-pygments || exit 1; } && { cat $(brew --prefix global)/share/gtags/gtags.conf | sed 's/^	:tc=native:$/	:tc=pygments:/' > $(brew --prefix)/etc/gtags.conf || exit 1; } ## After many universal-ctags parsers support references, pygments can be dropped (and maybe GNU GLOBAL - relying on universal-ctags output for both definitions and references). Refs https://github.com/universal-ctags/ctags/pull/569#issuecomment-156300213 http://cvs.savannah.gnu.org/viewvc/global/global/configure.ac?r1=1.178&r2=1.179
 #brew install --force-bottle ghc && brew install cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris
 #brew cask install caskroom/versions/intellij-idea-ce
 #brew install --force-bottle jq
