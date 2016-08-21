@@ -11,7 +11,7 @@ brew install --force-bottle tmux
 brew install bash-completion
 brew install git ## For git-completion.
 brew install emacs
-(HOMEBREW_EDITOR="brew cat emacs | ${ROOT_DIR}/libexec/to_emacs-keg-only >" brew edit --force emacs-keg-only && brew install emacs-keg-only --devel --with-cocoa)
+(HOMEBREW_EDITOR="brew cat emacs | ${ROOT_DIR}/libexec/to_emacs-keg-only >" brew edit --force emacs-keg-only && brew install emacs-keg-only --devel --with-cocoa) && { test -e "${HOME}/.emacs" && { test -e "${HOME}/.emacs.d" && $(brew --prefix emacs-keg-only)/bin/emacs --batch --eval "(require 'package)" -f package-initialize --eval "(require 'epl)" -f epl-refresh -f epl-upgrade; }; }
 
 ## Refs:
 ## * curl `-z`, curl `-w`: http://blog.yjl.im/2012/03/downloading-only-when-modified-using.html
