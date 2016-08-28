@@ -17,24 +17,32 @@ is_valid_path_prefix() {
     [ ${#1} -ge 2 ] && [ ${1:0:1} != ":" ] && [ ${1: -1:1} = ":" ] ## At least two chars long, first char is not ':', last char is ':'.
 }
 
-V=false
-PATH_PREFIX=
-case "$1" in
-    -v)
-        V=true
-        shift
-esac
-case "$1" in
-    -p)
-        shift
-        is_valid_path_prefix "$1" || { print_usage; exit 64; }
-        PATH_PREFIX="$1"
-        shift
-esac
+VFlag=
+PFlag=
+PathPrefix=
+while getopts vp: name; do
+    case $name in
+        v)
+            test -z "$VFlag" || { print_usage; exit 64; }
+            VFlag=true;;
+        p)
+            test -z "$PFlag" || { print_usage; exit 64; }
+            PFlag=true
+            is_valid_path_prefix "$OPTARG" || { print_usage; exit 64; }
+            PathPrefix="${OPTARG:?}";;
+        '?')
+            print_usage
+            exit 64
+    esac
+done
+shift $((${OPTIND:?} - 1)) || exit 71
+
+test -z "${VFlag?}" && VFlag=false
+
 [ $# -eq 1 ] || { print_usage; exit 64; }
 
-C0="$1"
+C0="${1?}"
 
-C1=". /etc/profile; export PATH=\"${PATH_PREFIX}\${PATH}\"; $C0"
-$V && echo "$C1" >&2
-exec env -i HOME="$HOME" TERM="$TERM" sh -c "$C1"
+C1=". /etc/profile; export PATH=\"${PathPrefix?}\${PATH}\"; ${C0?}"
+${VFlag:?} && echo "${C1:?}" >&2
+exec env -i HOME="$HOME" TERM="$TERM" sh -c "${C1:?}"

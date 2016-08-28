@@ -28,10 +28,33 @@ test -f bin/ush
     test "$status" -eq 0
 }
 
-@test "Invalid options order - path prefix and verbose" {
-    ## Let us claim it is a feature rather than a bug...
+@test "Successful invocation - path prefix and verbose" {
     run bin/ush -p "x:" -v true
+    test "$status" -eq 0
+}
+
+@test "Invalid invocation - path prefix *without option-argument* and verbose" {
+    run bin/ush -p -v "echo DONOTPRINTME"
     test "$status" -eq 64
+    test $(echo "${lines[0]}" | head -n 1 | grep "^usage: ush ")
+    test $(echo "$output" | { grep -c DONOTPRINTME || true; }) -eq 0
+}
+
+@test "Invalid invocation - verbose option twice" {
+    run bin/ush -v -v true
+    test "$status" -eq 64
+}
+
+@test "Successful invocation - path prefix option twice" {
+    run bin/ush -p "x:" -p "x:" true
+    test "$status" -eq 64
+}
+
+@test "Invalid invocation - too many arguments" {
+    run bin/ush "echo DONOTPRINTME" "superfluous argument"
+    test "$status" -eq 64
+    test $(echo "${lines[0]}" | head -n 1 | grep "^usage: ush ")
+    test $(echo "$output" | { grep -c DONOTPRINTME || true; }) -eq 0
 }
 
 @test "Invalid path prefix - length zero" {
