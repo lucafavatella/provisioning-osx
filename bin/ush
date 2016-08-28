@@ -10,39 +10,46 @@
 ## page of login).
 
 print_usage() {
-    echo "usage: ush [-v] [-p PATH_PREFIX_W_TRAILING_COLON] string" >&2
+    echo "usage: ush -c [-v] [-p PATH_PREFIX_W_TRAILING_COLON] command_string" >&2
+}
+
+print_usage_and_exit() {
+    print_usage
+    exit 64
 }
 
 is_valid_path_prefix() {
     [ ${#1} -ge 2 ] && [ ${1:0:1} != ":" ] && [ ${1: -1:1} = ":" ] ## At least two chars long, first char is not ':', last char is ':'.
 }
 
+test $# -ge 2 || print_usage_and_exit
+test "-c" = "${1?}" || print_usage_and_exit
+shift || exit 71
+
 VFlag=
 PFlag=
 PathPrefix=
-while getopts vp: name; do
+while getopts :vp: name; do
     case $name in
         v)
-            test -z "$VFlag" || { print_usage; exit 64; }
+            test -z "$VFlag" || print_usage_and_exit
             VFlag=true;;
         p)
-            test -z "$PFlag" || { print_usage; exit 64; }
+            test -z "$PFlag" || print_usage_and_exit
             PFlag=true
-            is_valid_path_prefix "$OPTARG" || { print_usage; exit 64; }
+            is_valid_path_prefix "$OPTARG" || print_usage_and_exit
             PathPrefix="${OPTARG:?}";;
         '?')
-            print_usage
-            exit 64
+            : "${OPTARG:?}"
+            print_usage_and_exit
     esac
 done
 shift $((${OPTIND:?} - 1)) || exit 71
 
-test -z "${VFlag?}" && VFlag=false
-
-[ $# -eq 1 ] || { print_usage; exit 64; }
+test $# -eq 1 || print_usage_and_exit
 
 C0="${1?}"
 
 C1=". /etc/profile; export PATH=\"${PathPrefix?}\${PATH}\"; ${C0?}"
-${VFlag:?} && echo "${C1:?}" >&2
+test "true" = "${VFlag?}" && echo "${C0?}" >&2
 exec env -i HOME="$HOME" TERM="$TERM" sh -c "${C1:?}"

@@ -13,10 +13,10 @@ HOMEBREW_CASK_OPTS="--appdir=~/Applications --caskroom=~/homebrew-cask/Caskroom"
 
 P="$@"
 
-test -e "$HOMEBREW_PREFIX" || ush "git clone $HOMEBREW_REPO $HOMEBREW_PREFIX"
+test -e "$HOMEBREW_PREFIX" || ush -c "git clone $HOMEBREW_REPO $HOMEBREW_PREFIX"
 
 ## Ref https://github.com/Homebrew/brew/blob/1451553188276117a574b2abe8957cb60ef7ced7/share/doc/homebrew/Analytics.md#what
 test ! -e "$HOMEBREW_ANALYTICS_USER_UUID" || { echo "Found file '${HOMEBREW_ANALYTICS_USER_UUID}'. Have you run 'brew' without 'HOMEBREW_NO_ANALYTICS=1' set? Delete the file and try again. Exiting." >&2; exit 1; }
 
 S="set -e; HOMEBREW_CACHE=\"${HOMEBREW_CACHE}\" HOMEBREW_EDITOR=\"${HOMEBREW_EDITOR}\" HOMEBREW_NO_ANALYTICS=\"${HOMEBREW_NO_ANALYTICS}\" HOMEBREW_CASK_OPTS=\"${HOMEBREW_CASK_OPTS}\" brew $P"
-ush -p "${HOMEBREW_PREFIX}/bin:" "$S"
+ush -c -p "${HOMEBREW_PREFIX}/bin:" "$S"

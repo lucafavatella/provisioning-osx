@@ -8,4 +8,4 @@ ROOT_DIR="${1:?}" ## Mandatory.
 
 HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix)
 S="ansible-playbook ${ROOT_DIR}/lib/usr_local.yml -i ${ROOT_DIR}/lib/hosts --become --ask-become-pass"
-"${ROOT_DIR}/bin/ush" -v -p "${HOMEBREW_PREFIX}/bin:" "$S"
+"${ROOT_DIR}"/bin/ush -c -v -p "${HOMEBREW_PREFIX}/bin:" "$S"
