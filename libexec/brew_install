@@ -76,3 +76,4 @@ brew install --force-bottle wxmac ## Install wxWidgets - for building Erlang/OTP
 
 #brew cask install hipchat
 #brew cask install libreoffice
+#brew cask install vlc
