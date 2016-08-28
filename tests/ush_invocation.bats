@@ -45,7 +45,7 @@ test -f bin/ush
     test "$status" -eq 64
 }
 
-@test "Successful invocation - path prefix option twice" {
+@test "Invalid invocation - path prefix option twice" {
     run bin/ush -p "x:" -p "x:" true
     test "$status" -eq 64
 }
