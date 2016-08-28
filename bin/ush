@@ -24,16 +24,14 @@ PATH_PREFIX=
 case "$1" in
     -v)
         V=true
-        shift;;
-    *)
+        shift
 esac
 case "$1" in
     --path-prefix)
         shift
         is_valid_path_prefix "$1" || { print_usage; exit 1; }
         PATH_PREFIX="$1"
-        shift;;
-    *)
+        shift
 esac
 [ $# -eq 1 ] || { print_usage; exit 1; }
 
