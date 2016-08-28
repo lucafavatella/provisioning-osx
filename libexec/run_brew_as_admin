@@ -7,4 +7,4 @@ set -e
 ROOT_DIR="${1:?}" ## Mandatory.
 
 S="${ROOT_DIR}/libexec/brew_install_as_admin"
-"${ROOT_DIR}/bin/ush" -v --path-prefix "${ROOT_DIR}/bin:" "$S"
+"${ROOT_DIR}/bin/ush" -v -p "${ROOT_DIR}/bin:" "$S"

@@ -10,7 +10,7 @@
 ## page of login).
 
 print_usage() {
-    echo "usage: ush [-v] [--path-prefix PATH_PREFIX_W_TRAILING_COLON] string" >&2
+    echo "usage: ush [-v] [-p PATH_PREFIX_W_TRAILING_COLON] string" >&2
 }
 
 is_valid_path_prefix() {
@@ -25,7 +25,7 @@ case "$1" in
         shift
 esac
 case "$1" in
-    --path-prefix)
+    -p)
         shift
         is_valid_path_prefix "$1" || { print_usage; exit 1; }
         PATH_PREFIX="$1"

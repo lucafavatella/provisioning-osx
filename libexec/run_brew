@@ -9,4 +9,4 @@ BREW_INSTALL1="${2:?}" ## Mandatory.
 BREW_INSTALL2="${3:?}" ## Mandatory.
 
 S="${ROOT_DIR}/libexec/brew_install_wrapper \"${BREW_INSTALL1}\" \"${BREW_INSTALL2}\""
-"${ROOT_DIR}/bin/ush" -v --path-prefix "${ROOT_DIR}/bin:" "$S"
+"${ROOT_DIR}/bin/ush" -v -p "${ROOT_DIR}/bin:" "$S"
