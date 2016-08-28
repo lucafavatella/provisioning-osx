@@ -39,4 +39,4 @@ C0="$1"
 
 C1=". /etc/profile; export PATH=\"${PATH_PREFIX}\${PATH}\"; $C0"
 $V && echo "$C1" >&2
-env -i HOME="$HOME" TERM="$TERM" sh -c "$C1"
+exec env -i HOME="$HOME" TERM="$TERM" sh -c "$C1"
