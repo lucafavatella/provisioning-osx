@@ -27,11 +27,11 @@ esac
 case "$1" in
     -p)
         shift
-        is_valid_path_prefix "$1" || { print_usage; exit 1; }
+        is_valid_path_prefix "$1" || { print_usage; exit 64; }
         PATH_PREFIX="$1"
         shift
 esac
-[ $# -eq 1 ] || { print_usage; exit 1; }
+[ $# -eq 1 ] || { print_usage; exit 64; }
 
 C0="$1"
 
