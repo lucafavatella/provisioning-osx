@@ -28,6 +28,7 @@ $ bats tests/
 
 ### TODO
 
+* Set osx applications defaults via ansible [ref](http://docs.ansible.com/ansible/osx_defaults_module.html)
 * Move away from `set -e` in non-trivial shell scripts
 * Consider installing in `/usr/local/bin` (rather than `~/homebrew-cask/bin`) binaries of casks installed using sudo
 * Teach Emacs to conditionally hide C ifdef
