@@ -1,4 +1,12 @@
 ---
+- debug: var=build_name
+- debug: var=cflags
+- debug: var=kerl_configure_options
+- debug: var=osx_developer_mode_required
+
+- include: osx_developer_mode_enable.yml
+  when: "{{ osx_developer_mode_required }}"
+
 - include: kerl_build_git.yml
 
 - command:

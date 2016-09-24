@@ -1,0 +1,8 @@
+---
+- command: /usr/sbin/DevToolsSecurity -status
+  register: tmp
+
+- debug: var=tmp
+
+- command: /usr/sbin/DevToolsSecurity -enable
+  when: tmp.stdout == "Developer mode is currently disabled."
