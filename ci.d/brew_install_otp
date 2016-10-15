@@ -5,5 +5,5 @@
 set -e
 
 brew install kerl
-brew install openssl
+brew install openssl --without-test
 brew install --force-bottle wxmac
