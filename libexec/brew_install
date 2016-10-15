@@ -10,8 +10,7 @@ brew cask install Caskroom/versions/iterm2-beta ## No Sixel support (VT340) - [r
 brew install --force-bottle tmux
 brew install bash-completion
 brew install git ## For git-completion.
-brew install emacs --without-librsvg
-(HOMEBREW_EDITOR="brew cat emacs | ${ROOT_DIR}/libexec/to_emacs-keg-only >" brew edit --force emacs-keg-only && brew install emacs-keg-only --devel --without-librsvg --with-cocoa) && { test -e "${HOME}/.emacs" && { test -e "${HOME}/.emacs.d" && $(brew --prefix emacs-keg-only)/bin/emacs --batch --eval "(require 'package)" -f package-initialize --eval "(require 'epl)" -f epl-refresh -f epl-upgrade; }; }
+brew install emacs --with-modules --without-librsvg && { test -e "${HOME}/.emacs" && { test -e "${HOME}/.emacs.d" && $(brew --prefix emacs)/bin/emacs --batch --eval "(require 'package)" -f package-initialize --eval "(require 'epl)" -f epl-refresh -f epl-upgrade; }; }
 
 ## Refs:
 ## * curl `-z`, curl `-w`: http://blog.yjl.im/2012/03/downloading-only-when-modified-using.html
@@ -25,8 +24,9 @@ brew install emacs --without-librsvg
 ## If curl `-z <date expression>` option needed, related standard for
 ## expressing time is RFC 5322.
 FfD="${HOME}/homebrew-cask/Caskroom/firefoxdeveloperedition/latest" ## HACK
+FfUrl="https://download.mozilla.org/?product=firefox-aurora-latest-ssl&os=osx&lang=en-US" ## HACK Ref https://github.com/caskroom/homebrew-versions/commit/a3c21d439ba0fd09419ef720b843708980f6171f#diff-482097f2c80e9571c53aab608b5eb705L5
 test -d "$FfD" || echo "Firefox-related directory '$FfD' not found: first time installation? Continuing."
-FfC=$(curl -s -S -L --head -o /dev/null -w '%{http_code}' -z "$FfD" $(brew cask cat firefoxdeveloperedition | grep '^  url ' | head -n 1 | sed "s/^  url '\(.*\)'$/\1/"))
+FfC=$(curl -s -S -L --head -o /dev/null -w '%{http_code}' -z "$FfD" "$FfUrl")
 case "${FfC:?}" in
     304) echo "No more recent Firefox Developer Edition to install. Skipping." >&2;;
     200) brew cask install --force caskroom/versions/firefoxdeveloperedition;;
