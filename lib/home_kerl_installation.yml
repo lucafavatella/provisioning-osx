@@ -35,7 +35,12 @@
     ## library dependency.  Prefer disabling ODBC until the `odbc`
     ## application supports linking to unixODBC (ref
     ## http://bugs.erlang.org/browse/ERL-121 ).
-    configure_options_9eee0bb_all_but_hipe_and_odbc: "--enable-threads --enable-dirty-schedulers --enable-new-purge-strategy --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --disable-saved-compile-time --enable-fips --enable-sharing-preserving --enable-m64-build --enable-sanitizers=address --disable-silent-rules --with-dynamic-trace=dtrace --with-microstate-accounting=extra --with-ets-write-concurrency-locks=256 --with-clock-resolution=high --with-javac --with-ssl={{ openssl_prefix }} --without-odbc"
+    ##
+    ## (2016 Oct) `--with-clock-resolution=high` does not work on OSX
+    ## (ref
+    ## https://github.com/erlang/otp/pull/1178#issuecomment-249560050
+    ## ).
+    configure_options_9eee0bb_all_but_hipe_and_odbc: "--enable-threads --enable-dirty-schedulers --enable-new-purge-strategy --enable-smp-support --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp --disable-hipe --enable-fp-exceptions --enable-vm-probes --disable-saved-compile-time --enable-fips --enable-sharing-preserving --enable-m64-build --enable-sanitizers=address --disable-silent-rules --with-dynamic-trace=dtrace --with-microstate-accounting=extra --with-ets-write-concurrency-locks=256 --with-clock-resolution=default --with-javac --with-ssl={{ openssl_prefix }} --without-odbc"
     configure_options_default_w_ssl_wo_odbc: "--with-ssl={{ openssl_prefix }} --without-odbc"
     git_builds:
       git-9eee0bb-all-options-but-hipe-and-odbc: ## Recent master.
