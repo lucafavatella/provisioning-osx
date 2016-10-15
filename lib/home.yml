@@ -16,7 +16,7 @@
       - brew
     managed_bins_from_docker:
       - docker-daemon-on-machine-start
-      - docker-openjdk-8-jdk
+      ## Directly invoke scripts in `{{ docker_bin_dir }}`.
     emacs_prelude_repo: https://github.com/bbatsov/prelude.git
     emacs_prelude_dir: "{{ home_prefix }}/.emacs-prelude.d/.emacs.d"
 
