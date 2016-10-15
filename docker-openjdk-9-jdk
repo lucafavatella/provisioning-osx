@@ -1,5 +1,15 @@
 #!/bin/sh
 
+## From https://hub.docker.com/_/java/ :
+## > DEPRECATED
+## > This image is officially deprecated in favor of [the `openjdk`
+## > image](https://hub.docker.com/_/openjdk/), and will receive no
+## > further updates after 2016-12-31 (Dec 31, 2016). Please adjust
+## > your usage accordingly.
+## > The image has been OpenJDK-specific since it was first
+## > introduced, and as of 2016-08-10 we also have an ibmjava image...
+Image="openjdk:9-jdk"
+
 type -p docker-daemon-on-machine-start > /dev/null && \
     { M="$(docker-daemon-on-machine-start)" || \
             { echo "Error while starting Docker daemon on Docker Machine. Exiting." >&2
@@ -11,7 +21,7 @@ type -p docker-daemon-on-machine-start > /dev/null && \
                   exit 1
                 }
         }
-docker run -it --rm -v /Users/$(whoami):/Users/$(whoami) -w "$(pwd)" -e CLASSPATH java:openjdk-8-jdk "$@"
+docker run -it --rm -v /Users/$(whoami):/Users/$(whoami) -w "$(pwd)" -e CLASSPATH "${Image:?}" "$@"
 ## You can install JavaFX running the following in the container:
 ## ```
 ## $ apt-get update && apt-get install -y openjfx && rm -rf /var/lib/apt/lists/*
