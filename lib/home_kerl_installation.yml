@@ -10,10 +10,6 @@
     ## (2014 Jun) `--enable-lock-counter` looks enough for supporting
     ## `lcnt` application.
     ##
-    ## (2ea950f) `--enable-lock-checking --enable-lock-counter
-    ## --enable-fp-exceptions --with-microstate-accounting` are
-    ## erts-only.
-    ##
     ## (2c2c82d) The `wx` application needs the Apple compiler for
     ## using the Cocoa bits of Objective-C, but Xcode 7.0 supports
     ## only the `address` sanitizer - not the `undefined` (behaviour)
