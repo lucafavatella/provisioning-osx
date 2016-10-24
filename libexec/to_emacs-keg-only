@@ -1,7 +1,0 @@
-#!/bin/sh
-
-## Copyright (C) 2016 Luca Favatella <slackydeb@gmail.com>
-
-sed -e '1s/Emacs/EmacsKegOnly/' -e '1a\
-\ \ keg_only "Copy of Emacs formula"
-' <&0
