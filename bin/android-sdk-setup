@@ -1,0 +1,31 @@
+#!/bin/sh
+
+## TODO Test.
+
+## XXX This script relies on the `android` command but [`android` "is
+## no longer
+## supported"](https://developer.android.com/studio/tools/help/android.html).
+
+yes() {
+    until false; do sleep "${2:?}"; echo "${1:?}"; done
+}
+
+ensure_sdk_components_installed() {
+    android update sdk --no-ui --all --filter "${1:?}"
+}
+
+## TODO Ensure i.e. idempotent.
+create_avd() {
+    android create avd --force -n "${1:?}" -t "${2:?}" --abi "${3:?}"
+}
+
+## Ref https://docs.travis-ci.com/user/languages/android/
+FILTER=platform-tools,build-tools-22.0.1,android-22,sys-img-armeabi-v7a-android-22
+
+## Refs:
+## * [The problem with yes is that it floods stdout with `'y'` ... It will "pollute" stdout and the script will fail complaining about incorrect input.](http://stackoverflow.com/questions/17963508/how-to-install-android-sdk-build-tools-on-the-command-line/31900427#31900427)
+## * http://stackoverflow.com/questions/4681697/is-there-a-way-to-automate-the-android-sdk-installation/21910110#21910110
+## * https://github.com/makinacorpus/android-archetypes/wiki/Getting-started%3A-Building-Android-apps-with-Jenkins-CI
+yes y 5 | ensure_sdk_components_installed ${FILTER:?}
+
+echo no | create_avd test android-22 armeabi-v7a ## Ref https://docs.travis-ci.com/user/languages/android/
