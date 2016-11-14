@@ -11,5 +11,6 @@ brew cask install flash-npapi
 brew cask install virtualbox
 brew cask install vagrant
 
+#brew cask install intel-haxm
 brew cask install java
 #brew cask install wireshark

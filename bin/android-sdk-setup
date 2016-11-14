@@ -23,7 +23,7 @@ create_avd() {
 ## * https://docs.travis-ci.com/user/languages/android/
 ## * https://developer.android.com/about/dashboards/index.html
 FILTER_SDK=tools,platform-tools,build-tools-25.0.0,doc-24,android-24,android-15,source-24,source-15,extra-android-m2repository ## Ref `android list sdk --no-ui --extended`.
-FILTER_SDK_SYS_IMG=sys-img-arm64-v8a-android-24,sys-img-armeabi-v7a-android-24,sys-img-x86_64-android-24,sys-img-x86-android-24 ## Ref `android list sdk --no-ui --extended --all`.
+FILTER_SDK_SYS_IMG=sys-img-x86_64-android-24 ## Ref `android list sdk --no-ui --extended --all`.
 FILTER=${FILTER_SDK:?},${FILTER_SDK_SYS_IMG:?}
 
 ## Refs:
@@ -32,4 +32,4 @@ FILTER=${FILTER_SDK:?},${FILTER_SDK_SYS_IMG:?}
 ## * https://github.com/makinacorpus/android-archetypes/wiki/Getting-started%3A-Building-Android-apps-with-Jenkins-CI
 yes y 5 | ensure_sdk_components_installed ${FILTER:?}
 
-echo no | create_avd test android-24 armeabi-v7a ## Ref https://docs.travis-ci.com/user/languages/android/
+echo no | create_avd test android-24 x86_64 ## Ref https://docs.travis-ci.com/user/languages/android/
