@@ -19,8 +19,12 @@ create_avd() {
     android create avd --force -n "${1:?}" -t "${2:?}" --abi "${3:?}"
 }
 
-## Ref https://docs.travis-ci.com/user/languages/android/
-FILTER=platform-tools,build-tools-22.0.1,android-22,sys-img-armeabi-v7a-android-22
+## Refs:
+## * https://docs.travis-ci.com/user/languages/android/
+## * https://developer.android.com/about/dashboards/index.html
+FILTER_SDK=tools,platform-tools,build-tools-25.0.0,doc-24,android-24,android-15,source-24,source-15,extra-android-m2repository ## Ref `android list sdk --no-ui --extended`.
+FILTER_SDK_SYS_IMG=sys-img-x86_64-android-24 ## Ref `android list sdk --no-ui --extended --all`.
+FILTER=${FILTER_SDK:?},${FILTER_SDK_SYS_IMG:?}
 
 ## Refs:
 ## * [The problem with yes is that it floods stdout with `'y'` ... It will "pollute" stdout and the script will fail complaining about incorrect input.](http://stackoverflow.com/questions/17963508/how-to-install-android-sdk-build-tools-on-the-command-line/31900427#31900427)
@@ -28,4 +32,4 @@ FILTER=platform-tools,build-tools-22.0.1,android-22,sys-img-armeabi-v7a-android-
 ## * https://github.com/makinacorpus/android-archetypes/wiki/Getting-started%3A-Building-Android-apps-with-Jenkins-CI
 yes y 5 | ensure_sdk_components_installed ${FILTER:?}
 
-echo no | create_avd test android-22 armeabi-v7a ## Ref https://docs.travis-ci.com/user/languages/android/
+echo no | create_avd test android-24 x86_64 ## Ref https://docs.travis-ci.com/user/languages/android/
