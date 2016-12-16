@@ -14,7 +14,7 @@ log_e() {
 
 ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 
-GIT_BUILD_IDS="${1:-OTP-19.1.4}" ## Overridden for extra installations and for testing.
+GIT_BUILD_IDS="${1:-OTP-19.2}" ## Overridden for extra installations and for testing.
 
 log_e "You are supposed to have run not only '${ROOT_DIR}/bin/provision_osx' but also '${ROOT_DIR}/sbin/provision_osx_as_admin' (for 'javac')"
 for GIT_BUILD_ID in $(echo "$GIT_BUILD_IDS" | tr ',' '\n'); do
