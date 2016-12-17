@@ -6,7 +6,7 @@ set -e
 
 ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 
-brew cask install Caskroom/versions/iterm2-beta ## No Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
+brew cask install Caskroom/cask/iterm2 ## No Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
 brew install --force-bottle tmux
 brew install bash-completion
 brew install git ## For git-completion.
