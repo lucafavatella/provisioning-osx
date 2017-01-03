@@ -66,7 +66,7 @@ brew install p7zip ## `7z x` works as a compression-agnostic archive extractor c
 #brew install pup
 brew install python && "$(brew --prefix python)/bin/pip" install --upgrade pip setuptools ## Ref https://github.com/Homebrew/homebrew/blob/0333865e5d831faa6fd6a414fe19e486898aceba/Library/Formula/python.rb#L321-L322
 brew install python3 && "$(brew --prefix python3)/bin/pip3" install --upgrade pip setuptools ## Ref https://github.com/Homebrew/homebrew/blob/cfcbf92dedb275bdf06597745d9dcd392dcb2fbb/Library/Formula/python3.rb#L314-L315
-"$(brew --prefix python)/bin/pip" install numpy && brew install OSGeo/osgeo4mac/qgis2 --without-postgresql || exit 1
+#"$(brew --prefix python)/bin/pip" install numpy && brew install OSGeo/osgeo4mac/qgis2 --without-postgresql || exit 1
 #brew install rust
 #brew install shellcheck
 #brew install --force-bottle sqlite
