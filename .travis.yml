@@ -13,7 +13,6 @@ install:
   ## [P* jobs] Make job precondition: no `brew` or `brew-cask` in PATH
   - command -v brew
   - if [ $(command -v brew) != "/usr/local/bin/brew" ]; then exit 1; fi
-  - brew ls | fgrep brew-cask
   - ci.d/exit_if_in_path brew-cask
   - echo $PATH
   - if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
