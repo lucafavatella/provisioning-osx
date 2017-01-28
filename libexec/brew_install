@@ -14,6 +14,15 @@ has_pb() {
         | { brew irb > /dev/null; }
 }
 
+## Dual of `has_pb`.
+## TODO Restore relocability of bottles.
+had_pb() {
+    printf \
+        "require 'formula_installer'; fn = '%s'; f = fn.f rescue abort('maybe formula ' + fn + ' does not exist?'); if FormulaInstaller.new(f).pour_bottle? then abort('bottle of formula ' + f.full_name + ' pourable') else exit() end" \
+        "${1:?}" \
+        | { brew irb > /dev/null; }
+}
+
 ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 
 brew cask install Caskroom/cask/iterm2 || exit 1 ## No Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
@@ -57,7 +66,7 @@ esac
 brew install docker || exit 1
 brew install docker-machine || exit 1 ## Downloads boot2docker.iso
 #brew install docker-machine-driver-xhyve || exit 1 ## docker-machine does not adhere to the specified driver. See https://github.com/zchee/docker-machine-driver-xhyve/issues/128
-{ has_pb ansible && brew install ansible; } || exit 1
+{ had_pb ansible && brew install ansible; } || exit 1
 #brew install ssh-copy-id || exit 1
 
 #brew install android-platform-tools || exit 1 ## adb
@@ -73,7 +82,7 @@ brew install checkbashisms || exit 1
 #brew install gcc || exit 1
 #brew install gdb || exit 1
 { { brew rm ctags || true; } && { { brew rm universal-ctags/universal-ctags/universal-ctags || true; } && brew install --HEAD universal-ctags/universal-ctags/universal-ctags; } && brew install lucafavatella/core/global --with-universal-ctags --with-pygments && { cat $(brew --prefix global)/share/gtags/gtags.conf | sed 's/^	:tc=native:$/	:tc=pygments:/' > $(brew --prefix)/etc/gtags.conf; }; } || exit 1 ## After many universal-ctags parsers support references, pygments can be dropped (and maybe GNU GLOBAL - relying on universal-ctags output for both definitions and references). Refs https://github.com/universal-ctags/ctags/pull/569#issuecomment-156300213 http://cvs.savannah.gnu.org/viewvc/global/global/configure.ac?r1=1.178&r2=1.179
-{ has_pb ghc; } || exit 1 # && brew install ghc && brew install cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris; } || exit 1
+{ had_pb ghc; } || exit 1 # && brew install ghc && brew install cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris; } || exit 1
 #brew cask install caskroom/versions/intellij-idea-ce || exit 1
 { has_pb jq; } || exit 1 # && brew install jq; } || exit 1
 brew install kerl || exit 1
