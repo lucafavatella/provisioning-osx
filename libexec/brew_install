@@ -26,7 +26,7 @@ had_pb() {
 ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 
 brew cask install Caskroom/cask/iterm2 || exit 1 ## No Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
-{ has_pb tmux && brew install tmux; } || exit 1
+{ had_pb tmux && brew install tmux; } || exit 1
 brew install bash-completion || exit 1
 brew install git || exit 1 ## For git-completion.
 { brew install emacs --with-modules && \
