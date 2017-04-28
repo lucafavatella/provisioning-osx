@@ -66,7 +66,7 @@ esac
 brew install docker || exit 1
 brew install docker-machine || exit 1 ## Downloads boot2docker.iso
 #brew install docker-machine-driver-xhyve || exit 1 ## docker-machine does not adhere to the specified driver. See https://github.com/zchee/docker-machine-driver-xhyve/issues/128
-{ has_pb ansible && brew install ansible; } || exit 1
+{ has_pb ansible && brew install --build-from-source ansible; } || exit 1
 #brew install ssh-copy-id || exit 1
 
 #brew install android-platform-tools || exit 1 ## adb

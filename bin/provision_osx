@@ -42,7 +42,7 @@ BREW_INSTALL="${2:-${ROOT_DIR}/libexec/brew_install}" ## Overridden for testing.
 git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
 
 log_start "Homebrew" "Ensuring software is installed..."
-"${ROOT_DIR}/libexec/run_brew" "$ROOT_DIR" "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
+"${ROOT_DIR}/libexec/run_brew" "$ROOT_DIR" "brew install --build-from-source ansible" "$BREW_INSTALL" ## Ansible required by following steps.
 log_end "Homebrew"
 log_e "You should manually run 'brew cask install --force' of any Homebrew Casks you deem requiring upgrade" ## Ref https://github.com/caskroom/homebrew-cask/issues/4678
 
