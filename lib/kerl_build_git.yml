@@ -1,4 +1,4 @@
 ---
 - shell:
-    CFLAGS="{{ cflags }}" KERL_CONFIGURE_OPTIONS="{{ kerl_configure_options }}" kerl build git {{ git_url }} {{ git_version }} {{ build_name }}
+    LC_ALL=C CFLAGS="{{ cflags }}" KERL_CONFIGURE_OPTIONS="{{ kerl_configure_options }}" kerl build git {{ git_url }} {{ git_version }} {{ build_name }}
     creates={{ kerl_build_dir }}/{{ build_name }}
