@@ -52,7 +52,7 @@ brew install git || exit 1 ## For git-completion.
 ## expressing time is RFC 5322.
 (
     FfD="${HOME}/homebrew-cask/Caskroom/firefoxdeveloperedition/latest" ## HACK
-    FfUrl="https://download.mozilla.org/?product=firefox-aurora-latest-ssl&os=osx&lang=en-US" ## HACK Ref https://github.com/caskroom/homebrew-versions/commit/a3c21d439ba0fd09419ef720b843708980f6171f#diff-482097f2c80e9571c53aab608b5eb705L5
+    FfUrl="https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=osx&lang=en-US" ## HACK Ref https://github.com/caskroom/homebrew-versions/pull/4095/commits/83ded0c00673a956707901567d2e0b85917fcb42
     test -d "$FfD" || echo "Firefox-related directory '$FfD' not found: first time installation? Continuing." >&2
     FfC=$(curl -s -S -L --head -o /dev/null -w '%{http_code}' -z "$FfD" "$FfUrl") || { echo "Check for Firefox Developer Edition failed. Exiting." >&2; exit 1; }
     case "${FfC:?}" in
