@@ -27,9 +27,9 @@ B2D="boot2docker/boot2docker" ## HACK Assumption: boot2docker URL https://github
 get_latest_b2d_tag() {
     ## $ curl -s "https://api.github.com/repos/boot2docker/boot2docker/releases/latest" | jq '.tag_name'
     ## "v1.9.1"
-    local R ## Ref http://tldp.org/LDP/abs/html/localvar.html#EXITVALANOMALY01
-    R="$(curl -s https://api.github.com/repos/${B2D}/releases/latest)" || exit 1
-    printf '%s' "$R" | jq '.tag_name'
+    ( { R="$(curl -s https://api.github.com/repos/${B2D}/releases/latest)" || exit 1; } && \
+          printf '%s' "$R"; ) | \
+        jq '.tag_name'
 }
 
 dm_is_created() {
@@ -46,9 +46,9 @@ dm_is_created() {
 }
 
 dm_ensure_created() {
-    local D="${1:?}"
-    local M="${2:?}"
-    dm_is_created "$D" "$M" || docker-machine create -d "$D" "$M"
+    ( D="${1:?}"
+      M="${2:?}"
+      dm_is_created "$D" "$M" || docker-machine create -d "$D" "$M"; )
 }
 
 dm_daemon_version() {
@@ -67,8 +67,9 @@ dm_daemon_version() {
 }
 
 dm_ensure_started() {
-    local M="${1:?}"
-    test $(docker-machine status "$M") = 'Running' || docker-machine start "$M"
+    ( M="${1:?}"
+      test $(docker-machine status "$M") = 'Running' || \
+          docker-machine start "$M"; )
 }
 
 D=virtualbox
