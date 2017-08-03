@@ -7,6 +7,7 @@ set -e
 brew cask install spectacle
 
 brew cask install flash-npapi
+#brew cask install silverlight
 
 brew cask install virtualbox
 brew cask install vagrant
