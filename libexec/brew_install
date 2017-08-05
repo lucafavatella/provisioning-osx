@@ -74,7 +74,7 @@ brew install docker-machine || exit 1 ## Downloads boot2docker.iso
 #brew cask install android-studio || exit 1 ## From [IntelliJ IDEA and Android Studio FAQ](http://blog.jetbrains.com/idea/2013/05/intellij-idea-and-android-studio-faq/): "If I’m already a user of IntelliJ IDEA, do I need to switch to Android Studio for Android development? No. Android Studio is focused specifically on Android development and provides streamlined environment and project setup, but otherwise all of its features are available in IntelliJ IDEA."
 brew install autoconf || exit 1
 #brew install bats || exit 1
-brew install checkbashisms || exit 1
+#brew install checkbashisms || exit 1
 #brew install cmake || exit 1
 #brew install cvs || exit 1
 #brew install cvs2svn || exit 1
@@ -103,8 +103,5 @@ brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive e
 #brew install watch || exit 1
 { has_pb wxmac && brew install wxmac; } || exit 1 ## Install wxWidgets - for building Erlang/OTP.
 
-#brew install --with-deps dinkypumpkin/get_iplayer/get_iplayer || exit 1
-
-#brew cask install hipchat || exit 1
 #brew cask install libreoffice || exit 1
 #brew cask install vlc || exit 1
