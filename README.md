@@ -30,7 +30,6 @@ $ bats tests/
 
 * Set osx applications defaults via ansible [ref](http://docs.ansible.com/ansible/osx_defaults_module.html)
 * Move away from `set -e` in non-trivial shell scripts
-* Consider installing in `/usr/local/bin` (rather than `~/homebrew-cask/bin`) binaries of casks installed using sudo
 * Teach Emacs to conditionally hide C ifdef
 * Teach universal-ctags arity of Erlang functions. [POSIX ctags](http://pubs.opengroup.org/onlinepubs/9699919799/utilities/ctags.html) looks limited. Extended tags format by exuberant-ctags/universal-ctags appears to [support](https://github.com/universal-ctags/ctags/blob/e6ddf85268670732cd0792077e9d98bcf092c083/docs/format.rst#id6) arity. Other resource to explore: https://github.com/vim-erlang/vim-erlang-tags
 * Log unknown files/dirs as warnings, hinting command for deletion

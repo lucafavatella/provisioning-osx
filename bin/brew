@@ -9,7 +9,7 @@ HOMEBREW_PREFIX=~/homebrew
 HOMEBREW_CACHE=~/Library/Caches/Homebrew
 HOMEBREW_NO_ANALYTICS=1 ## Ref https://github.com/Homebrew/brew/blob/1451553188276117a574b2abe8957cb60ef7ced7/share/doc/homebrew/Analytics.md#opting-out
 HOMEBREW_ANALYTICS_USER_UUID=~/.homebrew_analytics_user_uuid
-HOMEBREW_CASK_OPTS="--appdir=~/Applications --caskroom=~/homebrew-cask/Caskroom"
+HOMEBREW_CASK_OPTS="--appdir=~/Applications"
 
 P="$@"
 

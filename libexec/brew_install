@@ -39,28 +39,7 @@ brew install git || exit 1 ## For git-completion.
           fi
       fi; } || exit 1
 
-## Refs:
-## * curl `-z`, curl `-w`: http://blog.yjl.im/2012/03/downloading-only-when-modified-using.html
-## * `If-Modified-Since` HTTP header field: https://tools.ietf.org/html/rfc7232#section-3.3
-## * `304` HTTP status code: https://tools.ietf.org/html/rfc7232#section-4.1
-##
-## In alternative to curl `-z <file>` option, modification date
-## (mtime) of file could be retrieved using (non-POSIX) `stat`
-## e.g. `stat -f '%Sm' -t '%Y%m%d%H%M%S' ...`.
-##
-## If curl `-z <date expression>` option needed, related standard for
-## expressing time is RFC 5322.
-(
-    FfD="${HOME}/homebrew-cask/Caskroom/firefoxdeveloperedition/latest" ## HACK
-    FfUrl="https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=osx&lang=en-US" ## HACK Ref https://github.com/caskroom/homebrew-versions/pull/4095/commits/83ded0c00673a956707901567d2e0b85917fcb42
-    test -d "$FfD" || echo "Firefox-related directory '$FfD' not found: first time installation? Continuing." >&2
-    FfC=$(curl -s -S -L --head -o /dev/null -w '%{http_code}' -z "$FfD" "$FfUrl") || { echo "Check for Firefox Developer Edition failed. Exiting." >&2; exit 1; }
-    case "${FfC:?}" in
-        304) echo "No more recent Firefox Developer Edition to install. Skipping." >&2;;
-        200) brew cask install --force caskroom/versions/firefoxdeveloperedition;;
-        *) echo "Check for Firefox Developer Edition returned unknown HTTP status code '${FfC}'. Exiting." >&2; exit 1
-esac
-) || exit 1
+brew cask install caskroom/versions/firefoxdeveloperedition || exit 1
 
 #brew install packer || exit 1
 brew install docker || exit 1
