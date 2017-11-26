@@ -33,7 +33,7 @@ script:
   - case $JOB in T) ;; P|PA|PAO|PO) mkdir ~/sandbox;; esac
   - case $JOB in T) ;; P|PA|PAO|PO) bin/provision_osx ~/sandbox "${BREW_INSTALL?}";; esac
   - case $JOB in T) ;; P) ;; PA|PAO) sbin/provision_osx_as_admin;; PO) ;; esac
-  - case $JOB in T) ;; P) ;; PA) ;; PAO|PO) travis_wait 45 bin/provision_osx_otp "${OTP_GIT_BUILD_IDS:?}" && $(PATH="${HOME}/sandbox/bin:$PATH" ~/sandbox/bin/brew --prefix)/bin/kerl status;; esac
+  - case $JOB in T) ;; P) ;; PA) ;; PAO|PO) travis_wait 45 bin/provision_osx_otp "${OTP_GIT_BUILD_IDS}" && $(PATH="${HOME}/sandbox/bin:$PATH" ~/sandbox/bin/brew --prefix)/bin/kerl status;; esac
 after_failure:
   ## [PAO, PO jobs] Debug
   - case $JOB in T) ;; P|PA) ;; PAO|PO) for F in $(ls ~/.kerl/builds/*/otp_build_git.log); do echo $F && cat $F; done;; esac
