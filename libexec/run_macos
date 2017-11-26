@@ -1,0 +1,19 @@
+#!/bin/sh
+
+## Copyright (C) 2015-2017 Luca Favatella <slackydeb@gmail.com>
+
+set -e
+
+ROOT_DIR="${1:?}" ## Mandatory.
+
+MACOS_REPO=https://github.com/lucafavatella/mathiasbynens-dotfiles.git
+MACOS_REPO_VERSION=dev
+MACOS_DIR="${ROOT_DIR:?}/home/provisioning-osx.d/mathiasbynens-dotfiles"
+
+HOMEBREW_PREFIX=$(PATH="${ROOT_DIR:?}/bin:${PATH?}" "${ROOT_DIR:?}/bin/brew" --prefix)
+E0="-e macos_repo=${MACOS_REPO:?} -e macos_repo_version=${MACOS_REPO_VERSION:?}"
+E1="-e macos_dir=${MACOS_DIR:?}"
+S="ansible-playbook ${ROOT_DIR:?}/lib/macos.yml -i ${ROOT_DIR:?}/lib/hosts ${E0:?} ${E1:?} -vv"
+"${ROOT_DIR:?}"/bin/ush -c -v -p "${HOMEBREW_PREFIX:?}/bin:" "${S:?}"
+
+"${MACOS_DIR:?}/.macos"

@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+
+  tasks:
+
+    - git:
+        repo={{ macos_repo }} version={{ macos_repo_version }}
+        dest={{ macos_dir }} remote=provisioning-osx
+        refspec=+refs/heads/{{ macos_repo_version }}:refs/remotes/provisioning-osx/master
+      with_sequence: count=2 ## HACK Update ref then checkout.
