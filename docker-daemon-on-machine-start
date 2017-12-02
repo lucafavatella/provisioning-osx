@@ -7,6 +7,11 @@
 ##
 ## Also log additional info on standard error.
 ##
+## One-line, though fragile, usage (see below for more robust usage):
+## ```
+## eval "$(docker-machine env $(docker-daemon-on-machine-start))"
+## ```
+##
 ## Recommended usage:
 ## ```
 ## type -p docker-daemon-on-machine-start > /dev/null && \
