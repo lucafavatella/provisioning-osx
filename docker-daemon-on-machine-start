@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
+## Copyright (C) 2015-2017 Luca Favatella <slackydeb@gmail.com>
 
 ## Ensure Docker daemon is started - on Docker Machine - and return
 ## Machine name.
