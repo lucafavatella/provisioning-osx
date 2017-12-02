@@ -18,7 +18,7 @@ type -p docker-daemon-on-machine-start > /dev/null && \
               exit 1
             }
     } && \
-        { eval "$(docker-machine env ${M})" || \
+        { eval "$(docker-machine env ${M:?})" || \
                 { echo "Error while setting environment for Docker client. Exiting." >&2
                   exit 1
                 }
