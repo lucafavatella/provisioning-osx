@@ -47,8 +47,9 @@ dm_is_created() {
 
 dm_ensure_created() {
     ( D="${1:?}"
-      M="${2:?}"
-      dm_is_created "$D" "$M" || docker-machine create -d "$D" "$M"; )
+      DO="${2?}"
+      M="${3:?}"
+      dm_is_created "$D" "$M" || docker-machine create -d "$D" $DO "$M"; )
 }
 
 dm_daemon_version() {
@@ -81,9 +82,20 @@ esac
 ## Hardcode expectation on `sysctl -n kern.hv_support`.
 : ${D:?}
 
+case "$D" in
+    xhyve)
+        DO="     --xhyve-cpu-count 2 --xhyve-memory-size 6000      --xhyve-disk-size 80000"
+        ;;
+    virtualbox)
+        DO="--virtualbox-cpu-count 2 --virtualbox-memory 6000 --virtualbox-disk-size 80000"
+        ;;
+esac
+## Hardcode expectation on driver.
+: ${DO?}
+
 M="${1:-docker-bin-$D}"
 
-{ dm_ensure_created "$D" "$M" || \
+{ dm_ensure_created "$D" "$DO" "$M" || \
         { echo "Failed ensuring that machine '$M' is created. Exiting." >&2
           exit 1
         }
