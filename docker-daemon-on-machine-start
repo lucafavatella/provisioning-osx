@@ -72,8 +72,16 @@ dm_ensure_started() {
           docker-machine start "$M"; )
 }
 
-D=virtualbox
-M="${1:-docker-bin}"
+## Prefer native hypervisor if supported.
+## Ref https://forums.docker.com/t/fatal-error-incompatible-cpu-detected/9162 post #6.
+case "$(sysctl -n kern.hv_support)" in
+    1) D=xhyve ;;
+    0) D=virtualbox;;
+esac
+## Hardcode expectation on `sysctl -n kern.hv_support`.
+: ${D:?}
+
+M="${1:-docker-bin-$D}"
 
 { dm_ensure_created "$D" "$M" || \
         { echo "Failed ensuring that machine '$M' is created. Exiting." >&2
