@@ -89,10 +89,10 @@ esac
 
 case "$D" in
     xhyve)
-        DO="     --xhyve-cpu-count 2 --xhyve-memory-size 6000      --xhyve-disk-size 80000"
+        DO="     --xhyve-cpu-count 2 --xhyve-memory-size 6000      --xhyve-disk-size 20000"
         ;;
     virtualbox)
-        DO="--virtualbox-cpu-count 2 --virtualbox-memory 6000 --virtualbox-disk-size 80000"
+        DO="--virtualbox-cpu-count 2 --virtualbox-memory 6000 --virtualbox-disk-size 20000"
         ;;
 esac
 ## Hardcode expectation on driver.
