@@ -50,8 +50,4 @@ log_start "~/" "Setup home..."
 "${ROOT_DIR}/libexec/setup_home" "$ROOT_DIR" "$HOME_PREFIX"
 log_end "~/"
 
-log_start ".osx" "Setting sensible defaults for OS X and installed software..."
-"${ROOT_DIR}/libexec/.osx" 2>&1 | grep -v "^Dropping command 'sudo .*'\. Pass option '--enable-sudo' in order not to drop command\.$"
-log_end ".osx"
-
 log_e "Consider running '${ROOT_DIR}/sbin/provision_osx_as_admin'"
