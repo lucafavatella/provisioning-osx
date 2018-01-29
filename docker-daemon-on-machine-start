@@ -11,6 +11,10 @@
 ## ```
 ## eval "$(docker-machine env $(env VIRTUALBOX_SHARE_FOLDER='/Volumes/Data:/Volumes/Data' docker-daemon-on-machine-start))"
 ## ```
+## Equivalently for xhyve:
+## ```
+## eval "$(docker-machine env $(env XHYVE_EXPERIMENTAL_NFS_SHARE='/Users:/Users' docker-daemon-on-machine-start))"
+## ```
 ##
 ## Recommended usage:
 ## ```
