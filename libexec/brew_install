@@ -42,9 +42,8 @@ brew install git || exit 1 ## For git-completion.
 brew cask install caskroom/versions/firefox-developer-edition || exit 1
 
 #brew install packer || exit 1
-brew install docker || exit 1
-brew install xhyve || exit 1
-brew install docker-machine-driver-xhyve --without-qcow2 || exit 1
+#brew install docker || exit 1
+brew install docker-machine || exit 1
 { has_pb ansible && brew install --build-from-source ansible; } || exit 1
 #brew install ssh-copy-id || exit 1
 

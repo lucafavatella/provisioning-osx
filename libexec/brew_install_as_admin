@@ -11,6 +11,7 @@ brew cask install flash-npapi
 
 brew cask install virtualbox
 brew cask install vagrant
+brew cask install docker || exit 1
 
 #brew cask install intel-haxm
 brew cask install java
