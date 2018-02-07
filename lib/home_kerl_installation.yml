@@ -40,8 +40,14 @@
     ## (ref
     ## https://github.com/erlang/otp/pull/1178#issuecomment-249560050
     ## ).
+    ##
+    ## (2018 Feb) The `wx` application in OTP < 20 does not compile on
+    ## recent macOS (ref https://bugs.erlang.org/browse/ERL-487 ).
+    ## Disable `wx` app for those OTP versions (and apps
+    ## build-depending on it).
     configure_options_0ab4a33_all_but_hipe_and_odbc: "--enable-dirty-schedulers --enable-new-purge-strategy --enable-lock-checking --enable-lock-counter --enable-kernel-poll --enable-sctp=lib --disable-hipe --enable-fp-exceptions --enable-vm-probes --disable-saved-compile-time --enable-fips --enable-sharing-preserving --enable-m64-build --enable-sanitizers=address --disable-silent-rules --with-dynamic-trace=dtrace --with-microstate-accounting=extra --with-ets-write-concurrency-locks=256 --with-clock-resolution=default --with-javac --with-ssl={{ openssl_prefix }} --without-odbc"
     configure_options_default_w_ssl_wo_odbc: "--with-ssl={{ openssl_prefix }} --without-odbc"
+    configure_options_default_w_ssl_wo_odbc_wx: "--with-ssl={{ openssl_prefix }} --without-odbc --without-wx --without-observer --without-debugger --without-et"
     git_builds:
       git-0ab4a33-all-options-but-hipe-and-odbc: ## Recent master.
         version: "0ab4a33"
@@ -71,19 +77,19 @@
         version: "OTP-19.3.6.5"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
-        configure_options: "{{ configure_options_default_w_ssl_wo_odbc }}"
+        configure_options: "{{ configure_options_default_w_ssl_wo_odbc_wx }}"
         name: OTP-19.3.6.5
       OTP-18.3.4.7: ## Latest OTP 18 point release.
         version: "OTP-18.3.4.7"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
-        configure_options: "{{ configure_options_default_w_ssl_wo_odbc }}"
+        configure_options: "{{ configure_options_default_w_ssl_wo_odbc_wx }}"
         name: OTP-18.3.4.7
       OTP-17.5.6.9: ## Latest OTP 17 point release.
         version: "OTP-17.5.6.9"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
-        configure_options: "{{ configure_options_default_w_ssl_wo_odbc }}"
+        configure_options: "{{ configure_options_default_w_ssl_wo_odbc_wx }}"
         name: OTP-17.5.6.9
       ##   Dialyzer in OTP 17.3 has known issue
       ##   (197a846-17.3-w-dialyzer-fix-for-warnings_as_errors).

@@ -28,7 +28,6 @@ $ bats tests/
 
 ### TODO
 
-* Fix building OTP pre-20 https://bugs.erlang.org/browse/ERL-487 e.g. disabling wx for those versions
 * Move away from `set -e` in non-trivial shell scripts
 * Teach Emacs to conditionally hide C ifdef
 * Teach universal-ctags arity of Erlang functions. [POSIX ctags](http://pubs.opengroup.org/onlinepubs/9699919799/utilities/ctags.html) looks limited. Extended tags format by exuberant-ctags/universal-ctags appears to [support](https://github.com/universal-ctags/ctags/blob/e6ddf85268670732cd0792077e9d98bcf092c083/docs/format.rst#id6) arity. Other resource to explore: https://github.com/vim-erlang/vim-erlang-tags
