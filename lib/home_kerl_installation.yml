@@ -73,18 +73,18 @@
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_default_w_ssl_wo_odbc }}"
         name: OTP-20.0.5
-      OTP-19.3.6.5: ## Latest OTP 19 point release.
-        version: "OTP-19.3.6.5"
+      OTP-19.3.6.6: ## Latest OTP 19 point release.
+        version: "OTP-19.3.6.6"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_default_w_ssl_wo_odbc_wx }}"
-        name: OTP-19.3.6.5
-      OTP-18.3.4.7: ## Latest OTP 18 point release.
-        version: "OTP-18.3.4.7"
+        name: OTP-19.3.6.6
+      OTP-18.3.4.8: ## Latest OTP 18 point release.
+        version: "OTP-18.3.4.8"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_default_w_ssl_wo_odbc_wx }}"
-        name: OTP-18.3.4.7
+        name: OTP-18.3.4.8
       OTP-17.5.6.9: ## Latest OTP 17 point release.
         version: "OTP-17.5.6.9"
         url: "{{ otp_git_url }}"
