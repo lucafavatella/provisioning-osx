@@ -71,9 +71,8 @@ brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive e
 #brew install plantuml || exit 1
 #brew install pstree || exit 1
 #brew install pup || exit 1
-{ brew install python && "$(brew --prefix python)/bin/pip" install --upgrade pip setuptools; } || exit 1 ## Ref https://github.com/Homebrew/homebrew/blob/0333865e5d831faa6fd6a414fe19e486898aceba/Library/Formula/python.rb#L321-L322
-{ brew install python3 && "$(brew --prefix python3)/bin/pip3" install --upgrade pip setuptools; } || exit 1 ## Ref https://github.com/Homebrew/homebrew/blob/cfcbf92dedb275bdf06597745d9dcd392dcb2fbb/Library/Formula/python3.rb#L314-L315
-#{ "$(brew --prefix python)/bin/pip" install numpy && brew install OSGeo/osgeo4mac/qgis2 --without-postgresql; } || exit 1
+{ brew install python@2 && "$(brew --prefix python@2)/bin/pip" install --upgrade pip setuptools; } || exit 1 ## Ref https://github.com/Homebrew/homebrew-core/blob/8d530a70f8fcf02129d924090d73efbe12ff438d/Formula/python@2.rb#L322-L323
+{ brew install python && "$(brew --prefix python)/bin/pip3" install --upgrade pip setuptools wheel; } || exit 1 ## Ref https://github.com/Homebrew/homebrew-core/blob/8d530a70f8fcf02129d924090d73efbe12ff438d/Formula/python.rb#L343-L344
 #brew install rust || exit 1
 #brew install shellcheck || exit 1
 { has_pb sqlite; } || exit 1 # && brew install sqlite; } || exit 1
