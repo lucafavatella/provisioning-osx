@@ -27,8 +27,8 @@ brew_doctor() {
 BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
-brew update ## Synonym of `brew cask update`. Ref https://github.com/caskroom/homebrew-cask/blob/e7f6968926f2ed05d54e2967fcfbf93d8e14d6c8/USAGE.md#other-commands
-brew update ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/86305f7d817ac229d3a44f3b29f7f44cd4ec9cf7/CONTRIBUTING.md#report-a-bug
+brew update
+brew update ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/9ebcef785eed097be709bffef97263b5f536ba34/CONTRIBUTING.md#report-a-bug
 brew upgrade
 
 sh -c "$BREW_INSTALL1"

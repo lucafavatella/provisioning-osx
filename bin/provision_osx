@@ -44,7 +44,7 @@ git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command
 log_start "Homebrew" "Ensuring software is installed..."
 "${ROOT_DIR}/libexec/run_brew" "$ROOT_DIR" "brew install --build-from-source ansible" "$BREW_INSTALL" ## Ansible required by following steps.
 log_end "Homebrew"
-log_e "You should manually run 'brew cask install --force' of any Homebrew Casks you deem requiring upgrade" ## Ref https://github.com/caskroom/homebrew-cask/blob/e7f6968926f2ed05d54e2967fcfbf93d8e14d6c8/USAGE.md#updatingupgrading-casks
+log_e "You should manually run 'brew cask upgrade --greedy' of any Homebrew Casks you deem requiring upgrade" ## Ref https://github.com/Homebrew/homebrew-cask/blob/fc24e9fcc29d93b92ce154de4fea74d7ac16a417/USAGE.md#updatingupgrading-casks
 
 log_start "~/" "Setup home..."
 "${ROOT_DIR}/libexec/setup_home" "$ROOT_DIR" "$HOME_PREFIX"
