@@ -10,9 +10,6 @@ before_install:
 install:
   ## [T job] Make job precondition: `bats` in PATH
   - case $JOB in T) brew install bats;; P|PA|PAO|PO) ;; esac
-  ## [P* jobs] Make job precondition: [no outdated brew taps setup](https://github.com/Homebrew/homebrew-cask/tree/fc24e9fcc29d93b92ce154de4fea74d7ac16a417#reporting-bugs)
-  - command -v brew
-  - brew update-reset
   ## [P* jobs] Make job precondition: no `brew` or `brew-cask` in PATH
   - command -v brew
   - if [ $(command -v brew) != "/usr/local/bin/brew" ]; then exit 1; fi
