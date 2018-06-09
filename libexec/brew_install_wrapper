@@ -14,10 +14,6 @@ log_e() {
     log "${1:?}" >&2
 }
 
-brew_unofficial_taps() {
-    brew tap | grep -v -e "$(brew tap --list-official)"
-}
-
 brew_cleanup() {
     local C; C=$(brew cleanup -s 2>&1) || { log_e "'brew cleanup -s' failed. Exiting. Info:"$'\n'"$C"; exit 1; }
     local CC; CC=$(brew cask cleanup 2>&1) || { log_e "'brew cask cleanup' failed. Exiting. Info:"$'\n'"$CC"; exit 1; }
@@ -33,7 +29,6 @@ BREW_INSTALL2="${2:?}" ## Mandatory.
 
 brew update ## Synonym of `brew cask update`. Ref https://github.com/caskroom/homebrew-cask/blob/e7f6968926f2ed05d54e2967fcfbf93d8e14d6c8/USAGE.md#other-commands
 brew update ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/86305f7d817ac229d3a44f3b29f7f44cd4ec9cf7/CONTRIBUTING.md#report-a-bug
-log_e "Detected unofficial taps. Continuing. Info:"$'\n'"$(brew_unofficial_taps)" ## TODO Show only if there are any.
 brew upgrade
 
 sh -c "$BREW_INSTALL1"
