@@ -1,5 +1,5 @@
 os: osx
-osx_image: xcode9.1 ## [`xcode9.1` -> OS X 10.12](https://docs.travis-ci.com/user/reference/osx/#os-x-version).
+osx_image: xcode9.3 ## [`xcode9.3` -> OS X 10.13](https://docs.travis-ci.com/user/reference/osx/#os-x-version).
 language: c
 before_install:
   ## Debug
