@@ -6,8 +6,8 @@ set -e
 
 brew cask install spectacle
 
-brew cask install virtualbox
-brew cask install vagrant
+#brew cask install virtualbox
+#brew cask install vagrant
 brew cask install docker ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
 
 #brew cask install intel-haxm
