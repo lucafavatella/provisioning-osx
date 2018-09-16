@@ -4,6 +4,7 @@
 
 set -e
 
+brew cask install lulu
 brew cask install spectacle
 
 #brew cask install virtualbox
