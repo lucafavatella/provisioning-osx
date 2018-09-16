@@ -4,7 +4,7 @@
 
 set -e
 
-brew cask install lulu
+brew cask install lulu ## At least at first install requires restart.
 brew cask install spectacle
 
 #brew cask install virtualbox
