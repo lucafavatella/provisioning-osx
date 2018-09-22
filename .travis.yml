@@ -10,6 +10,3 @@ script:
   - checkbashisms docker-daemon-on-machine-start
   - shellcheck docker-daemon-on-machine-start
   - bashate docker-daemon-on-machine-start || true
-  - checkbashisms docker-openjdk-9-jdk
-  - shellcheck docker-openjdk-9-jdk
-  - bashate docker-openjdk-9-jdk || true
