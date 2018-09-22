@@ -8,13 +8,9 @@ HOME_PREFIX="${2:?}" ## Mandatory.
 DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
 DOTFILES_DIR="${ROOT_DIR}/home/provisioning-osx.d/dotfiles"
 
-DOCKER_BIN_REPO=https://github.com/lucafavatella/docker-bin.git
-DOCKER_BIN_DIR="${ROOT_DIR}/opt/provisioning-osx.d/docker-bin"
-
 HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix)
 E0="-e provisioning_osx_root_dir=${ROOT_DIR}"
 E1="-e home_prefix=${HOME_PREFIX}"
 E2="-e dotfiles_repo=${DOTFILES_REPO} -e dotfiles_dir=${DOTFILES_DIR}"
-E3="-e docker_bin_repo=${DOCKER_BIN_REPO} -e docker_bin_dir=${DOCKER_BIN_DIR}"
-S="ansible-playbook ${ROOT_DIR}/lib/home.yml -i ${ROOT_DIR}/lib/hosts $E0 $E1 $E2 $E3 -vv"
+S="ansible-playbook ${ROOT_DIR}/lib/home.yml -i ${ROOT_DIR}/lib/hosts $E0 $E1 $E2 -vv"
 "${ROOT_DIR}"/bin/ush -c -v -p "${HOMEBREW_PREFIX}/bin:" "$S"

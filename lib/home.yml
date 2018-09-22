@@ -14,9 +14,6 @@
     managed_bins_from_provisioning:
       - ush
       - brew
-    managed_bins_from_docker:
-      - docker-daemon-on-machine-start
-      ## Directly invoke scripts in `{{ docker_bin_dir }}`.
     emacs_prelude_repo: https://github.com/bbatsov/prelude.git
     emacs_prelude_dir: "{{ home_prefix }}/.emacs-prelude.d/.emacs.d"
 
@@ -57,18 +54,6 @@
         src={{ provisioning_osx_root_dir }}/bin/{{ item }}
       with_items: "{{ managed_bins_from_provisioning }}"
 
-    - git:
-        repo={{ docker_bin_repo }} version=master
-        dest={{ docker_bin_dir }} remote=provisioning-osx
-        refspec=+refs/heads/master:refs/remotes/provisioning-osx/master
-      with_sequence: count=2 ## HACK Update ref then checkout.
-
-    - file:
-        path={{ home_prefix }}/bin/{{ item }}
-        state=link
-        src={{ docker_bin_dir }}/{{ item }}
-      with_items: "{{ managed_bins_from_docker }}"
-
     ## Whitelist files and directories, logging suspicious ones
     ##
     ## Do not use `file: ... state=absent` as that deletes.
@@ -87,4 +72,4 @@
 
     - find: paths="{{ home_prefix }}/bin" file_type=directory hidden=True
       register: tmp
-    - debug: msg="Unexpected binaries {{ tmp.files | map(attribute='path') | map('basename') | difference(managed_bins_from_provisioning) | difference(managed_bins_from_docker) | join(', ') }}"
+    - debug: msg="Unexpected binaries {{ tmp.files | map(attribute='path') | map('basename') | difference(managed_bins_from_provisioning) | join(', ') }}"
