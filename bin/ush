@@ -1,7 +1,5 @@
 #!/bin/sh
 
-## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
-
 ## Run the commands read from the specified string in a shell with
 ## minimal environment, relying on the env command in the PATH.
 ##

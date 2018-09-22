@@ -2,8 +2,6 @@
 
 ## Using `bash` and not `sh` for non-POSIX `local`.
 
-## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
-
 set -e
 
 log() {

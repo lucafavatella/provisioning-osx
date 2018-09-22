@@ -1,7 +1,5 @@
 #!/bin/sh
 
-## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
-
 set -e
 
 epoch_s_utc() {

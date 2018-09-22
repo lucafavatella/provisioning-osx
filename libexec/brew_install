@@ -1,7 +1,5 @@
 #!/bin/sh
 
-## Copyright (C) 2015 Luca Favatella <slackydeb@gmail.com>
-
 ## Has the specified brew formula got a pourable bottle?
 ##
 ## Exits with code:
