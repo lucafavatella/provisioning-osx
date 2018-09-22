@@ -21,7 +21,7 @@ brew_cleanup() {
 
 brew_doctor() {
     local D; D=$(brew doctor 2>&1) || { log_e "'brew doctor' detected potential problems. Continuing. Info:"$'\n'"$D"; }
-    ## Temporarily disabled, depending on fix https://github.com/Homebrew/brew/pull/4320 #local CD; CD=$(brew cask doctor 2>&1) || { log_e "'brew cask doctor' detected potential problems. Exiting. Info:"$'\n'"$CD"; exit 1; }
+    local CD; CD=$(brew cask doctor 2>&1) || { log_e "'brew cask doctor' detected potential problems. Exiting. Info:"$'\n'"$CD"; exit 1; }
 }
 
 BREW_INSTALL1="${1:?}" ## Mandatory.
