@@ -64,7 +64,6 @@ has_hv; case "$?" in
             *) exit 1 ;;
         esac
 { has_pb ansible && brew install ansible; } || exit 1
-#brew install ssh-copy-id || exit 1
 
 #brew cask install android-platform-tools || exit 1 ## adb
 #brew install android-sdk || exit 1 ## For IntelliJ.
