@@ -50,6 +50,7 @@ dm_is_created() {
 }
 
 dm_ensure_created() {
+    # shellcheck disable=SC2086
     ( D="${1:?}"
       DO="${2?}"
       M="${3:?}"
@@ -86,7 +87,7 @@ case "$D" in
         ;;
 esac
 ## Hardcode expectation on driver.
-: ${DO?}
+: "${DO?}"
 
 M="${1:-docker-bin-$D}"
 
