@@ -1,0 +1,128 @@
+#!/bin/sh
+
+## Ensure Docker daemon is started - on Docker Machine - and return
+## Machine name.
+##
+## Also log additional info on standard error.
+##
+## One-line, though fragile, usage (see below for more robust usage):
+## ```
+## eval "$(docker-machine env $(env VIRTUALBOX_SHARE_FOLDER='/Public/DockerMachinePlaceholder:/Public/DockerMachinePlaceholder' docker-daemon-on-machine-start))"
+## ```
+##
+## Recommended usage:
+## ```
+## type -p docker-daemon-on-machine-start > /dev/null && \
+##     { M="$(docker-daemon-on-machine-start)" || \
+##             { echo "Error while starting Docker daemon on Docker Machine. Exiting." >&2
+##               exit 1
+##             }
+##     } && \
+##         { eval "$(docker-machine env ${M:?})" || \
+##                 { echo "Error while setting environment for Docker client. Exiting." >&2
+##                   exit 1
+##                 }
+##         }
+## ```
+
+B2D="boot2docker/boot2docker" ## HACK Assumption: boot2docker URL https://github.com/docker/machine/blob/v0.8.2/libmachine/mcnutils/b2d.go#L24 - better than specifying B2D URL when creating machine. In the future shall probably move to https://github.com/docker/boot2docker
+
+get_latest_b2d_tag() {
+    ## $ curl -s "https://api.github.com/repos/boot2docker/boot2docker/releases/latest" | jq '.tag_name'
+    ## "v1.9.1"
+    ( { R="$(curl -s https://api.github.com/repos/${B2D}/releases/latest)" || exit 1; } && \
+          printf '%s' "$R"; ) | \
+        jq '.tag_name'
+}
+
+dm_is_created() {
+    ## $ docker-machine ls --filter driver=virtualbox --filter name=tmp
+    ## NAME   ACTIVE   DRIVER   STATE   URL   SWARM
+    ## $ docker-machine ls --filter driver=virtualbox
+    ## NAME         ACTIVE   DRIVER       STATE     URL                         SWARM
+    ## dev          -        virtualbox   Stopped
+    ## docker-bin   -        virtualbox   Running   tcp://192.168.99.100:2376
+    ## $ docker-machine ls --filter driver=virtualbox | tail -n +2
+    ## dev          -        virtualbox   Stopped
+    ## docker-bin   -        virtualbox   Running   tcp://192.168.99.100:2376
+    # shellcheck disable=SC2046
+    test $(docker-machine ls --filter driver="${1:?}" --filter name="^${2:?}$" | tail -n +2 | wc -l) -eq 1 ## Assumption: filter returns at most one machine.
+}
+
+dm_ensure_created() {
+    # shellcheck disable=SC2086
+    ( D="${1:?}"
+      DO="${2?}"
+      M="${3:?}"
+      dm_is_created "$D" "$M" || docker-machine create -d "$D" $DO "$M"; )
+}
+
+dm_daemon_version() {
+    ## $ docker $(docker-machine config "$M") version -f '{{.Server.Version}}'
+    ## 1.9.1
+    ## $ docker version
+    ## Client:
+    ## Version:      1.9.1
+    ## API version:  1.21
+    ## Go version:   go1.5.1
+    ## Git commit:   a34a1d5
+    ## Built:        Sat Nov 21 00:48:57 UTC 2015
+    ## OS/Arch:      darwin/amd64
+    ## Cannot connect to the Docker daemon. Is the docker daemon running on this host?
+    # shellcheck disable=SC2046
+    docker $(docker-machine config "${1:?}") version -f '{{.Server.Version}}'
+}
+
+dm_ensure_started() {
+    # shellcheck disable=SC2046
+    ( M="${1:?}"
+      test $(docker-machine status "$M") = 'Running' || \
+          docker-machine start "$M"; )
+}
+
+D=virtualbox
+case "$D" in
+    virtualbox)
+        DO="--virtualbox-cpu-count 2 --virtualbox-memory 6000 --virtualbox-disk-size 20000"
+        ;;
+esac
+## Hardcode expectation on driver.
+: "${DO?}"
+
+M="${1:-docker-bin-$D}"
+
+{ dm_ensure_created "$D" "$DO" "$M" || \
+        { echo "Failed ensuring that machine '$M' is created. Exiting." >&2
+          exit 1
+        }
+} >&2
+
+## Hardcode expectation on driver. Caters for homonymous pre-existing
+## machine with different driver.
+{ DA=$(docker-machine inspect "$M" | jq '.DriverName')
+  test "$DA" = "\"${D}\"" || \
+      { echo "Actual DriverName '$DA' for Docker Machine '$M' differs from expected '$D'. Exiting." >&2
+        exit 1
+      }
+}
+
+{ dm_ensure_started "$M" || \
+        { echo "Failed ensuring that machine '$M' is started. Exiting." >&2
+          exit 1
+        }
+} >&2
+
+## Best effort lazy idempotent upgrade of Docker daemon on machine.
+##
+## Assumption: machine can be restarted at any time.
+{ VE=$(get_latest_b2d_tag) && \
+        { VA=$(dm_daemon_version "$M")
+          test "\"v${VA}\"" = "$VE" || \
+              { echo "Actual boot2docker version '$VA' for Docker Machine '$M' differs from expected '$VE': attempting upgrade."
+                docker-machine upgrade "$M" || \
+                    echo "Failed upgrade of Docker Machine '$M'. Ignoring." >&2
+              }
+        }
+} >&2
+
+echo "$M"
