@@ -45,6 +45,7 @@ dm_is_created() {
     ## $ docker-machine ls --filter driver=virtualbox | tail -n +2
     ## dev          -        virtualbox   Stopped
     ## docker-bin   -        virtualbox   Running   tcp://192.168.99.100:2376
+    # shellcheck disable=SC2046
     test $(docker-machine ls --filter driver="${1:?}" --filter name="^${2:?}$" | tail -n +2 | wc -l) -eq 1 ## Assumption: filter returns at most one machine.
 }
 
@@ -67,10 +68,12 @@ dm_daemon_version() {
     ## Built:        Sat Nov 21 00:48:57 UTC 2015
     ## OS/Arch:      darwin/amd64
     ## Cannot connect to the Docker daemon. Is the docker daemon running on this host?
+    # shellcheck disable=SC2046
     docker $(docker-machine config "${1:?}") version -f '{{.Server.Version}}'
 }
 
 dm_ensure_started() {
+    # shellcheck disable=SC2046
     ( M="${1:?}"
       test $(docker-machine status "$M") = 'Running' || \
           docker-machine start "$M"; )
