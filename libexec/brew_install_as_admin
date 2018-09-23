@@ -3,6 +3,7 @@
 set -e
 
 brew cask install lulu ## At least at first install requires restart.
+brew cask install wireshark
 brew cask install spectacle
 
 brew cask install virtualbox
@@ -11,4 +12,3 @@ brew cask install docker ## Apparently the Docker daemon cannot be started from 
 
 #brew cask install intel-haxm
 brew cask install java
-#brew cask install wireshark
