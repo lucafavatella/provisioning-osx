@@ -9,10 +9,6 @@
 ## ```
 ## eval "$(docker-machine env $(env VIRTUALBOX_SHARE_FOLDER='/Volumes/Data:/Volumes/Data' docker-daemon-on-machine-start))"
 ## ```
-## Equivalently for xhyve:
-## ```
-## eval "$(docker-machine env $(env XHYVE_EXPERIMENTAL_NFS_SHARE='/Users:/Users' docker-daemon-on-machine-start))"
-## ```
 ##
 ## Recommended usage:
 ## ```
@@ -80,19 +76,8 @@ dm_ensure_started() {
           docker-machine start "$M"; )
 }
 
-## Prefer native hypervisor if supported.
-## Ref https://forums.docker.com/t/fatal-error-incompatible-cpu-detected/9162 post #6.
-case "$(sysctl -n kern.hv_support)" in
-    1) D=xhyve ;;
-    0) D=virtualbox;;
-esac
-## Hardcode expectation on `sysctl -n kern.hv_support`.
-: ${D:?}
-
+D=virtualbox
 case "$D" in
-    xhyve)
-        DO="     --xhyve-cpu-count 2 --xhyve-memory-size 6000      --xhyve-disk-size 20000"
-        ;;
     virtualbox)
         DO="--virtualbox-cpu-count 2 --virtualbox-memory 6000 --virtualbox-disk-size 20000"
         ;;
