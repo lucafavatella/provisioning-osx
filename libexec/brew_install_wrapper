@@ -14,7 +14,6 @@ log_e() {
 
 brew_cleanup() {
     local C; C=$(brew cleanup -s 2>&1) || { log_e "'brew cleanup -s' failed. Exiting. Info:"$'\n'"$C"; exit 1; }
-    local CC; CC=$(brew cask cleanup 2>&1) || { log_e "'brew cask cleanup' failed. Exiting. Info:"$'\n'"$CC"; exit 1; }
 }
 
 brew_doctor() {
