@@ -55,12 +55,12 @@
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_0ab4a33_all_but_hipe_and_odbc }}"
         name: git-0ab4a33-all-options-but-hipe-and-odbc
-      OTP-20.3.1: ## Latest OTP 20.3 point release.
-        version: "OTP-20.3.1"
+      OTP-20.3.8.11: ## Latest OTP 20.3 point release.
+        version: "OTP-20.3.8.11"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_default_w_ssl_wo_odbc }}"
-        name: OTP-20.3.1
+        name: OTP-20.3.8.11
       OTP-20.2.4: ## Latest OTP 20.2 point release.
         version: "OTP-20.2.4"
         url: "{{ otp_git_url }}"
