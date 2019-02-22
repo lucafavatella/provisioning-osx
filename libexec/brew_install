@@ -46,7 +46,7 @@ brew cask install iterm2 || exit 1 ## No Sixel support (VT340) - [ref](https://g
 { had_pb tmux && brew install tmux; } || exit 1
 brew install bash-completion || exit 1
 brew install git || exit 1 ## For git-completion.
-{ brew install emacs --with-modules && \
+{ brew install emacs && \
       if test -e "${HOME}/.emacs"; then
           if test -e "${HOME}/.emacs.d"; then
               "$(brew --prefix emacs)/bin/emacs" \
