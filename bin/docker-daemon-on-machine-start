@@ -83,7 +83,7 @@ dm_ensure_started() {
 D=virtualbox
 case "$D" in
     virtualbox)
-        DO="--virtualbox-cpu-count 2 --virtualbox-memory 6000 --virtualbox-disk-size 20000"
+        DO="--virtualbox-no-share --virtualbox-cpu-count 2 --virtualbox-memory 6000 --virtualbox-disk-size 20000"
         ;;
 esac
 ## Hardcode expectation on driver.
