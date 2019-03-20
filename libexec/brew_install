@@ -58,6 +58,7 @@ brew install git || exit 1 ## For git-completion.
 
 brew cask install homebrew/cask-versions/firefox-developer-edition || exit 1
 
+brew cask install docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
 has_hv; case "$?" in
             1) { brew install docker-machine || exit 1; } ;;
             0) ;;

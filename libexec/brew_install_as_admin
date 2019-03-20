@@ -6,7 +6,6 @@ brew cask install spectacle || exit 1
 
 brew cask install virtualbox || exit 1
 brew cask install vagrant || exit 1
-brew cask install docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
 
 #brew cask install intel-haxm || exit 1
 brew cask install java || exit 1
