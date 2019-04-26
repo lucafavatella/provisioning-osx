@@ -104,7 +104,7 @@
         kerl_build_git_and_install.yml
         cflags={{ git_builds[git_build_id].cflags }}
         kerl_configure_options={{ git_builds[git_build_id].configure_options }}
-        osx_developer_mode_required={{ git_builds[git_build_id].configure_options | search("--enable-sanitizers.*address") }}
+        osx_developer_mode_required={{ git_builds[git_build_id].configure_options is search("--enable-sanitizers.*address") }}
         git_url={{ git_builds[git_build_id].url }}
         git_version={{ git_builds[git_build_id].version }}
         build_name={{ git_builds[git_build_id].name }}
