@@ -4,13 +4,19 @@ set -e
 
 HOMEBREW_REPO=https://github.com/Homebrew/brew.git
 HOMEBREW_PREFIX=~/homebrew
+
+## Ref https://github.com/Homebrew/brew/blob/e098c37dc3734dbe097ed9804a3a88737ff71add/docs/Manpage.md#environment
 HOMEBREW_CACHE=~/Library/Caches/Homebrew
-HOMEBREW_NO_ANALYTICS=1 ## Ref https://github.com/Homebrew/brew/blob/9ebcef785eed097be709bffef97263b5f536ba34/docs/Analytics.md#opting-out
-HOMEBREW_CASK_OPTS="--appdir=~/Applications"
+HOMEBREW_NO_ANALYTICS=1
+
+## Refs:
+## * https://github.com/Homebrew/homebrew-cask/blob/eeae31d85be91f6fc3364013a1d8b77bd67861dd/USAGE.md#options
+## * https://github.com/Homebrew/brew/blob/e098c37dc3734dbe097ed9804a3a88737ff71add/Library/Homebrew/manpages/brew-cask.1.md#options
+HOMEBREW_CASK_OPTS="--no-binaries --appdir=~/Applications"
 
 P="$@"
 
 test -e "$HOMEBREW_PREFIX" || ush -c "git clone $HOMEBREW_REPO $HOMEBREW_PREFIX"
 
-S="set -e; env HOMEBREW_CACHE=\"${HOMEBREW_CACHE}\" HOMEBREW_NO_ANALYTICS=\"${HOMEBREW_NO_ANALYTICS}\" HOMEBREW_CASK_OPTS=\"${HOMEBREW_CASK_OPTS}\" brew $P"
+S="set -e; env HOMEBREW_CACHE=\"${HOMEBREW_CACHE:?}\" HOMEBREW_NO_ANALYTICS=\"${HOMEBREW_NO_ANALYTICS:?}\" HOMEBREW_CASK_OPTS=\"${HOMEBREW_CASK_OPTS:?}\" brew $P"
 ush -c -p "${HOMEBREW_PREFIX}/bin:" "$S"
