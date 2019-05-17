@@ -25,7 +25,7 @@ BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
 brew update
-brew update ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/9ebcef785eed097be709bffef97263b5f536ba34/CONTRIBUTING.md#report-a-bug
+brew update ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/e098c37dc3734dbe097ed9804a3a88737ff71add/CONTRIBUTING.md#report-a-bug
 brew upgrade
 
 sh -c "$BREW_INSTALL1"
