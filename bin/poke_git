@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.

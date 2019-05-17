@@ -37,7 +37,7 @@ ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 HOME_PREFIX="${1:-${HOME}}" ## Overridden for testing.
 BREW_INSTALL="${2:-${ROOT_DIR}/libexec/brew_install}" ## Overridden for testing.
 
-git --version > /dev/null ## Rely on OSX to prompt user to install Xcode Command Line Tools - not full Xcode.
+"${ROOT_DIR}"/bin/poke_git
 
 log_start "Homebrew" "Ensuring software is installed..."
 "${ROOT_DIR}/libexec/run_brew" "$ROOT_DIR" "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
