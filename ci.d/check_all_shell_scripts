@@ -26,6 +26,6 @@ do
     echo
     is_bash "$F" || { checkbashisms "$F" || S=$?; }
     shellcheck "$F" || S=$?
-    bashate -i E003 "$F" || true
+    bashate -i E003,E010,E011 "$F" || S=$?
 done
 exit ${S:?}
