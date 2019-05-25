@@ -10,7 +10,6 @@ before_install:
     case $JOB in
       T) ;;
       P|PA|PAO|PO) ls -la ~;;
-      DM) ;;
     esac
 install:
   ## [T job] Make job precondition: `bats` in PATH
@@ -18,7 +17,6 @@ install:
     case $JOB in
       T) brew install bats;;
       P|PA|PAO|PO) ;;
-      DM) ;;
     esac
   ## [P* jobs] Make job precondition: no `brew` or `brew-cask` in PATH
   - command -v brew
@@ -30,20 +28,13 @@ install:
     case $JOB in
       T) ;;
       P|PA|PAO|PO) export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||");;
-      DM) ;;
     esac
   - echo $PATH
-  ## [DM job] Make job precondition: static analysis tools installed.
+  ## [S job] Make job precondition: static analysis tools installed.
   - |
     case $JOB in
       T) ;;
       P|PA|PAO|PO) ;;
-      DM)
-        brew install checkbashisms
-        brew install shellcheck
-        brew install python && pip3 install --upgrade pip setuptools wheel
-        pip3 install bashate
-        ;;
     esac
 script:
   ## [P* jobs] Check job precondition: no `brew` or `brew-cask` in PATH
@@ -54,7 +45,6 @@ script:
         ci.d/exit_if_in_path brew
         ci.d/exit_if_in_path brew-cask
         ;;
-      DM) ;;
     esac
   ## [P* jobs] Debug - brew caches
   - ls -la /Library/Caches || true
@@ -66,7 +56,6 @@ script:
     case $JOB in
       T) bats tests/;;
       P|PA|PAO|PO) ;;
-      DM) ;;
     esac
   ## [P* jobs] Main
   - |
@@ -76,7 +65,6 @@ script:
         mkdir ~/sandbox
         bin/provision_osx ~/sandbox "${BREW_INSTALL?}"
         ;;
-      DM) ;;
     esac
   - |
     case $JOB in
@@ -84,7 +72,6 @@ script:
       P) ;;
       PA|PAO) sbin/provision_osx_as_admin;;
       PO) ;;
-      DM) ;;
     esac
   - |
     case $JOB in
@@ -92,18 +79,12 @@ script:
       P) ;;
       PA) ;;
       PAO|PO) travis_wait 45 bin/provision_osx_otp "${OTP_GIT_BUILD_IDS}" && $(PATH="${HOME}/sandbox/bin:$PATH" ~/sandbox/bin/brew --prefix)/bin/kerl status;;
-      DM) ;;
     esac
-  ## [DM job] Main
+  ## [S job] Main
   - |
     case $JOB in
       T) ;;
       P|PA|PAO|PO) ;;
-      DM)
-        checkbashisms bin/docker-daemon-on-machine-start
-        shellcheck    bin/docker-daemon-on-machine-start
-        bashate       bin/docker-daemon-on-machine-start || true
-        ;;
     esac
 after_failure:
   ## [PAO, PO jobs] Debug
@@ -112,7 +93,6 @@ after_failure:
       T) ;;
       P|PA) ;;
       PAO|PO) for F in $(ls ~/.kerl/builds/*/otp_build_git.log); do echo $F && cat $F; done;;
-      DM) ;;
     esac
 after_script:
   ## [P* jobs] Debug
@@ -123,16 +103,35 @@ after_script:
         ls -la ~
         ls -la ~/sandbox
         ;;
-      DM) ;;
     esac
 notifications:
   email: false
 matrix:
   allow_failures:
+    - env: JOB=S
     - env: JOB=PA BREW_INSTALL=
     - env: JOB=PAO BREW_INSTALL=
     - env: JOB=PO BREW_INSTALL="ci.d/brew_install_otp" OTP_GIT_BUILD_IDS="git-9eee0bb-all-options-but-hipe-and-odbc"
   fast_finish: true
+  include:
+    - os: linux
+      dist: xenial
+      env: JOB=S
+      addons:
+        apt:
+          update: true
+      before_install: true
+      install:
+        - sudo apt-get install -y devscripts
+        - sudo apt-get install -y shellcheck
+        - sudo apt-get install -y python3-bashate
+      before_script: true
+      script:
+        - ci.d/check_all_shell_scripts "${TRAVIS_BUILD_DIR:?}"
+      before_cache: true
+      after_success: true
+      after_failure: true
+      after_script: true
 env:
   - JOB=T
   - JOB=P BREW_INSTALL=true
@@ -141,4 +140,3 @@ env:
   # - JOB=PAO BREW_INSTALL=
   - JOB=PO BREW_INSTALL="ci.d/brew_install_otp" ## Out-of-process OTP installation without `javac`.
   - JOB=PO BREW_INSTALL="ci.d/brew_install_otp" OTP_GIT_BUILD_IDS="git-0ab4a33-all-options-but-hipe-and-odbc" ## Out-of-process OTP installation without `javac`.
-  - JOB=DM
