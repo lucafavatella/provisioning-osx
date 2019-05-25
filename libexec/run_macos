@@ -12,6 +12,7 @@ HOMEBREW_PREFIX=$(PATH="${ROOT_DIR:?}/bin:${PATH?}" "${ROOT_DIR:?}/bin/brew" --p
 E0="-e macos_repo=${MACOS_REPO:?} -e macos_repo_version=${MACOS_REPO_VERSION:?}"
 E1="-e macos_dir=${MACOS_DIR:?}"
 S="ansible-playbook ${ROOT_DIR:?}/lib/macos.yml -i ${ROOT_DIR:?}/lib/hosts ${E0:?} ${E1:?} -vv"
-"${ROOT_DIR:?}"/bin/ush -c -v -p "${HOMEBREW_PREFIX:?}/bin:" "${S:?}"
+"${ROOT_DIR:?}"/bin/ush -c -v "export PATH=\"${HOMEBREW_PREFIX:?}/bin:\${PATH}\" && { ${S:?}
+}"
 
 "${MACOS_DIR:?}/.macos"

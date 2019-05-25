@@ -13,4 +13,5 @@ E0="-e provisioning_osx_root_dir=${ROOT_DIR}"
 E1="-e home_prefix=${HOME_PREFIX}"
 E2="-e dotfiles_repo=${DOTFILES_REPO} -e dotfiles_dir=${DOTFILES_DIR}"
 S="ansible-playbook ${ROOT_DIR}/lib/home.yml -i ${ROOT_DIR}/lib/hosts $E0 $E1 $E2 -vv"
-"${ROOT_DIR}"/bin/ush -c -v -p "${HOMEBREW_PREFIX}/bin:" "$S"
+"${ROOT_DIR}"/bin/ush -c -v "export PATH=\"${HOMEBREW_PREFIX}/bin:\${PATH}\" && { $S
+}"
