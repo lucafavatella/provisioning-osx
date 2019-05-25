@@ -21,7 +21,6 @@ test "-c" = "${1?}" || print_usage_and_exit
 shift || exit 71
 
 VFlag=
-PFlag=
 while getopts :v name; do
     case $name in
         v)
