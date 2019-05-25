@@ -8,7 +8,7 @@
 ## page of login).
 
 print_usage() {
-    echo "usage: ush -c [-v] command_string" >&2
+    echo "usage: ush -c [-v] command_string [command_name [argument...]]" >&2
 }
 
 print_usage_and_exit() {
@@ -33,10 +33,10 @@ while getopts :v name; do
 done
 shift $((${OPTIND:?} - 1)) || exit 71
 
-test $# -eq 1 || print_usage_and_exit
-
+test $# -ge 1 || print_usage_and_exit
 C0="${1?}"
+shift || exit 71
 
 C1=". /etc/profile; ${C0?}"
 test "true" = "${VFlag?}" && echo "${C0?}" >&2
-exec env -i HOME="$HOME" TERM="$TERM" sh -c "${C1:?}"
+exec env -i HOME="$HOME" TERM="$TERM" sh -c "${C1:?}" "$@"

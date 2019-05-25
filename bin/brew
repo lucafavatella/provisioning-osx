@@ -2,6 +2,8 @@
 
 set -e
 
+CMD=brew
+
 HOMEBREW_REPO=https://github.com/Homebrew/brew.git
 HOMEBREW_PREFIX=~/homebrew
 
@@ -14,10 +16,8 @@ HOMEBREW_NO_ANALYTICS=1
 ## * https://github.com/Homebrew/brew/blob/e098c37dc3734dbe097ed9804a3a88737ff71add/Library/Homebrew/manpages/brew-cask.1.md#options
 HOMEBREW_CASK_OPTS="--no-binaries --appdir=~/Applications"
 
-P="$@"
-
 test -e "$HOMEBREW_PREFIX" || ush -c "git clone $HOMEBREW_REPO $HOMEBREW_PREFIX"
 
-S="set -e; env HOMEBREW_CACHE=\"${HOMEBREW_CACHE:?}\" HOMEBREW_NO_ANALYTICS=\"${HOMEBREW_NO_ANALYTICS:?}\" HOMEBREW_CASK_OPTS=\"${HOMEBREW_CASK_OPTS:?}\" brew $P"
+S="set -e; env HOMEBREW_CACHE=\"${HOMEBREW_CACHE:?}\" HOMEBREW_NO_ANALYTICS=\"${HOMEBREW_NO_ANALYTICS:?}\" HOMEBREW_CASK_OPTS=\"${HOMEBREW_CASK_OPTS:?}\" ${CMD:?} \"\$@\""
 exec ush -c "export PATH=\"${HOMEBREW_PREFIX}/bin:\${PATH}\" && { $S
-}"
+}" "${CMD:?}" "$@"

@@ -18,6 +18,16 @@ test -f bin/ush
     test "$status" -eq 0
 }
 
+@test "Successful invocation - command name" {
+    run bin/ush -c date foo
+    test "$status" -eq 0
+}
+
+@test "Successful invocation - positional parameters" {
+    run bin/ush -c echo echo hi
+    test "$status" -eq 0
+}
+
 @test "Invalid invocation - command string without initial 'c' option" {
     run bin/ush "echo DONOTPRINTME"
     test "$status" -eq 64
@@ -25,11 +35,6 @@ test -f bin/ush
 
 @test "Invalid invocation - wrong initial option (should be 'c')" {
     run bin/ush -w "echo DONOTPRINTME"
-    test "$status" -eq 64
-}
-
-@test "Invalid invocation - too many arguments" {
-    run bin/ush -c "echo DONOTPRINTME" "superfluous argument"
     test "$status" -eq 64
 }
 
