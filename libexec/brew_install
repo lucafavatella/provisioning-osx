@@ -43,7 +43,7 @@ has_hv() {
 ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
 
 brew cask install iterm2 || exit 1 ## Mainly for configuring only left Option as Meta key, so to keep ability to insert `#` on UK keyboard (without losing `£`) while simplifying shell shortcuts (e.g. Alt+D).  Also for: implicitly copying text select with pointer; making clickable links in text by pressing a key. ## No Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
-{ had_pb tmux && brew install tmux; } || exit 1
+{ has_pb tmux && brew install tmux; } || exit 1
 brew install bash-completion || exit 1
 brew install git || exit 1 ## For git-completion.
 { brew install emacs && \
