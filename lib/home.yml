@@ -12,7 +12,6 @@
       ## Ref http://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrlocalLocalHierarchy
       - bin
     managed_bins_from_provisioning:
-      - ush
       - brew
     emacs_prelude_repo: https://github.com/bbatsov/prelude.git
     emacs_prelude_dir: "{{ home_prefix }}/.emacs-prelude.d/.emacs.d"
