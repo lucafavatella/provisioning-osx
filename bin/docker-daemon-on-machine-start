@@ -45,7 +45,7 @@ dm_is_created() {
     ## $ docker-machine ls --filter driver=virtualbox | tail -n +2
     ## dev          -        virtualbox   Stopped
     ## docker-bin   -        virtualbox   Running   tcp://192.168.99.100:2376
-    test "$(docker-machine ls --filter driver="${1:?}" --filter name="^${2:?}$" | tail -n +2 | wc -l)" -eq 1 ## Assumption: filter returns at most one machine.
+    test "$(docker-machine ls --filter driver="${1:?}" --filter name="^${2:?}\$" | tail -n +2 | wc -l)" -eq 1 ## Assumption: filter returns at most one machine.
 }
 
 dm_ensure_created() {
