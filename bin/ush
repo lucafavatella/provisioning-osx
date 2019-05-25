@@ -22,7 +22,6 @@ shift || exit 71
 
 VFlag=
 PFlag=
-PathPrefix=
 while getopts :v name; do
     case $name in
         v)
