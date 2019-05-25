@@ -18,7 +18,7 @@ for F in \
           "${Top:?}"/libexec \
           "${Top:?}"/sbin
       do
-          find $D -type f -exec sh -c "head -n 1 "{}" | grep -q -e '${SH_SHEBANG_REGEX:?}' -e '${BASH_SHEBANG_REGEX:?}'" \; -print
+          find "$D" -type f -exec sh -c 'head -n 1 "${1:?}" | grep -q -e "${2:?}" -e "${1:?}"' _ {} "${SH_SHEBANG_REGEX:?}" "${BASH_SHEBANG_REGEX:?}" \; -print
       done)
 do
     printf "%b" "$F"

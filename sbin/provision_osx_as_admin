@@ -3,14 +3,14 @@
 set -e
 
 log() {
-    echo "[$(basename $0)] ${1:?}"
+    echo "[$(basename "$0")] ${1:?}"
 }
 
 log_e() {
     log "${1:?}" >&2
 }
 
-ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
+ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)"
 
 log_e "You are supposed to have run '${ROOT_DIR}/bin/provision_osx'"
 "${ROOT_DIR}/libexec/make_usr_local" "$ROOT_DIR"

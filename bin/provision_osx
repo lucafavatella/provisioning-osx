@@ -11,12 +11,12 @@ tic() {
 }
 
 toc() {
-    expr $(epoch_s_utc) - $tic_time
+    echo $(($(epoch_s_utc) - tic_time))
     unset tic_time
 }
 
 log() {
-    echo "[$(basename $0)] ${1:?}"
+    echo "[$(basename "$0")] ${1:?}"
 }
 
 log_e() {
@@ -32,7 +32,7 @@ log_end() {
     log "[${1:?}] Took $(toc) second(s)."
 }
 
-ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
+ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)"
 
 HOME_PREFIX="${1:-${HOME}}" ## Overridden for testing.
 BREW_INSTALL="${2:-${ROOT_DIR}/libexec/brew_install}" ## Overridden for testing.
@@ -44,8 +44,8 @@ log_start "Homebrew" "Ensuring software is installed..."
 log_end "Homebrew"
 log_e "You should manually run 'brew cask upgrade --greedy' of any Homebrew Casks you deem requiring upgrade" ## Ref https://github.com/Homebrew/homebrew-cask/blob/fc24e9fcc29d93b92ce154de4fea74d7ac16a417/USAGE.md#updatingupgrading-casks
 
-log_start "~/" "Setup home..."
+log_start "home" "Setup home..."
 "${ROOT_DIR}/libexec/setup_home" "$ROOT_DIR" "$HOME_PREFIX"
-log_end "~/"
+log_end "home"
 
 log_e "Consider running '${ROOT_DIR}/sbin/provision_osx_as_admin'"

@@ -3,14 +3,14 @@
 set -e
 
 log() {
-    echo "[$(basename $0)] ${1:?}"
+    echo "[$(basename "$0")] ${1:?}"
 }
 
 log_e() {
     log "${1:?}" >&2
 }
 
-ROOT_DIR="$(cd $(dirname $0)/.. && pwd)"
+ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)"
 
 GIT_BUILD_IDS="${1:-OTP-19.3.6.6}" ## Overridden for extra installations and for testing.
 
