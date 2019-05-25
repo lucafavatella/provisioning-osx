@@ -48,6 +48,7 @@ test $# -eq 1 || print_usage_and_exit
 
 C0="${1?}"
 
-C1=". /etc/profile; export PATH=\"${PathPrefix?}\${PATH}\"; ${C0?}"
+C1=". /etc/profile; export PATH=\"${PathPrefix?}\${PATH}\" && { ${C0?}
+}"
 test "true" = "${VFlag?}" && echo "${C0?}" >&2
 exec env -i HOME="$HOME" TERM="$TERM" sh -c "${C1:?}"
