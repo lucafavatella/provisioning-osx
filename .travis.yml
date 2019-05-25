@@ -108,7 +108,6 @@ notifications:
   email: false
 matrix:
   allow_failures:
-    - env: JOB=S
     - env: JOB=PA BREW_INSTALL=
     - env: JOB=PAO BREW_INSTALL=
     - env: JOB=PO BREW_INSTALL="ci.d/brew_install_otp" OTP_GIT_BUILD_IDS="git-9eee0bb-all-options-but-hipe-and-odbc"
