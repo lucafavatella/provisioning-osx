@@ -2,6 +2,13 @@
 
 set -e
 
+ush() {
+    ( test "-c" = "${1?}" && shift \
+          && C="${1:?}" && shift \
+          && env -i HOME="$HOME" TERM="$TERM" sh -c ". /etc/profile; ${C?}" "$@"
+    )
+}
+
 CMD=brew
 
 HOMEBREW_REPO=https://github.com/Homebrew/brew.git
@@ -19,5 +26,5 @@ HOMEBREW_CASK_OPTS="--no-binaries --appdir=~/Applications"
 test -e "$HOMEBREW_PREFIX" || ush -c "git clone $HOMEBREW_REPO $HOMEBREW_PREFIX"
 
 S="set -e; env HOMEBREW_CACHE=\"${HOMEBREW_CACHE:?}\" HOMEBREW_NO_ANALYTICS=\"${HOMEBREW_NO_ANALYTICS:?}\" HOMEBREW_CASK_OPTS=\"${HOMEBREW_CASK_OPTS:?}\" ${CMD:?} \"\$@\""
-exec ush -c "export PATH=\"${HOMEBREW_PREFIX}/bin:\${PATH}\" && { $S
+ush -c "export PATH=\"${HOMEBREW_PREFIX}/bin:\${PATH}\" && { $S
 }" "${CMD:?}" "$@"
