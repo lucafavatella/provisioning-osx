@@ -16,11 +16,6 @@ brew_cleanup() {
     local C; C=$(brew cleanup -s 2>&1) || { log_e "'brew cleanup -s' failed. Exiting. Info:"$'\n'"$C"; exit 1; }
 }
 
-brew_doctor() {
-    local D; D=$(brew doctor 2>&1) || { log_e "'brew doctor' detected potential problems. Continuing. Info:"$'\n'"$D"; }
-    local CD; CD=$(brew cask doctor 2>&1) || { log_e "'brew cask doctor' detected potential problems. Exiting. Info:"$'\n'"$CD"; exit 1; }
-}
-
 BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
@@ -32,4 +27,3 @@ sh -c "$BREW_INSTALL1"
 sh -c "$BREW_INSTALL2"
 
 brew_cleanup
-brew_doctor
