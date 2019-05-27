@@ -1,7 +1,0 @@
-#!/bin/sh
-
-BREW_INSTALL1="${1:?}" ## Mandatory.
-BREW_INSTALL2="${2:?}" ## Mandatory.
-
-sh -c "$BREW_INSTALL1"
-sh -c "$BREW_INSTALL2"
