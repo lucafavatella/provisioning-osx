@@ -12,14 +12,8 @@ log_e() {
     log "${1:?}" >&2
 }
 
-brew_cleanup() {
-    local C; C=$(brew cleanup -s 2>&1) || { log_e "'brew cleanup -s' failed. Exiting. Info:"$'\n'"$C"; exit 1; }
-}
-
 BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
 sh -c "$BREW_INSTALL1"
 sh -c "$BREW_INSTALL2"
-
-brew_cleanup
