@@ -1,16 +1,4 @@
-#!/bin/bash
-
-## Using `bash` and not `sh` for non-POSIX `local`.
-
-set -e
-
-log() {
-    echo "[$(basename "$0")] ${1:?}"
-}
-
-log_e() {
-    log "${1:?}" >&2
-}
+#!/bin/sh
 
 BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
