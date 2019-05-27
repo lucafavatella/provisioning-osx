@@ -19,8 +19,6 @@ brew_cleanup() {
 BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
-brew update
-brew update ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/e098c37dc3734dbe097ed9804a3a88737ff71add/CONTRIBUTING.md#report-a-bug
 brew upgrade
 
 sh -c "$BREW_INSTALL1"
