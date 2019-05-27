@@ -19,8 +19,6 @@ brew_cleanup() {
 BREW_INSTALL1="${1:?}" ## Mandatory.
 BREW_INSTALL2="${2:?}" ## Mandatory.
 
-brew upgrade
-
 sh -c "$BREW_INSTALL1"
 sh -c "$BREW_INSTALL2"
 

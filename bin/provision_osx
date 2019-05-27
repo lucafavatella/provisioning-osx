@@ -43,6 +43,7 @@ log_start "Homebrew" "Ensuring software is installed..."
 ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/e098c37dc3734dbe097ed9804a3a88737ff71add/CONTRIBUTING.md#report-a-bug
 "${ROOT_DIR}"/bin/brew update \
     && "${ROOT_DIR}"/bin/brew update \
+    && "${ROOT_DIR}"/bin/brew upgrade \
     && "${ROOT_DIR}"/libexec/run_brew "$ROOT_DIR" "brew install ansible" "$BREW_INSTALL" ## Ansible required by following steps.
 log_end "Homebrew"
 log_e "You should manually run 'brew cask upgrade --greedy' of any Homebrew Casks you deem requiring upgrade" ## Ref https://github.com/Homebrew/homebrew-cask/blob/fc24e9fcc29d93b92ce154de4fea74d7ac16a417/USAGE.md#updatingupgrading-casks
