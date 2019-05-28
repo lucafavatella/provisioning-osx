@@ -14,5 +14,5 @@ ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)"
 
 log_e "You are supposed to have run '${ROOT_DIR}/bin/provision_osx'"
 "${ROOT_DIR}/libexec/make_usr_local" "$ROOT_DIR"
-"${ROOT_DIR}/libexec/run_brew_as_admin" "$ROOT_DIR"
+"${ROOT_DIR}"/bin/ush -c -v "export PATH=\"${ROOT_DIR}/bin:\${PATH}\" && ${ROOT_DIR}/libexec/brew_install_as_admin"
 "${ROOT_DIR}/libexec/run_macos" "$ROOT_DIR"
