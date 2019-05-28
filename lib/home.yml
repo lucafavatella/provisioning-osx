@@ -52,23 +52,3 @@
         state=link
         src={{ provisioning_osx_root_dir }}/bin/{{ item }}
       with_items: "{{ managed_bins_from_provisioning }}"
-
-    ## Whitelist files and directories, logging suspicious ones
-    ##
-    ## Do not use `file: ... state=absent` as that deletes.
-
-    - find: paths="{{ home_prefix }}" patterns=".*" file_type=file hidden=True
-      register: tmp
-    - debug: msg="Unexpected dotfiles {{ tmp.files | map(attribute='path') | map('basename') | difference(managed_dotfiles) | join(', ') }}"
-
-    - find: paths="{{ home_prefix }}" patterns=".*" file_type=directory hidden=True
-      register: tmp
-    - debug: msg="Directories whose name begins with a dot {{ tmp.files | map(attribute='path') | map('basename') | join(', ') }}"
-
-    - find: paths="{{ home_prefix }}" file_type=directory
-      register: tmp
-    - debug: msg="Unexpected top directories {{ tmp.files | map(attribute='path') | map('basename') | difference(managed_dirs) | join(', ') }}"
-
-    - find: paths="{{ home_prefix }}/bin" file_type=directory hidden=True
-      register: tmp
-    - debug: msg="Unexpected binaries {{ tmp.files | map(attribute='path') | map('basename') | difference(managed_bins_from_provisioning) | join(', ') }}"
