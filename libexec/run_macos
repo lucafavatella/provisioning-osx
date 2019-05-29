@@ -1,18 +1,31 @@
-#!/bin/sh
+#!/usr/bin/make -f
 
-set -e
+.DEFAULT_GOAL: run_macos
 
-ROOT_DIR="${1:?}" ## Mandatory.
+ifeq ($(origin ROOT_DIR), undefined)
+$(error Undefined variable ROOT_DIR)
+endif
 
-MACOS_REPO=https://github.com/lucafavatella/mathiasbynens-dotfiles.git
-MACOS_REPO_VERSION=dev
-MACOS_DIR="${ROOT_DIR:?}/home/provisioning-osx.d/mathiasbynens-dotfiles"
+REPO = https://github.com/lucafavatella/mathiasbynens-dotfiles.git
+VERSION = c9a0dec
 
-HOMEBREW_PREFIX=$("${ROOT_DIR:?}/bin/brew" --prefix)
-E0="-e macos_repo=${MACOS_REPO:?} -e macos_repo_version=${MACOS_REPO_VERSION:?}"
-E1="-e macos_dir=${MACOS_DIR:?}"
-S="ansible-playbook ${ROOT_DIR:?}/lib/macos.yml -i ${ROOT_DIR:?}/lib/hosts ${E0:?} ${E1:?} -vv"
-"${ROOT_DIR:?}"/bin/ush -c -v "export PATH=\"${HOMEBREW_PREFIX:?}/bin:\${PATH}\" && { ${S:?}
-}"
+DIR = $(ROOT_DIR)/home/provisioning-osx.d/mathiasbynens-dotfiles
+ORIGIN = provisioning-osx
 
-"${MACOS_DIR:?}/.macos"
+.PHONY: run_macos
+run_macos: $(DIR)/.macos
+	$<
+
+$(DIR)/.macos: | $(DIR)-$(VERSION) ;
+
+.PHONY: $(DIR)-%
+$(DIR)-%: | $(DIR)/.git
+	-git -C $(DIR) fetch --quiet --all --prune --prune-tags --no-tags
+	git -C $(DIR) reset --quiet --soft $*
+	git -C $(DIR) stash --quiet --all
+
+$(DIR)/.git: | $(DIR)
+	git clone --quiet --origin $(ORIGIN) $(REPO) $(@D)
+
+$(DIR):
+	mkdir -p $@
