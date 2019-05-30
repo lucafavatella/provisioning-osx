@@ -16,16 +16,9 @@ ORIGIN = provisioning-osx
 run_macos: $(DIR)/.macos
 	$<
 
-$(DIR)/.macos: | $(DIR)-$(VERSION) ;
-
-.PHONY: $(DIR)-%
-$(DIR)-%: | $(DIR)/.git
-	-git -C $(DIR) fetch --quiet --all --prune --prune-tags --no-tags
-	git -C $(DIR) reset --quiet --soft $*
-	git -C $(DIR) stash --quiet --all
-
-$(DIR)/.git: | $(DIR)
-	git clone --quiet --origin $(ORIGIN) $(REPO) $(@D)
+.PHONY: $(DIR)/.macos
+$(DIR)/.macos: | $(DIR)
+	$(MAKE) -f "$(ROOT_DIR)"/bin/git-get REPO="$(REPO)" VERSION="$(VERSION)" DIR="$(DIR)" ORIGIN="$(ORIGIN)"
 
 $(DIR):
-	mkdir -p $@
+	mkdir -p "$@"

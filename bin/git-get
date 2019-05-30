@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+
+ifeq ($(origin REPO), undefined)
+$(error Undefined variable REPO)
+endif
+
+ifeq ($(origin VERSION), undefined)
+$(error Undefined variable VERSION)
+endif
+
+ifeq ($(origin DIR), undefined)
+$(error Undefined variable DIR)
+endif
+
+ORIGIN ?= origin
+
+.DEFAULT_GOAL: $(DIR)-$(VERSION)
+
+.PHONY: $(DIR)-$(VERSION)
+$(DIR)-$(VERSION): | $(DIR)/.git
+	-git -C "$(DIR)" fetch --quiet --all --prune --prune-tags --no-tags
+	git -C "$(DIR)" reset --quiet --soft "$(VERSION)"
+	git -C "$(DIR)" stash --quiet --all
+
+$(DIR)/.git: | $(DIR)
+	git clone --quiet --origin "$(ORIGIN)" "$(REPO)" "$(@D)"
