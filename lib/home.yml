@@ -20,12 +20,6 @@
 
     ## Dotfiles e.g. ~/.*
 
-    - git:
-        repo={{ dotfiles_repo }} version=master
-        dest={{ dotfiles_dir }} remote=provisioning-osx
-        refspec=+refs/heads/master:refs/remotes/provisioning-osx/master
-      with_sequence: count=2 ## HACK Update ref then checkout.
-
     - file:
         path={{ home_prefix }}/{{ item }}
         state=link
