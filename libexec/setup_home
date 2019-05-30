@@ -8,7 +8,7 @@ HOME_PREFIX="${2:?}" ## Mandatory.
 DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
 DOTFILES_DIR="${ROOT_DIR}/home/provisioning-osx.d/dotfiles"
 
-HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix)
+HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin/brew" --prefix)
 E0="-e provisioning_osx_root_dir=${ROOT_DIR}"
 E1="-e home_prefix=${HOME_PREFIX}"
 E2="-e dotfiles_repo=${DOTFILES_REPO} -e dotfiles_dir=${DOTFILES_DIR}"
