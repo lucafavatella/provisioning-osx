@@ -31,7 +31,7 @@ done
 
 ## Top directories e.g. ~/*
 
-for D in ${MANAGED_DIR:?}; do
+for D in ${MANAGED_DIRS:?}; do
     mkdir -p "${HOME_PREFIX:?}/${D:?}"
 done
 
