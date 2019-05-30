@@ -18,7 +18,7 @@ ORIGIN ?= origin
 
 .PHONY: $(DIR)-$(VERSION)
 $(DIR)-$(VERSION): | $(DIR)/.git
-	-git -C "$(DIR)" fetch --quiet --all --prune --prune-tags --no-tags
+	-git -C "$(DIR)" fetch --quiet --all --prune --no-tags
 	git -C "$(DIR)" reset --quiet --soft "$(VERSION)"
 	git -C "$(DIR)" stash --quiet --all
 
