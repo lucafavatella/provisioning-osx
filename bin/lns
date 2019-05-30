@@ -1,0 +1,8 @@
+#!/bin/sh
+
+S="${1:?}" ## Source
+T="${2:?}" ## Target
+
+SS="$(readlink ${T:?})" \
+    && test "${SS:?}" = "${S:?}" \
+    && ln -s "${S:?}" "${T:?}"
