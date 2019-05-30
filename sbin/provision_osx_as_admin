@@ -18,7 +18,6 @@ MACOS_DIR="${ROOT_DIR:?}"/home/provisioning-osx.d/mathiasbynens-dotfiles
 MACOS_ORIGIN=provisioning-osx
 
 log_e "You are supposed to have run '${ROOT_DIR}/bin/provision_osx'"
-"${ROOT_DIR}/libexec/make_usr_local" "$ROOT_DIR"
 "${ROOT_DIR}"/bin/ush -c -v "export PATH=\"${ROOT_DIR}/bin:\${PATH}\" && ${ROOT_DIR}/libexec/brew_install_as_admin"
 mkdir -p "${MACOS_DIR:?}" \
     && /usr/bin/make -f "${ROOT_DIR:?}"/bin/git-get REPO="${MACOS_REPO:?}" VERSION="${MACOS_VERSION:?}" DIR="${MACOS_DIR:?}" ORIGIN="${MACOS_ORIGIN:?}" \
