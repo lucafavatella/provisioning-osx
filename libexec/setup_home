@@ -10,8 +10,16 @@ DOTFILES_DIR="${ROOT_DIR}/home/provisioning-osx.d/dotfiles"
 DOTFILES_ORIGIN="provisioning-osx"
 DOTFILES_VERSION="${DOTFILES_ORIGIN:?}/master"
 
+EMACS_PRELUDE_REPO=https://github.com/bbatsov/prelude.git
+EMACS_PRELUDE_DIR="${HOME_PREFIX}/.emacs-prelude.d/.emacs.d"
+EMACS_PRELUDE_ORIGIN="provisioning-osx"
+EMACS_PRELUDE_VERSION="${EMACS_PRELUDE_ORIGIN:?}/master"
+
 mkdir -p "${DOTFILES_DIR:?}" \
     && /usr/bin/make -f "${ROOT_DIR:?}"/bin/git-get REPO="${DOTFILES_REPO:?}" VERSION="${DOTFILES_VERSION:?}" DIR="${DOTFILES_DIR:?}" ORIGIN="${DOTFILES_ORIGIN:?}"
+
+mkdir -p "${EMACS_PRELUDE_DIR:?}" \
+    && /usr/bin/make -f "${ROOT_DIR:?}"/bin/git-get REPO="${EMACS_PRELUDE_REPO:?}" VERSION="${EMACS_PRELUDE_VERSION:?}" DIR="${EMACS_PRELUDE_DIR:?}" ORIGIN="${EMACS_PRELUDE_ORIGIN:?}"
 
 HOMEBREW_PREFIX=$("${ROOT_DIR}"/bin/brew --prefix)
 E0="-e provisioning_osx_root_dir=${ROOT_DIR}"

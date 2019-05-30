@@ -13,8 +13,6 @@
       - bin
     managed_bins_from_provisioning:
       - brew
-    emacs_prelude_repo: https://github.com/bbatsov/prelude.git
-    emacs_prelude_dir: "{{ home_prefix }}/.emacs-prelude.d/.emacs.d"
 
   tasks:
 
@@ -32,12 +30,6 @@
         path={{ home_prefix }}/{{ item }}
         state=directory
       with_items: "{{ managed_dirs }}"
-
-    - git:
-        repo={{ emacs_prelude_repo }} version=master
-        dest={{ emacs_prelude_dir }} remote=provisioning-osx
-        refspec=+refs/heads/master:refs/remotes/provisioning-osx/master
-      with_sequence: count=2 ## HACK Update ref then checkout.
 
     ## Binaries e.g. ~/bin/*
 
