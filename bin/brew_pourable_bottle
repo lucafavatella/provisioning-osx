@@ -1,0 +1,33 @@
+#!/bin/sh
+
+## Synopsis
+##   $0 has *formula*
+##   $0 had *formula*
+##
+## In the first synopsis form, return whether the specified brew formula has got a pourable bottle.
+## Exit status:
+## * 0 if formula exists and has a pourable bottle;
+## * 1 if formula does not exist or has not a pourable bottle.
+##
+## In the second synopsis form, the dual.
+
+Mode="${1:?}"
+Formula="${2:?}"
+
+case "${Mode:?}" in
+    has)
+        Then="exit()"
+        Else="abort('bottle of formula ' + f.full_name + ' not pourable')"
+        ;;
+    had)
+        Then="abort('bottle of formula ' + f.full_name + ' pourable')"
+        Else="exit()"
+        ;;
+esac
+
+printf \
+    "require 'formula_installer'; fn = '%s'; f = fn.f rescue abort('maybe formula ' + fn + ' does not exist?'); if FormulaInstaller.new(f).pour_bottle? then %s else %s end" \
+    "${Formula:?}" \
+    "${Then:?}" \
+    "${Else:?}" \
+    | { brew irb > /dev/null; }

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+## Return whether the CPU has got Hypervisor framework support.
+##
+## Exit status:
+## * 0 if supported;
+## * 1 if not supported.
+## * Other if OS errs.
+##
+## Refs:
+## * https://developer.apple.com/documentation/hypervisor#overview
+## * https://forums.docker.com/t/fatal-error-incompatible-cpu-detected/9162 post #6.
+
+case "$(sysctl -n kern.hv_support)" in
+    1) exit 0 ;;
+    0) exit 1 ;;
+esac
+exit 71 ## [EX_OSERR](https://www.freebsd.org/cgi/man.cgi?query=sysexits).
