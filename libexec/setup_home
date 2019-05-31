@@ -23,7 +23,7 @@ MANAGED_BINS_FROM_PROVISIONING="brew"
 ## Dotfiles e.g. ~/.*
 
 mkdir -p "${DOTFILES_DIR:?}" \
-    && /usr/bin/make -f "${ROOT_DIR:?}"/bin/git-get REPO="${DOTFILES_REPO:?}" VERSION="${DOTFILES_VERSION:?}" DIR="${DOTFILES_DIR:?}" ORIGIN="${DOTFILES_ORIGIN:?}"
+    && env REPO="${DOTFILES_REPO:?}" VERSION="${DOTFILES_VERSION:?}" DIR="${DOTFILES_DIR:?}" ORIGIN="${DOTFILES_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get
 
 for F in ${MANAGED_DOTFILES:?}; do
     "${ROOT_DIR}"/bin/lns "${DOTFILES_DIR:?}/${F:?}" "${HOME_PREFIX:?}/${F:?}"
@@ -36,7 +36,7 @@ for D in ${MANAGED_DIRS:?}; do
 done
 
 mkdir -p "${EMACS_PRELUDE_DIR:?}" \
-    && /usr/bin/make -f "${ROOT_DIR:?}"/bin/git-get REPO="${EMACS_PRELUDE_REPO:?}" VERSION="${EMACS_PRELUDE_VERSION:?}" DIR="${EMACS_PRELUDE_DIR:?}" ORIGIN="${EMACS_PRELUDE_ORIGIN:?}"
+    && env REPO="${EMACS_PRELUDE_REPO:?}" VERSION="${EMACS_PRELUDE_VERSION:?}" DIR="${EMACS_PRELUDE_DIR:?}" ORIGIN="${EMACS_PRELUDE_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get
 
 ## Binaries e.g. ~/bin/*
 

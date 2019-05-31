@@ -20,5 +20,5 @@ MACOS_ORIGIN=provisioning-osx
 log_e "You are supposed to have run '${ROOT_DIR}/bin/provision_osx'"
 "${ROOT_DIR}"/bin/ush -c -v "export PATH=\"${ROOT_DIR}/bin:\${PATH}\" && ${ROOT_DIR}/libexec/brew_install_as_admin"
 mkdir -p "${MACOS_DIR:?}" \
-    && /usr/bin/make -f "${ROOT_DIR:?}"/bin/git-get REPO="${MACOS_REPO:?}" VERSION="${MACOS_VERSION:?}" DIR="${MACOS_DIR:?}" ORIGIN="${MACOS_ORIGIN:?}" \
+    && env REPO="${MACOS_REPO:?}" VERSION="${MACOS_VERSION:?}" DIR="${MACOS_DIR:?}" ORIGIN="${MACOS_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get \
     && "${MACOS_DIR:?}"/.macos
