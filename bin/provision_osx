@@ -35,7 +35,7 @@ log_end() {
 ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)"
 
 HOME_PREFIX="${1:-${HOME}}" ## Overridden for testing.
-BREW_INSTALL="${2:-${ROOT_DIR:?}/libexec/brew_install}" ## Overridden for testing.
+BREW_INSTALL="${2:-${ROOT_DIR:?}/libexec/brew_install ${ROOT_DIR:?}}" ## Overridden for testing.
 
 "${ROOT_DIR:?}"/bin/poke_git
 
