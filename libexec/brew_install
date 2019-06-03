@@ -56,7 +56,7 @@ brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive e
 #brew install plantuml || exit 1
 #brew install pstree || exit 1
 #brew install pup || exit 1
-{ brew install python && "$(brew --prefix python)"/bin/python3 -m pip install --upgrade setuptools && "$(brew --prefix python)"/bin/python3 -m pip install --upgrade pip; } || exit 1 ## Ref https://github.com/Homebrew/brew/blob/06e0614a939f3f78215974cba1fc1a0b01416e0a/docs/Homebrew-and-Python.md#setuptools-pip-etc
+{ brew install python && "$(brew --prefix python)"/bin/python3 -m pip install --upgrade pip && "$(brew --prefix python)"/bin/python3 -m pip install --upgrade setuptools; } || exit 1 ## Ref https://github.com/Homebrew/brew/blob/06e0614a939f3f78215974cba1fc1a0b01416e0a/docs/Homebrew-and-Python.md#setuptools-pip-etc
 #brew install rust || exit 1
 #brew install shellcheck || exit 1
 { has_pb sqlite; } || exit 1 # && brew install sqlite; } || exit 1
