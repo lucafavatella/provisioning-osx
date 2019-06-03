@@ -1,0 +1,6 @@
+#!/bin/sh
+
+## Ref https://github.com/Homebrew/brew/blob/06e0614a939f3f78215974cba1fc1a0b01416e0a/docs/Homebrew-and-Python.md#setuptools-pip-etc
+P="$(brew --prefix python)" \
+    && "${P:?}"/bin/python3 -m pip install --upgrade pip \
+    && "${P:?}"/bin/python3 -m pip install --upgrade setuptools
