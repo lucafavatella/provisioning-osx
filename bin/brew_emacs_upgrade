@@ -1,0 +1,11 @@
+#!/bin/sh
+
+P="$(brew --prefix emacs)" \
+    && { if test -e "${HOME:?}/.emacs"; then
+             if test -e "${HOME:?}/.emacs.d"; then
+                 "${P:?}"/bin/emacs \
+                         --batch \
+                         --eval "(require 'package)" -f package-initialize \
+                         --eval "(require 'epl)" -f epl-refresh -f epl-upgrade
+             fi
+         fi; }

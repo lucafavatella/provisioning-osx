@@ -18,15 +18,7 @@ brew cask install iterm2 || exit 1 ## Mainly for configuring only left Option as
 { has_pb tmux && brew install tmux; } || exit 1
 brew install bash-completion || exit 1
 brew install git || exit 1 ## For git-completion.
-{ brew install emacs && \
-      if test -e "${HOME}/.emacs"; then
-          if test -e "${HOME}/.emacs.d"; then
-              "$(brew --prefix emacs)/bin/emacs" \
-                  --batch \
-                  --eval "(require 'package)" -f package-initialize \
-                  --eval "(require 'epl)" -f epl-refresh -f epl-upgrade
-          fi
-      fi; } || exit 1
+{ brew install emacs && "${ROOT_DIR:?}"/bin/brew_emacs_upgrade; } || exit 1
 
 brew cask install homebrew/cask-versions/firefox-developer-edition || exit 1
 
