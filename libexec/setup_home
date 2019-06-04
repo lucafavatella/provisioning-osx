@@ -18,7 +18,7 @@ EMACS_PRELUDE_DIR="${HOME_PREFIX}/.emacs-prelude.d/.emacs.d"
 EMACS_PRELUDE_ORIGIN="provisioning-osx"
 EMACS_PRELUDE_VERSION="${EMACS_PRELUDE_ORIGIN:?}/master"
 
-MANAGED_BINS_FROM_PROVISIONING="brew"
+MANAGED_BINS_FROM_PROVISIONING="brew emacs-prelude"
 
 ## Dotfiles e.g. ~/.*
 
