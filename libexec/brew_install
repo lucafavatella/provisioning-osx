@@ -28,7 +28,6 @@ has_hv; case "$?" in
             0) ;;
             *) exit 1 ;;
         esac
-{ has_pb ansible && brew install ansible; } || exit 1
 
 #brew cask install android-platform-tools || exit 1 ## adb
 #brew install android-sdk || exit 1 ## For IntelliJ.
@@ -38,9 +37,7 @@ brew install autoconf || exit 1
 { had_pb ghc; } || exit 1 # && brew install ghc && brew install cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris; } || exit 1
 #brew cask install intellij-idea-ce || exit 1
 { has_pb jq; } || exit 1 # && brew install jq; } || exit 1
-brew install kerl || exit 1
 #brew install saitoha/sixel/mlterm || exit 1 ## Refs https://en.wikipedia.org/wiki/VT340 https://en.wikipedia.org/wiki/Sixel
-brew install openssl || exit 1 ## Install openssl - for building Erlang/OTP without skipping the crypto application [on MacOSX >= 10.11](http://erlang.org/pipermail/erlang-questions/2015-October/086386.html).
 brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
 #brew install plantuml || exit 1
 #brew install pstree || exit 1
@@ -50,7 +47,6 @@ brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive e
 { has_pb sqlite; } || exit 1 # && brew install sqlite; } || exit 1
 #brew install valgrind || exit 1
 #brew install watch || exit 1
-{ has_pb wxmac && brew install wxmac; } || exit 1 ## Install wxWidgets - for building Erlang/OTP.
 
 #brew cask install libreoffice || exit 1
 #brew cask install vlc || exit 1

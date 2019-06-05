@@ -1,8 +1,0 @@
-#!/bin/sh
-
-set -e
-
-brew install ansible
-brew install kerl
-brew install openssl
-brew install wxmac
