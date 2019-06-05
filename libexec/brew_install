@@ -35,8 +35,6 @@ has_hv; case "$?" in
 #brew cask install android-studio || exit 1 ## From [IntelliJ IDEA and Android Studio FAQ](http://blog.jetbrains.com/idea/2013/05/intellij-idea-and-android-studio-faq/): "If I’m already a user of IntelliJ IDEA, do I need to switch to Android Studio for Android development? No. Android Studio is focused specifically on Android development and provides streamlined environment and project setup, but otherwise all of its features are available in IntelliJ IDEA."
 brew install autoconf || exit 1
 #brew install checkbashisms || exit 1
-#brew install cvs || exit 1
-#brew install cvs2svn || exit 1
 { had_pb ghc; } || exit 1 # && brew install ghc && brew install cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris; } || exit 1
 #brew cask install intellij-idea-ce || exit 1
 { has_pb jq; } || exit 1 # && brew install jq; } || exit 1
@@ -48,7 +46,6 @@ brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive e
 #brew install pstree || exit 1
 #brew install pup || exit 1
 { brew install python && "${ROOT_DIR:?}"/bin/brew_python3_upgrade; } || exit 1
-#brew install rust || exit 1
 #brew install shellcheck || exit 1
 { has_pb sqlite; } || exit 1 # && brew install sqlite; } || exit 1
 #brew install valgrind || exit 1
