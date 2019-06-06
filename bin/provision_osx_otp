@@ -19,10 +19,14 @@ has_pb() {
 }
 
 log_e "You are supposed to have run '${ROOT_DIR:?}/sbin/provision_osx_as_admin' (for 'javac')"
-{ has_pb ansible && brew install ansible; } || exit 1
-brew install kerl || exit 1
-brew install openssl || exit 1 ## Install openssl - for building Erlang/OTP without skipping the crypto application [on MacOSX >= 10.11](http://erlang.org/pipermail/erlang-questions/2015-October/086386.html).
-{ has_pb wxmac && brew install wxmac; } || exit 1 ## Install wxWidgets - for building Erlang/OTP.
+
+## Ensure the correct `brew` command is in the PATH.
+( export PATH="${ROOT_DIR:?}"/bin:"${PATH?}" && {
+      { has_pb ansible && brew install ansible; } || exit 1
+      brew install kerl || exit 1
+      brew install openssl || exit 1 ## Install openssl - for building Erlang/OTP without skipping the crypto application [on MacOSX >= 10.11](http://erlang.org/pipermail/erlang-questions/2015-October/086386.html).
+      { has_pb wxmac && brew install wxmac; } || exit 1 ## Install wxWidgets - for building Erlang/OTP.
+  }; )
 for GIT_BUILD_ID in $(echo "$GIT_BUILD_IDS" | tr ',' '\n'); do
     "${ROOT_DIR:?}/libexec/setup_home_kerl_installation" "${ROOT_DIR:?}" "$GIT_BUILD_ID"
 done
