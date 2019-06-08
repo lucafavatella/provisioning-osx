@@ -4,7 +4,7 @@
 Run:
 
 ```
-$ bin/provision_osx ## Lighter version of the command: `bin/provision_osx "${HOME}" "true"`
+$ bin/provision_osx ## Lighter version of the command: `bin/provision_osx_lite`
 ```
 
 ... then:
