@@ -3,7 +3,6 @@
 set -e
 
 ROOT_DIR="${1:?}" ## Mandatory.
-HOME_PREFIX="${2:?}" ## Mandatory.
 
 DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
 DOTFILES_DIR="${ROOT_DIR:?}/home/dotfiles"
@@ -14,7 +13,7 @@ MANAGED_DOTFILES=".bash_profile .tmux.conf .gitconfig .emacs"
 MANAGED_DIRS="dev bin"
 
 EMACS_PRELUDE_REPO=https://github.com/bbatsov/prelude.git
-EMACS_PRELUDE_DIR="${HOME_PREFIX}/.emacs-prelude.d/.emacs.d"
+EMACS_PRELUDE_DIR="${HOME}/.emacs-prelude.d/.emacs.d"
 EMACS_PRELUDE_ORIGIN="provisioning-osx"
 EMACS_PRELUDE_VERSION="${EMACS_PRELUDE_ORIGIN:?}/master"
 
@@ -26,13 +25,13 @@ mkdir -p "${DOTFILES_DIR:?}" \
     && env REPO="${DOTFILES_REPO:?}" VERSION="${DOTFILES_VERSION:?}" DIR="${DOTFILES_DIR:?}" ORIGIN="${DOTFILES_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get
 
 for F in ${MANAGED_DOTFILES:?}; do
-    "${ROOT_DIR:?}"/bin/lns "${DOTFILES_DIR:?}/${F:?}" "${HOME_PREFIX:?}/${F:?}"
+    "${ROOT_DIR:?}"/bin/lns "${DOTFILES_DIR:?}/${F:?}" "${HOME:?}/${F:?}"
 done
 
 ## Top directories e.g. ~/*
 
 for D in ${MANAGED_DIRS:?}; do
-    mkdir -p "${HOME_PREFIX:?}/${D:?}"
+    mkdir -p "${HOME:?}/${D:?}"
 done
 
 mkdir -p "${EMACS_PRELUDE_DIR:?}" \
@@ -41,5 +40,5 @@ mkdir -p "${EMACS_PRELUDE_DIR:?}" \
 ## Binaries e.g. ~/bin/*
 
 for F in ${MANAGED_BINS_FROM_PROVISIONING:?}; do
-    "${ROOT_DIR:?}"/bin/lns "${ROOT_DIR:?}/bin/${F:?}" "${HOME_PREFIX:?}/bin/${F:?}"
+    "${ROOT_DIR:?}"/bin/lns "${ROOT_DIR:?}/bin/${F:?}" "${HOME:?}/bin/${F:?}"
 done

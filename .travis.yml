@@ -63,7 +63,7 @@ script:
       T) ;;
       P|PA|PAO|PO)
         mkdir ~/sandbox
-        bin/provision_osx ~/sandbox "${BREW_INSTALL?}"
+        env HOME="${HOME:?}"/sandbox bin/provision_osx "${BREW_INSTALL?}"
         ;;
     esac
   - |
