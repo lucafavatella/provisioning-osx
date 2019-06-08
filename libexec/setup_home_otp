@@ -8,7 +8,7 @@ HOME_PREFIX="$HOME"
 
 DOTFILES_DIR="${ROOT_DIR}/home/dotfiles" ## Copied from `setup_home`.
 
-HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix)
+HOMEBREW_PREFIX=$("${ROOT_DIR}/bin/brew" --prefix)
 E0="-e home_prefix=${HOME_PREFIX}"
 E1="-e dotfiles_dir=${DOTFILES_DIR}"
 S="ansible-playbook ${ROOT_DIR}/lib/home_otp.yml -i ${ROOT_DIR}/lib/hosts $E0 $E1 -vv"

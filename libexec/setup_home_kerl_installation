@@ -7,9 +7,9 @@ GIT_BUILD_ID="${2:?}" ## Mandatory.
 
 HOME_PREFIX="$HOME"
 
-HOMEBREW_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix)
-OPENSSL_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix openssl)
-WXMAC_PREFIX=$(PATH="${ROOT_DIR}/bin:$PATH" "${ROOT_DIR}/bin/brew" --prefix wxmac)
+HOMEBREW_PREFIX=$("${ROOT_DIR}/bin/brew" --prefix)
+OPENSSL_PREFIX=$("${ROOT_DIR}/bin/brew" --prefix openssl)
+WXMAC_PREFIX=$("${ROOT_DIR}/bin/brew" --prefix wxmac)
 E0="-e home_prefix=${HOME_PREFIX}"
 E1="-e git_build_id=${GIT_BUILD_ID}"
 E2="-e openssl_prefix=${OPENSSL_PREFIX}"
