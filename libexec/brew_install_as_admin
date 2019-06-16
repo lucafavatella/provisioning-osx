@@ -2,7 +2,6 @@
 
 brew cask install lulu || exit 1 ## At least at first install requires restart.
 brew cask install wireshark || exit 1
-brew cask install spectacle || exit 1
 
 brew cask install virtualbox || exit 1
 brew cask install vagrant || exit 1
