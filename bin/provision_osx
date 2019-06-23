@@ -50,6 +50,7 @@ log_start "Homebrew" "Ensuring software is installed..."
     && "${ROOT_DIR:?}"/bin/brew cask upgrade \
     && "${ROOT_DIR:?}"/bin/brew cask outdated --greedy \
     && log_e "You should manually run 'brew cask upgrade --greedy' of any Homebrew Casks you deem requiring upgrade." ## Ref https://github.com/Homebrew/homebrew-cask/blob/50036e7314a2496ad4e0049d705d027bb606dfd6/USAGE.md#updatingupgrading-casks
+"${ROOT_DIR:?}"/bin/brew install git || exit 1 ## For git-completion.
 "${ROOT_DIR:?}"/bin/ush -c -v "export PATH=\"${ROOT_DIR:?}/bin:\${PATH}\" && { ${BREW_INSTALL}
 }"
 "${ROOT_DIR:?}"/bin/brew cleanup -s
