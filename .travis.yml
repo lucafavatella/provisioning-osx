@@ -78,7 +78,7 @@ script:
       T) ;;
       P) ;;
       PA) ;;
-      PO) travis_wait 45 bin/provision_osx_otp "${OTP_GIT_BUILD_IDS}" && $(~/sandbox/bin/brew --prefix)/bin/kerl status;;
+      PO) travis_wait 45 bin/provision_osx_otp && $(~/sandbox/bin/brew --prefix)/bin/kerl status;;
     esac
   ## [S job] Main
   - |
