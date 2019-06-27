@@ -20,7 +20,6 @@
     ## Disable `wx` app for those OTP versions (and apps
     ## build-depending on it).
     configure_options_default_w_ssl_wo_odbc: "--with-ssl={{ openssl_prefix }} --without-odbc"
-    configure_options_default_w_ssl_wo_odbc_wx: "--with-ssl={{ openssl_prefix }} --without-odbc --without-wx --without-observer --without-debugger --without-et"
     git_builds:
       OTP-21.3.8.2: ## Latest OTP 21 point release.
         version: "OTP-21.3.8.2"
@@ -34,24 +33,6 @@
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_default_w_ssl_wo_odbc }}"
         name: OTP-20.3.8.20
-      OTP-19.3.6.6: ## Latest OTP 19 point release.
-        version: "OTP-19.3.6.6"
-        url: "{{ otp_git_url }}"
-        cflags: "{{ cflags_osx }}"
-        configure_options: "{{ configure_options_default_w_ssl_wo_odbc_wx }}"
-        name: OTP-19.3.6.6
-      OTP-18.3.4.8: ## Latest OTP 18 point release.
-        version: "OTP-18.3.4.8"
-        url: "{{ otp_git_url }}"
-        cflags: "{{ cflags_osx }}"
-        configure_options: "{{ configure_options_default_w_ssl_wo_odbc_wx }}"
-        name: OTP-18.3.4.8
-      OTP-17.5.6.9: ## Latest OTP 17 point release.
-        version: "OTP-17.5.6.9"
-        url: "{{ otp_git_url }}"
-        cflags: "{{ cflags_osx }}"
-        configure_options: "{{ configure_options_default_w_ssl_wo_odbc_wx }}"
-        name: OTP-17.5.6.9
       ##   Dialyzer in OTP 17.3 has known issue
       ##   (197a846-17.3-w-dialyzer-fix-for-warnings_as_errors).
       ##
