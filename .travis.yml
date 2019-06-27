@@ -109,7 +109,6 @@ notifications:
 matrix:
   allow_failures:
     - env: JOB=PA BREW_INSTALL=true
-    - env: JOB=PO BREW_INSTALL=true OTP_GIT_BUILD_IDS="git-0ab4a33-all-options-but-hipe-and-odbc"
   fast_finish: true
   include:
     - os: linux
@@ -136,4 +135,3 @@ env:
   - JOB=P BREW_INSTALL=
   - JOB=PA BREW_INSTALL=true
   - JOB=PO BREW_INSTALL=true ## Out-of-process OTP installation without `javac`.
-  # - JOB=PO BREW_INSTALL=true OTP_GIT_BUILD_IDS="git-0ab4a33-all-options-but-hipe-and-odbc" ## Out-of-process OTP installation without `javac`.
