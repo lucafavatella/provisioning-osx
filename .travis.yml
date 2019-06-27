@@ -9,14 +9,14 @@ before_install:
   - |
     case $JOB in
       T) ;;
-      P|PA|PAO|PO) ls -la ~;;
+      P|PA|PO) ls -la ~;;
     esac
 install:
   ## [T job] Make job precondition: `bats` in PATH
   - |
     case $JOB in
       T) brew install bats;;
-      P|PA|PAO|PO) ;;
+      P|PA|PO) ;;
     esac
   ## [P* jobs] Make job precondition: no `brew` or `brew-cask` in PATH
   - command -v brew
@@ -27,21 +27,21 @@ install:
   - |
     case $JOB in
       T) ;;
-      P|PA|PAO|PO) export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||");;
+      P|PA|PO) export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||");;
     esac
   - echo $PATH
   ## [S job] Make job precondition: static analysis tools installed.
   - |
     case $JOB in
       T) ;;
-      P|PA|PAO|PO) ;;
+      P|PA|PO) ;;
     esac
 script:
   ## [P* jobs] Check job precondition: no `brew` or `brew-cask` in PATH
   - |
     case $JOB in
       T) ;;
-      P|PA|PAO|PO)
+      P|PA|PO)
         ci.d/exit_if_in_path brew
         ci.d/exit_if_in_path brew-cask
         ;;
@@ -55,13 +55,13 @@ script:
   - |
     case $JOB in
       T) bats tests/;;
-      P|PA|PAO|PO) ;;
+      P|PA|PO) ;;
     esac
   ## [P* jobs] Main
   - |
     case $JOB in
       T) ;;
-      P|PA|PAO|PO)
+      P|PA|PO)
         mkdir ~/sandbox
         env HOME="${HOME:?}"/sandbox bin/provision_osx "${BREW_INSTALL?}"
         ;;
@@ -70,7 +70,7 @@ script:
     case $JOB in
       T) ;;
       P) ;;
-      PA|PAO) sbin/provision_osx_as_admin;;
+      PA) sbin/provision_osx_as_admin;;
       PO) ;;
     esac
   - |
@@ -78,28 +78,28 @@ script:
       T) ;;
       P) ;;
       PA) ;;
-      PAO|PO) travis_wait 45 bin/provision_osx_otp "${OTP_GIT_BUILD_IDS}" && $(~/sandbox/bin/brew --prefix)/bin/kerl status;;
+      PO) travis_wait 45 bin/provision_osx_otp "${OTP_GIT_BUILD_IDS}" && $(~/sandbox/bin/brew --prefix)/bin/kerl status;;
     esac
   ## [S job] Main
   - |
     case $JOB in
       T) ;;
-      P|PA|PAO|PO) ;;
+      P|PA|PO) ;;
     esac
 after_failure:
-  ## [PAO, PO jobs] Debug
+  ## [PO jobs] Debug
   - |
     case $JOB in
       T) ;;
       P|PA) ;;
-      PAO|PO) for F in $(ls ~/.kerl/builds/*/otp_build_git.log); do echo $F && cat $F; done;;
+      PO) for F in $(ls ~/.kerl/builds/*/otp_build_git.log); do echo $F && cat $F; done;;
     esac
 after_script:
   ## [P* jobs] Debug
   - |
     case $JOB in
       T) ;;
-      P|PA|PAO|PO)
+      P|PA|PO)
         ls -la ~
         ls -la ~/sandbox
         ;;
@@ -109,8 +109,6 @@ notifications:
 matrix:
   allow_failures:
     - env: JOB=PA BREW_INSTALL=true
-    - env: JOB=PA BREW_INSTALL=
-    - env: JOB=PAO BREW_INSTALL=
     - env: JOB=PO BREW_INSTALL=true OTP_GIT_BUILD_IDS="git-0ab4a33-all-options-but-hipe-and-odbc"
   fast_finish: true
   include:
@@ -137,7 +135,5 @@ env:
   - JOB=P BREW_INSTALL=true
   - JOB=P BREW_INSTALL=
   - JOB=PA BREW_INSTALL=true
-  - JOB=PA BREW_INSTALL=
-  # - JOB=PAO BREW_INSTALL=
   - JOB=PO BREW_INSTALL=true ## Out-of-process OTP installation without `javac`.
   # - JOB=PO BREW_INSTALL=true OTP_GIT_BUILD_IDS="git-0ab4a33-all-options-but-hipe-and-odbc" ## Out-of-process OTP installation without `javac`.
