@@ -14,14 +14,14 @@ has_hv() {
     "${ROOT_DIR:?}"/bin/macos_has_hypervisor
 }
 
-brew cask install iterm2 || exit 1 ## Mainly for configuring only left Option as Meta key, so to keep ability to insert `#` on UK keyboard (without losing `£`) while simplifying shell shortcuts (e.g. Alt+D).  Also for: implicitly copying text select with pointer; making clickable links in text by pressing a key. ## No Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
-{ has_pb tmux && brew install tmux; } || exit 1
+#brew cask install iterm2 || exit 1 ## Mainly for configuring only left Option as Meta key, so to keep ability to insert `#` on UK keyboard (without losing `£`) while simplifying shell shortcuts (e.g. Alt+D).  Also for: implicitly copying text select with pointer; making clickable links in text by pressing a key. ## No Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
+{ has_pb tmux; } || exit 1 # && brew install tmux; } || exit 1
 brew install bash-completion || exit 1
 { brew install emacs && "${ROOT_DIR:?}"/bin/brew_emacs_upgrade; } || exit 1
 
 brew cask install homebrew/cask-versions/firefox-developer-edition || exit 1
 
-brew cask install spectacle || exit 1
+#brew cask install spectacle || exit 1
 
 brew cask install docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
 has_hv; case "$?" in
@@ -35,7 +35,6 @@ has_hv; case "$?" in
 #brew cask install android-studio || exit 1 ## From [IntelliJ IDEA and Android Studio FAQ](http://blog.jetbrains.com/idea/2013/05/intellij-idea-and-android-studio-faq/): "If I’m already a user of IntelliJ IDEA, do I need to switch to Android Studio for Android development? No. Android Studio is focused specifically on Android development and provides streamlined environment and project setup, but otherwise all of its features are available in IntelliJ IDEA."
 brew install autoconf || exit 1
 #brew install checkbashisms || exit 1
-{ had_pb ghc; } || exit 1 # && brew install ghc && brew install cabal-install && PATH="$(brew --prefix)/bin:$PATH" cabal update && PATH="$(brew --prefix)/bin:$PATH" cabal install idris; } || exit 1
 #brew cask install intellij-idea-ce || exit 1
 { has_pb jq; } || exit 1 # && brew install jq; } || exit 1
 #brew install saitoha/sixel/mlterm || exit 1 ## Refs https://en.wikipedia.org/wiki/VT340 https://en.wikipedia.org/wiki/Sixel
