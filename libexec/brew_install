@@ -50,5 +50,3 @@ brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive e
 
 #brew cask install libreoffice || exit 1
 #brew cask install vlc || exit 1
-
-#brew cask install aerial || exit 1
