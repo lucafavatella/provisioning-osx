@@ -12,11 +12,6 @@ MANAGED_DOTFILES=".bash_profile .tmux.conf .gitconfig .emacs"
 
 MANAGED_DIRS="dev bin"
 
-EMACS_PRELUDE_REPO=https://github.com/bbatsov/prelude.git
-EMACS_PRELUDE_DIR="${HOME}/.emacs-prelude.d/.emacs.d"
-EMACS_PRELUDE_ORIGIN="provisioning-osx"
-EMACS_PRELUDE_VERSION="${EMACS_PRELUDE_ORIGIN:?}/master"
-
 MANAGED_BINS_FROM_PROVISIONING="brew emacs-prelude"
 
 ## Dotfiles e.g. ~/.*
@@ -33,9 +28,6 @@ done
 for D in ${MANAGED_DIRS:?}; do
     mkdir -p "${HOME:?}/${D:?}"
 done
-
-mkdir -p "${EMACS_PRELUDE_DIR:?}" \
-    && env REPO="${EMACS_PRELUDE_REPO:?}" VERSION="${EMACS_PRELUDE_VERSION:?}" DIR="${EMACS_PRELUDE_DIR:?}" ORIGIN="${EMACS_PRELUDE_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get
 
 ## Binaries e.g. ~/bin/*
 

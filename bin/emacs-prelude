@@ -1,3 +1,9 @@
 #!/bin/sh
 
-env HOME="${HOME:?}"/.emacs-prelude.d emacs "$@"
+REPO=https://github.com/bbatsov/prelude.git
+DDIR="${HOME:?}"/.emacs-prelude.d
+DIR="${DDIR:?}"/.emacs.d
+
+{ test -e "${DIR:?}" \
+      || git clone --quiet "${REPO:?}" "${DIR:?}"
+} && env HOME="${DDIR:?}" emacs "$@"
