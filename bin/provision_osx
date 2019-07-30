@@ -57,5 +57,3 @@ log_start "Homebrew" "Ensuring software is installed..."
 }"
 "${ROOT_DIR:?}"/bin/brew cleanup -s
 log_end "Homebrew"
-
-log_e "Consider running '${ROOT_DIR:?}/sbin/provision_osx_as_admin'"
