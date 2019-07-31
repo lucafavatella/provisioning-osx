@@ -13,7 +13,7 @@ log_e() {
 ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)"
 
 MACOS_REPO=https://github.com/lucafavatella/mathiasbynens-dotfiles.git
-MACOS_VERSION=c9a0dec
+MACOS_VERSION=966f8b2
 MACOS_DIR="${ROOT_DIR:?}"/home/mathiasbynens-dotfiles
 MACOS_ORIGIN=provisioning-osx
 
