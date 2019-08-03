@@ -1,0 +1,54 @@
+#!/bin/sh
+
+T="docker-textract"
+
+F="${1:?}"
+
+{ docker build \
+         -q \
+         -t "${T:?}" \
+         - \
+         >&2 <<"EOF"
+FROM debian
+## Refs:
+## - [apt-get best practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#apt-get).
+## - [textract deps](https://github.com/deanmalmgren/textract/blob/e5001688a26aa2103b16a94c3831de5a90951f8c/docs/installation.rst). (pstotext is unavailable.)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    antiword \
+    unrtf \
+    poppler-utils \
+    tesseract-ocr \
+    flac \
+    ffmpeg \
+    lame \
+    libmad0 \
+    libsox-fmt-mp3 \
+    sox \
+    libjpeg-dev \
+    swig \
+    libpulse-dev \
+ && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    python-pip \
+    python-setuptools \
+    python-wheel \
+ && rm -rf /var/lib/apt/lists/*
+## Ref: https://pip.pypa.io/en/stable/reference/pip_install/#git
+RUN pip install git+https://github.com/deanmalmgren/textract.git@e5001688a26aa2103b16a94c3831de5a90951f8c
+WORKDIR /workdir
+ENTRYPOINT ["sh", "-c", "cat - > \"${1:?}\" && textract \"${1:?}\"", "textract"]
+EOF
+} && { docker run \
+              -i \
+              -a stdin \
+              -a stdout \
+              -a stderr \
+              --network none \
+              --rm \
+              "${T:?}" \
+              "$(basename "${F:?}")" \
+              < "${F:?}"; }
