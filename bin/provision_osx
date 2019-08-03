@@ -64,6 +64,16 @@ log_start "Software" "Ensuring software is installed..."
       && { env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_emacs_upgrade; } \
       && { env PATH="$("${ROOT_DIR:?}"/bin/brew --prefix emacs)"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/emacs-prelude --version; } ## TODO Replace with `"${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el` once 26.3 is out ([ref](https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341)).
 } || exit 1
+{ "${ROOT_DIR:?}"/bin/brew cask install docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
+  "${ROOT_DIR:?}"/bin/macos_has_hypervisor; \
+      case "$?" in
+          1) { { "${ROOT_DIR:?}"/bin/brew cask install virtualbox \
+                     && "${ROOT_DIR:?}"/bin/brew install docker-machine
+               } || exit 1; } ;;
+          0) ;;
+          *) exit 1 ;;
+      esac
+}
 "${ROOT_DIR:?}"/bin/ush -c -v "export PATH=\"${ROOT_DIR:?}/bin:\${PATH}\" && { ${BREW_INSTALL}
 }" || exit 1
 log_end "Software"

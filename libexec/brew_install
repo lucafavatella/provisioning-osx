@@ -18,14 +18,6 @@ brew cask install homebrew/cask-versions/firefox-developer-edition || exit 1
 
 #brew cask install spectacle || exit 1
 
-brew cask install docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
-"${ROOT_DIR:?}"/bin/macos_has_hypervisor; \
-    case "$?" in
-        1) { brew install docker-machine || exit 1; } ;;
-        0) ;;
-        *) exit 1 ;;
-    esac
-
 #brew cask install android-platform-tools || exit 1 ## adb
 #brew install android-sdk || exit 1 ## For IntelliJ.
 #brew cask install android-studio || exit 1 ## From [IntelliJ IDEA and Android Studio FAQ](http://blog.jetbrains.com/idea/2013/05/intellij-idea-and-android-studio-faq/): "If I’m already a user of IntelliJ IDEA, do I need to switch to Android Studio for Android development? No. Android Studio is focused specifically on Android development and provides streamlined environment and project setup, but otherwise all of its features are available in IntelliJ IDEA."

@@ -1,0 +1,36 @@
+#!/bin/sh
+
+T="docker-textract"
+
+{ docker build -t "${T:?}" - <<EOF
+FROM debian
+## From https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#apt-get
+RUN apt-get update && apt-get install -y \
+    ## From https://textract.readthedocs.io/en/stable/installation.html#ubuntu-debian
+    python-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    antiword \
+    unrtf \
+    poppler-utils \
+    pstotext \
+    tesseract-ocr \
+    flac \
+    ffmpeg \
+    lame \
+    libmad0 \
+    libsox-fmt-mp3 \
+    sox \
+    libjpeg-dev \
+    swig \
+ && rm -rf /var/lib/apt/lists/*
+RUN pip install textract
+ENTRYPOINT ["textract"]
+EOF
+} && docker run \
+            -a stderr \
+            -a stdout \
+            --network none \
+            --rm \
+            "${T:?}" \
+            "${1:?}"
