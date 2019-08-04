@@ -50,6 +50,14 @@ log_start "Homebrew" "Setup Homebrew..."
 "${ROOT_DIR:?}"/bin/brew cleanup -s || exit 1
 log_end "Homebrew"
 
+log_start "Nix" "Setup Nix..."
+"${ROOT_DIR:?}"/bin/brew install xz pkg-config openssl readline brotli || exit 1
+env \
+    PKG_CONFIG_PATH="$("${ROOT_DIR:?}"/bin/brew --prefix openssl)"/lib/pkgconfig \
+    "${ROOT_DIR:?}"/bin/install_nix "$("${ROOT_DIR:?}"/bin/brew --prefix xz)"/bin:"$("${ROOT_DIR:?}"/bin/brew --prefix pkg-config)"/bin:"$("${ROOT_DIR:?}"/bin/brew --prefix openssl)"/bin \
+    || exit 1
+log_end "Nix"
+
 log_start "Software" "Ensuring software is installed..."
 "${ROOT_DIR:?}"/bin/brew install git || exit 1 ## For git-completion.
 { "${ROOT_DIR:?}"/bin/brew install emacs \

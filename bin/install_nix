@@ -1,0 +1,35 @@
+#!/bin/sh
+
+ush() {
+    ( test "-c" = "${1?}" && shift \
+          && C="${1:?}" && shift \
+          && env -i HOME="$HOME" TERM="$TERM" sh -c ". /etc/profile; ${C?}" "$@"
+    )
+}
+
+NIX_SRC_TAG=2.2.2
+NIX_SRC_ARCHIVE=https://nixos.org/releases/nix/nix-${NIX_SRC_TAG:?}/nix-${NIX_SRC_TAG:?}.tar.bz2
+
+NIX_PREFIX=~/nix
+NIX_SRC_PREFIX="${NIX_PREFIX:?}"/nix-${NIX_SRC_TAG:?}
+NIX_STORE_DIR="${NIX_PREFIX:?}"/store
+
+BUILD_TOOLS_PATH="${1:?}"
+
+{ test -e "${NIX_SRC_PREFIX:?}" \
+      || { mkdir -p "${NIX_PREFIX:?}" \
+               && ( cd "${NIX_PREFIX:?}" \
+                        && { curl -fsS "${NIX_SRC_ARCHIVE:?}" \
+                                 | tar x -f -; } ## TODO Makefile
+           )
+  }
+} && ( cd "${NIX_SRC_PREFIX:?}" \
+           && ush -c "
+export PATH=\"${BUILD_TOOLS_PATH}:\${PATH}\" \
+&& export PKG_CONFIG_PATH=\"${PKG_CONFIG_PATH:?}\" \
+&& export EDITLINE_CFLAGS=\"-I/usr/include/editline\" \
+&& export EDITLINE_LIBS=\"-L/usr/lib\" \
+&& ./configure --prefix=${NIX_PREFIX:?} --with-store-dir=${NIX_STORE_DIR:?} \
+&& make \
+&& make install
+"; )
