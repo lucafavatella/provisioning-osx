@@ -51,7 +51,7 @@ log_start "Homebrew" "Setup Homebrew..."
 log_end "Homebrew"
 
 log_start "Nix" "Setup Nix..."
-"${ROOT_DIR:?}"/bin/brew install xz pkg-config openssl readline brotli || exit 1
+"${ROOT_DIR:?}"/bin/brew install xz pkg-config openssl readline brotli boost || exit 1
 env \
     PKG_CONFIG_PATH="$("${ROOT_DIR:?}"/bin/brew --prefix openssl)"/lib/pkgconfig \
     "${ROOT_DIR:?}"/bin/install_nix "$("${ROOT_DIR:?}"/bin/brew --prefix xz)"/bin:"$("${ROOT_DIR:?}"/bin/brew --prefix pkg-config)"/bin:"$("${ROOT_DIR:?}"/bin/brew --prefix openssl)"/bin \
