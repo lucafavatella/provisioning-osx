@@ -38,7 +38,7 @@ log_start "home" "Setup home..."
 "${ROOT_DIR:?}/libexec/setup_home" "${ROOT_DIR:?}" || exit 1
 log_end "home"
 
-log_start "Homebrew" "Ensuring software is installed..."
+log_start "Homebrew" "Setup Homebrew..."
 {   ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/e098c37dc3734dbe097ed9804a3a88737ff71add/CONTRIBUTING.md#report-a-bug
     "${ROOT_DIR:?}"/bin/brew update \
         && "${ROOT_DIR:?}"/bin/brew update \
@@ -47,6 +47,10 @@ log_start "Homebrew" "Ensuring software is installed..."
         && "${ROOT_DIR:?}"/bin/brew cask outdated --greedy \
         && log_e "You should manually run 'brew cask upgrade --greedy' of any Homebrew Casks you deem requiring upgrade." ## Ref https://github.com/Homebrew/homebrew-cask/blob/50036e7314a2496ad4e0049d705d027bb606dfd6/USAGE.md#updatingupgrading-casks
 } || exit 1
+"${ROOT_DIR:?}"/bin/brew cleanup -s || exit 1
+log_end "Homebrew"
+
+log_start "Software" "Ensuring software is installed..."
 "${ROOT_DIR:?}"/bin/brew install git || exit 1 ## For git-completion.
 { "${ROOT_DIR:?}"/bin/brew install emacs \
       && { env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_emacs_upgrade; } \
@@ -54,5 +58,4 @@ log_start "Homebrew" "Ensuring software is installed..."
 } || exit 1
 "${ROOT_DIR:?}"/bin/ush -c -v "export PATH=\"${ROOT_DIR:?}/bin:\${PATH}\" && { ${BREW_INSTALL}
 }" || exit 1
-"${ROOT_DIR:?}"/bin/brew cleanup -s || exit 1
-log_end "Homebrew"
+log_end "Software"
