@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x
+
 ush() {
     ( test "-c" = "${1?}" && shift \
           && C="${1:?}" && shift \
