@@ -30,8 +30,8 @@ BUILD_TOOLS_PATH="${1:?}"
 export PATH=\"${BUILD_TOOLS_PATH}:\${PATH}\" \
 && export PKG_CONFIG_PATH=\"${PKG_CONFIG_PATH:?}\" \
 && export EDITLINE_CFLAGS=\"-I/usr/include/editline\" \
-&& export CFLAGS=\"${CFLAGS:?}\" \
 && export EDITLINE_LIBS=\"-L/usr/lib\" \
+&& export CXXFLAGS=\"${CXXFLAGS:?}\" \
 && ./configure --prefix=${NIX_PREFIX:?} --with-store-dir=${NIX_STORE_DIR:?} \
 && make \
 && env NIX_INSTALLER_NO_MODIFY_PROFILE=1 make install
