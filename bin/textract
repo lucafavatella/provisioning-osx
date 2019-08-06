@@ -8,7 +8,7 @@ F="${1:?}"
          -q \
          -t "${T:?}" \
          - \
-         >&2 <<"EOF"
+         >/dev/null <<"EOF"
 FROM debian
 ## Refs:
 ## - [apt-get best practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#apt-get).
