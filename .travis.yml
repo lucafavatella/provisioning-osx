@@ -109,6 +109,7 @@ notifications:
 matrix:
   allow_failures:
     - env: JOB=PA BREW_INSTALL=true
+    - env: JOB=PO BREW_INSTALL=true
   fast_finish: true
   include:
     - os: linux
