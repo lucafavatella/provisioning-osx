@@ -68,7 +68,8 @@ dm_daemon_version() {
     ## Built:        Sat Nov 21 00:48:57 UTC 2015
     ## OS/Arch:      darwin/amd64
     ## Cannot connect to the Docker daemon. Is the docker daemon running on this host?
-    docker "$(docker-machine config "${1:?}")" version -f '{{.Server.Version}}'
+    ( eval "$(docker-machine env "${1:?}")" \
+          && docker version -f '{{.Server.Version}}'; )
 }
 
 dm_ensure_started() {
