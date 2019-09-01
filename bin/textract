@@ -42,13 +42,15 @@ RUN pip install git+https://github.com/deanmalmgren/textract.git@e5001688a26aa21
 WORKDIR /workdir
 ENTRYPOINT ["sh", "-c", "cat - > \"${1:?}\" && textract \"${1:?}\"", "textract"]
 EOF
-} && { docker run \
-              -i \
-              -a stdin \
-              -a stdout \
-              -a stderr \
-              --network none \
-              --rm \
-              "${T:?}" \
-              "$(basename "${F:?}")" \
-              < "${F:?}"; }
+} && {
+    # shellcheck disable=SC2094
+    docker run \
+           -i \
+           -a stdin \
+           -a stdout \
+           -a stderr \
+           --network none \
+           --rm \
+           "${T:?}" \
+           "$(basename "${F:?}")" \
+           < "${F:?}"; }
