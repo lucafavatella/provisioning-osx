@@ -77,6 +77,15 @@ log_start "Software" "Ensuring software is installed..."
           *) exit 1 ;;
       esac
 }
+{ "${ROOT_DIR:?}"/bin/brew_pourable_bottle has rustup-init \
+      && "${ROOT_DIR:?}"/bin/brew install rustup-init \
+      && "$("${ROOT_DIR:?}"/bin/brew --prefix rustup-init)"/bin/rustup-init --no-modify-path --default-toolchain none -y \
+      && "${HOME:?}"/.cargo/bin/rustup default stable \
+      && "${HOME:?}"/.cargo/bin/rustup toolchain install stable \
+      && "${HOME:?}"/.cargo/bin/rustup component add --toolchain stable rustfmt \
+      && "${HOME:?}"/.cargo/bin/rustup component add --toolchain stable rls rust-analysis rust-src \
+      && "${HOME:?}"/.cargo/bin/rustup update
+} || exit 1
 "${ROOT_DIR:?}"/bin/ush -c -v "export PATH=\"${ROOT_DIR:?}/bin:\${PATH}\" && { ${BREW_INSTALL}
 }" || exit 1
 log_end "Software"
