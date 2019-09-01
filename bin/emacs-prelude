@@ -1,9 +1,16 @@
 #!/bin/sh
 
 REPO=https://github.com/bbatsov/prelude.git
-DDIR="${HOME:?}"/.emacs-prelude.d
-DIR="${DDIR:?}"/.emacs.d
+FAKE_HOME="${HOME:?}"/.emacs-prelude.d
+PRELUDE_DIR="${FAKE_HOME:?}"/.emacs.d
+USER_CFG_DIR="${PRELUDE_DIR:?}"/personal
 
-{ test -e "${DIR:?}" \
-      || git clone --quiet "${REPO:?}" "${DIR:?}"
-} && env HOME="${DDIR:?}" emacs "$@"
+{
+    test -e "${PRELUDE_DIR:?}" \
+        || git clone --quiet "${REPO:?}" "${PRELUDE_DIR:?}"
+} && {
+    cat > "${USER_CFG_DIR:?}"/prelude-modules.el <<"EOF"
+EOF
+} && {
+    env HOME="${FAKE_HOME:?}" emacs "$@"
+}
