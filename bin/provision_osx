@@ -61,7 +61,7 @@ log_start "Software" "Ensuring software is installed..."
       case "$?" in
           1) log_e "No Hypervisor. Workaround: Docker Machine, on VirtualBox."
              "${ROOT_DIR:?}"/bin/brew cask install virtualbox \
-                 || { brew cask info virtualbox
+                 || { "${ROOT_DIR:?}"/bin/brew cask info virtualbox
                       log_e "macOS requires the user to approve (VirtualBox's) Kernel Extension, in \"System Preferences > Security & Privacy\". "
                       "Alternative is running 'spctl kext-consent add VB5E2TV963' from recovery (\"Cmd-R\")."
                       ## Refs:
@@ -71,7 +71,7 @@ log_start "Software" "Ensuring software is installed..."
                       exit 1; }
              "${ROOT_DIR:?}"/bin/brew install docker-machine || exit 1
              { "${ROOT_DIR:?}"/bin/brew_pourable_bottle has jq \
-                   && brew install jq; } || exit 1 ## For docker-daemon-on-machine-start
+                   && "${ROOT_DIR:?}"/bin/brew install jq; } || exit 1 ## For docker-daemon-on-machine-start
              ;;
           0) ;;
           *) exit 1 ;;
