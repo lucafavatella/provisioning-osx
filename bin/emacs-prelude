@@ -9,7 +9,14 @@ USER_CFG_DIR="${PRELUDE_DIR:?}"/personal
     test -e "${PRELUDE_DIR:?}" \
         || git clone --quiet "${REPO:?}" "${PRELUDE_DIR:?}"
 } && {
+    cat > "${USER_CFG_DIR:?}"/preload/prelude-preload.el <<"EOF"
+(setq exec-path-from-shell-variables '()) ; Disable as much as possible `exec-path-from-shell` by removing [`PATH` modification](https://github.com/purcell/exec-path-from-shell/blob/3cfedb8791397ed50ee66bc0a7cbee5b9d78245c/exec-path-from-shell.el#L84).
+EOF
+} && {
     cat > "${USER_CFG_DIR:?}"/prelude-modules.el <<"EOF"
+(fmakunbound 'exec-path-from-shell-copy-env) ; Disable as much as possible `exec-path-from-shell` by disabling [`PYTHONPATH` modification](https://github.com/bbatsov/prelude/blob/c951f8e52e7deed9463ca4630db992408ec9a956/modules/prelude-python.el#L85).
+(require 'prelude-company)
+(require 'prelude-python)
 EOF
 } && {
     ## Do not amend PATH, because Prelude
