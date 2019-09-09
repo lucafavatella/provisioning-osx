@@ -4,6 +4,5 @@ S="${1:?}" ## Source
 T="${2:?}" ## Target
 
 { test -e "${T:?}" \
-    && SS="$(readlink "${T:?}")" \
-    && test "${SS:?}" = "${S:?}"
+      && test "$(readlink "${T:?}")" = "${S:?}"
 } || ln -s "${S:?}" "${T:?}"
