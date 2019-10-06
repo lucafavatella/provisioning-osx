@@ -81,7 +81,7 @@ log_start "Software" "Ensuring software is installed..."
                       ## - https://github.com/Homebrew/homebrew-cask/issues/63337#issuecomment-492758972
                       exit_unless_ci 1; }
              "${ROOT_DIR:?}"/bin/brew install docker-machine || exit 1
-             { "${ROOT_DIR:?}"/bin/brew_pourable_bottle has jq \
+             { env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_pourable_bottle has jq \
                    && "${ROOT_DIR:?}"/bin/brew install jq; } || exit 1 ## For docker-daemon-on-machine-start
              ;;
           0) ;;
