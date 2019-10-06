@@ -14,8 +14,6 @@ had_pb() {
 { has_pb tmux; } || exit 1 # && brew install tmux; } || exit 1
 brew install bash-completion || exit 1
 
-brew cask install homebrew/cask-versions/firefox-developer-edition || exit 1
-
 #brew cask install spectacle || exit 1
 
 #brew cask install android-platform-tools || exit 1 ## adb
