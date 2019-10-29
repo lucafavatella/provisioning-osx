@@ -1,0 +1,52 @@
+#!/bin/sh
+
+minutes() {
+    { echo ${1:?} | grep -q '^[[:digit:]]\+$'; } \
+        && { echo ${2:?} | grep -q '^[[:digit:]]\+$'; } \
+        && echo $((${1:?}*60+${2:?}))
+}
+
+days() {
+    case ${1:?} in
+        Weekdays)
+            echo $((1+2+4+8+16))
+            ;;
+        Weekends)
+            echo $((32+64))
+            ;;
+        EveryDay)
+            echo $((1+2+4+8+16+32+64))
+            ;;
+    esac
+}
+
+F=/Library/Preferences/SystemConfiguration/com.apple.AutoWake.plist
+
+## Ref: https://developer.apple.com/documentation/devicemanagement/energysaver/schedule/repeatingpoweron
+P=:RepeatingPowerOn
+
+: ${1:?}
+: ${2:?}
+T=$(minutes ${1:?} ${2:?})
+: ${T:?}
+
+: ${3:?}
+D=$(days ${3:?})
+: ${D:?}
+
+X=/usr/libexec/PlistBuddy
+
+${X:?} -c "Delete ${P:?}" ${F:?} || true
+test 1 -eq "$(${X:?} -c "Print ${P:?}" ${F:?} > /dev/null; echo $?)" || exit 70
+${X:?} \
+    -c "Add ${P:?} dict" \
+    -c "Add ${P:?}:eventtype string wakepoweron" \
+    -c "Add ${P:?}:time integer ${T:?}" \
+    -c "Add ${P:?}:weekdays integer ${D:?}" \
+    ${F:?} \
+    && { test "wakepoweron" = "$(${X:?} -c "Print ${P:?}:eventtype" ${F:?})" \
+             || exit 1; } \
+    && { test "${T:?}" = "$(${X:?} -c "Print ${P:?}:time" ${F:?})" \
+             || exit 1; } \
+    && { test "${D:?}" = "$(${X:?} -c "Print ${P:?}:weekdays" ${F:?})" \
+             || exit 1; }
