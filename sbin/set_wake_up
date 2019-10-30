@@ -1,8 +1,8 @@
 #!/bin/sh
 
 minutes() {
-    { echo ${1:?} | grep -q '^[[:digit:]]\+$'; } \
-        && { echo ${2:?} | grep -q '^[[:digit:]]\+$'; } \
+    { echo "${1:?}" | grep -q '^[[:digit:]]\+$'; } \
+        && { echo "${2:?}" | grep -q '^[[:digit:]]\+$'; } \
         && echo $((${1:?}*60+${2:?}))
 }
 
@@ -25,14 +25,14 @@ F=/Library/Preferences/SystemConfiguration/com.apple.AutoWake.plist
 ## Ref: https://developer.apple.com/documentation/devicemanagement/energysaver/schedule/repeatingpoweron
 P=:RepeatingPowerOn
 
-: ${1:?}
-: ${2:?}
-T=$(minutes ${1:?} ${2:?})
-: ${T:?}
+: "${1:?}"
+: "${2:?}"
+T=$(minutes "${1:?}" "${2:?}")
+: "${T:?}"
 
-: ${3:?}
-D=$(days ${3:?})
-: ${D:?}
+: "${3:?}"
+D=$(days "${3:?}")
+: "${D:?}"
 
 X=/usr/libexec/PlistBuddy
 
