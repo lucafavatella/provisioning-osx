@@ -12,7 +12,7 @@ log_e() {
 
 ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)"
 
-GIT_BUILD_IDS="${1:-OTP-20.3.8.20}" ## Overridden for extra installations and for testing.
+GIT_BUILD_IDS="${1:-OTP-20.3.8.23}" ## Overridden for extra installations and for testing.
 
 has_pb() {
     "${ROOT_DIR:?}"/bin/brew_pourable_bottle has "${1:?}"
