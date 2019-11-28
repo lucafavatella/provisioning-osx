@@ -61,6 +61,7 @@ log_start "Homebrew" "Setup Homebrew..."
 log_end "Homebrew"
 
 log_start "Software" "Ensuring software is installed..."
+"${ROOT_DIR:?}"/bin/brew install bash-completion || exit 1
 "${ROOT_DIR:?}"/bin/brew install git || exit 1 ## For git-completion.
 { "${ROOT_DIR:?}"/bin/brew install emacs \
       && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_emacs_upgrade \
