@@ -3,5 +3,4 @@
 brew cask install lulu || exit 1 ## At least at first install requires restart.
 brew cask install wireshark || exit 1
 
-#brew cask install intel-haxm || exit 1
 brew cask install java || exit 1
