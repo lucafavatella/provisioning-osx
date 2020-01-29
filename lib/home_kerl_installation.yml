@@ -21,12 +21,12 @@
     ## build-depending on it).
     configure_options_default_w_ssl_wo_odbc: "--with-ssl={{ openssl_prefix }} --without-odbc"
     git_builds:
-      OTP-21.3.8.10: ## Latest OTP 21 point release.
-        version: "OTP-21.3.8.10"
+      OTP-21.3.8.12: ## Latest OTP 21 point release.
+        version: "OTP-21.3.8.12"
         url: "{{ otp_git_url }}"
         cflags: "{{ cflags_osx }}"
         configure_options: "{{ configure_options_default_w_ssl_wo_odbc }}"
-        name: OTP-21.3.8.10
+        name: OTP-21.3.8.12
       OTP-20.3.8.23: ## Latest OTP 20 point release.
         version: "OTP-20.3.8.23"
         url: "{{ otp_git_url }}"
