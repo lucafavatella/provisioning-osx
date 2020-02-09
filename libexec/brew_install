@@ -12,7 +12,6 @@ had_pb() {
 
 #brew cask install iterm2 || exit 1 ## Mainly for configuring only left Option as Meta key, so to keep ability to insert `#` on UK keyboard (without losing `£`) while simplifying shell shortcuts (e.g. Alt+D).  Also for: implicitly copying text select with pointer; making clickable links in text by pressing a key. ## Some Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
 { has_pb tmux; } || exit 1 # && brew install tmux; } || exit 1
-brew install bash-completion || exit 1
 
 #brew cask install spectacle || exit 1
 
