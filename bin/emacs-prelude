@@ -16,6 +16,7 @@ EOF
     cat > "${USER_CFG_DIR:?}"/prelude-modules.el <<"EOF"
 (fmakunbound 'exec-path-from-shell-copy-env) ; Disable as much as possible `exec-path-from-shell` by disabling [`PYTHONPATH` modification](https://github.com/bbatsov/prelude/blob/c951f8e52e7deed9463ca4630db992408ec9a956/modules/prelude-python.el#L85).
 (require 'prelude-company)
+(require 'prelude-go)
 (require 'prelude-python)
 EOF
 } && {
