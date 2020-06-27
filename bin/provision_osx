@@ -90,6 +90,7 @@ log_start "Software" "Ensuring software is installed..."
       esac
 }
 { "${ROOT_DIR:?}"/bin/brew install python && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_python3_upgrade; } || exit 1
+"${ROOT_DIR:?}"/bin/brew cask install cryptomator || exit 1
 "${ROOT_DIR:?}"/bin/ush -c -v "export PATH=\"${ROOT_DIR:?}/bin:\${PATH}\" && { ${BREW_INSTALL}
 }" || exit 1
 log_end "Software"
