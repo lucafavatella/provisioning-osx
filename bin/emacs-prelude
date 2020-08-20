@@ -28,5 +28,5 @@ EOF
     ## [uses](https://github.com/bbatsov/prelude/blob/c951f8e52e7deed9463ca4630db992408ec9a956/core/prelude-macos.el#L37)
     ## package `exec-path-from-shell` that relies on the PATH as seen
     ## by the shell.
-    env HOME="${FAKE_HOME:?}" emacs "$@"
+    env PATH="${PATH?}:${HOME:?}/go/bin" HOME="${FAKE_HOME:?}" emacs "$@"
 }
