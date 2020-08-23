@@ -16,12 +16,17 @@ EOF
     cat > "${USER_CFG_DIR:?}"/prelude-modules.el <<"EOF"
 (fmakunbound 'exec-path-from-shell-copy-env) ; Disable as much as possible `exec-path-from-shell` by disabling [`PYTHONPATH` modification](https://github.com/bbatsov/prelude/blob/c951f8e52e7deed9463ca4630db992408ec9a956/modules/prelude-python.el#L85).
 (require 'prelude-company)
+(require 'prelude-go)
 (require 'prelude-python)
+EOF
+} && {
+    cat > "${USER_CFG_DIR:?}"/config-go-mode.el <<"EOF"
+(add-hook 'go-mode-hook (lambda () (local-set-key (kbd "M-.") #'godef-jump))) ; Assumption: `godef` installed running from HOME `go get github.com/rogpeppe/godef`, and present in PATH e.g. `env PATH="${PATH?}:${HOME:?}/go/bin" emacs-prelude`.
 EOF
 } && {
     ## Do not amend PATH, because Prelude
     ## [uses](https://github.com/bbatsov/prelude/blob/c951f8e52e7deed9463ca4630db992408ec9a956/core/prelude-macos.el#L37)
     ## package `exec-path-from-shell` that relies on the PATH as seen
     ## by the shell.
-    env HOME="${FAKE_HOME:?}" emacs "$@"
+    env PATH="${PATH?}:${HOME:?}/go/bin" HOME="${FAKE_HOME:?}" emacs "$@"
 }
