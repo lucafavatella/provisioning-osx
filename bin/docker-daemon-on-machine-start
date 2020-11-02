@@ -83,7 +83,7 @@ case "$D" in
     virtualbox)
         DO=""
         test -z "$VIRTUALBOX_SHARE_FOLDER" && DO="--virtualbox-no-share " ## Prevent [sharing home directory](https://docs.docker.com/machine/drivers/virtualbox/#options).
-        DO="${DO?} --virtualbox-cpu-count 2 --virtualbox-memory 6000 --virtualbox-disk-size 20000"
+        DO="${DO?} --virtualbox-cpu-count 2 --virtualbox-memory 5000 --virtualbox-disk-size 80000"
         ;;
 esac
 ## Hardcode expectation on driver.
