@@ -44,23 +44,6 @@ $ sbin/provision_osx_as_admin
 $ bin/provision_osx_otp
 ```
 
-### Provisioning of wake up
-
-Assumptions:
-- TG La7 news at 7:30am Italian time.
-- macOS computer one hour behind Italy.
-- La7 page-to-play process (i.e. click on button with known id) unchanged.
-- Browser allows audio autoplay (in Firefox:
-  `about:preferences#privacy`, "Autoplay", "Allow Audio and Video").
-
-```
-$ sudo sbin/set_wake_up 6 25 Weekdays
-```
-
-```
-$ printf '%s %s * * %s l() { logger -p user.${1:?} -t %s ${2:?}; }; S="https://tg.la7.it/dirette-tv#player_tgla7_init"; l info "opening URL ${S:?}"; open -a firefox --args --private-window "${S:?}"\n' "29" "6" "1,2,3,4,5" LA7 | crontab
-```
-
 ### Tests
 
 Run tests:
