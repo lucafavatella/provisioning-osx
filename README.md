@@ -19,6 +19,12 @@ Poke macOS to find updates (`softwareupdate --list`)
 and install them,
 rebooting if required.
 
+Run `git --version`
+in order to poke macOS to call `xcode-select --install`
+that installs the command line developer tools.
+
+Clone this repository in `~/dev`.
+
 ### Steps
 
 Run:
