@@ -18,7 +18,7 @@ has_pb() {
     "${ROOT_DIR:?}"/bin/brew_pourable_bottle has "${1:?}"
 }
 
-log_e "You are supposed to have run '${ROOT_DIR:?}/sbin/provision_osx_as_admin' (for 'javac')"
+javac -version || { log_e "You are supposed to have run 'brew install java' (for 'javac'), otherwise (in OTP version >= 21) jinterface application skipped. Exiting."; exit 1; }
 
 ## Ensure the correct `brew` command is in the PATH.
 ( export PATH="${ROOT_DIR:?}"/bin:"${PATH?}" && {
