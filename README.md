@@ -11,6 +11,14 @@ beware of potential inability of finding security updates and hardware support e
 
 Prefer encrypted case-sensitive file system.
 
+Prefer keeping the network disabled initially,
+enable the firewall denying all inbound connections
+then connect to the network.
+
+Poke macOS to find updates (`softwareupdate --list`)
+and install them,
+rebooting if required.
+
 ### Steps
 
 Run:
