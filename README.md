@@ -9,6 +9,8 @@ If you require a [recent version of macOS](https://support.apple.com/en-us/HT201
 you may consider a patched installer e.g. [Catalina](http://dosdude1.com/catalina/) ([sources](https://github.com/dosdude1/macos-catalina-patcher/)):
 beware of potential inability of finding security updates and hardware support e.g. Bluetooth.
 
+Prefer encrypted case-sensitive file system.
+
 ### Steps
 
 Run:
