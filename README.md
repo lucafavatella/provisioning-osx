@@ -1,6 +1,16 @@
 ## Provisioning of development macOS box
 [![Build Status](https://travis-ci.org/lucafavatella/provisioning-osx.svg?branch=master)](https://travis-ci.org/lucafavatella/provisioning-osx)
 
+### Prerequisites for provisioning wiping macOS installation
+
+Reinstall macOS.
+This may require [creating a bootable installer](https://support.apple.com/en-us/HT201372).
+If you require a [recent version of macOS](https://support.apple.com/en-us/HT201222) and your device is unsupported,
+you may consider a patched installer e.g. [Catalina](http://dosdude1.com/catalina/) ([sources](https://github.com/dosdude1/macos-catalina-patcher/)):
+beware of potential inability of finding security updates and hardware support e.g. Bluetooth.
+
+### Steps
+
 Run:
 
 ```
@@ -44,7 +54,6 @@ $ bats tests/
 
 ### TODO
 
-* Mention how to install recent macOS on unsupported devices e.g. [Catalina](http://dosdude1.com/catalina/) ([sources](https://github.com/dosdude1/macos-catalina-patcher/)).
 * Review considering other macOS setup projects:
   - https://github.com/mathiasbynens/dotfiles/compare/master...lucafavatella:dev
   - https://github.com/atomantic/dotfiles/blob/c2a0e4eff8328bdc6c2266c6e689e35f91a556a5/README.md
