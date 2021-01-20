@@ -66,11 +66,11 @@ log_start "Software" "Ensuring software is installed..."
       && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_emacs_upgrade \
       && env PATH="$("${ROOT_DIR:?}"/bin/brew --prefix emacs)"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el
 } || exit 1
-{ "${ROOT_DIR:?}"/bin/brew cask install docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
+{ "${ROOT_DIR:?}"/bin/brew install --cask docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
   "${ROOT_DIR:?}"/bin/macos_has_hypervisor; \
       case "$?" in
           1) log_e "No Hypervisor. Workaround: Docker Machine, on VirtualBox."
-             "${ROOT_DIR:?}"/bin/brew cask install virtualbox \
+             "${ROOT_DIR:?}"/bin/brew install --cask virtualbox \
                  || { "${ROOT_DIR:?}"/bin/brew cask info virtualbox
                       log_e "macOS requires the user to approve (VirtualBox's) Kernel Extension, in \"System Preferences > Security & Privacy\". " \
                             "Alternative is running 'spctl kext-consent add VB5E2TV963' from recovery (\"Cmd-R\")."
@@ -88,7 +88,7 @@ log_start "Software" "Ensuring software is installed..."
       esac
 }
 { "${ROOT_DIR:?}"/bin/brew install python && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_python3_upgrade; } || exit 1
-"${ROOT_DIR:?}"/bin/brew cask install cryptomator || exit 1
+"${ROOT_DIR:?}"/bin/brew install --cask cryptomator || exit 1
 "${ROOT_DIR:?}"/bin/ush -c -v "export PATH=\"${ROOT_DIR:?}/bin:\${PATH}\" && { ${BREW_INSTALL}
 }" || exit 1
 log_end "Software"
