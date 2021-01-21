@@ -24,4 +24,3 @@ brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive e
 #brew install plantuml || exit 1
 #brew install pup || exit 1
 #brew install shellcheck || exit 1
-{ has_pb sqlite; } || exit 1 # && brew install sqlite; } || exit 1
