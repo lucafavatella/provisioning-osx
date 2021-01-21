@@ -39,11 +39,6 @@ $ bin/provision_osx ## Lighter version of the command: `bin/provision_osx_lite`
 $ sbin/provision_osx_as_admin
 ```
 
-... finally optionally:
-```
-$ bin/provision_osx_otp
-```
-
 ### Tests
 
 Run tests:
