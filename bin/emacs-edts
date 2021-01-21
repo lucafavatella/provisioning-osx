@@ -1,0 +1,17 @@
+#!/bin/sh
+
+FAKE_HOME="${HOME:?}"/.emacs-edts.d
+
+{
+    test -e "${FAKE_HOME:?}" \
+        || mkdir "${FAKE_HOME:?}"
+} && {
+    cat > "${FAKE_HOME:?}"/.emacs <<"EOF"
+(load-file (concat "/Users/" (user-login-name) "/.emacs"))
+
+;; Ref https://github.com/tjarvstrand/edts/tree/70dfcfd8cc448c854fb67d65e005ba00e77384c5#make-sure-edts-gets-loaded-in-your-emacs
+(use-package edts)
+EOF
+} && {
+    env HOME="${FAKE_HOME:?}" emacs "$@"
+}

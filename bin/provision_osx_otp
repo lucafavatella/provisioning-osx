@@ -30,4 +30,3 @@ javac -version || { log_e "You are supposed to have run 'brew install java' (for
 for GIT_BUILD_ID in $(echo "$GIT_BUILD_IDS" | tr ',' '\n'); do
     "${ROOT_DIR:?}/libexec/setup_home_kerl_installation" "${ROOT_DIR:?}" "$GIT_BUILD_ID"
 done
-"${ROOT_DIR:?}/libexec/setup_home_otp" "${ROOT_DIR:?}"
