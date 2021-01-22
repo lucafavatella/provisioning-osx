@@ -1,4 +1,3 @@
 #!/bin/sh
 
 brew install --cask lulu || exit 1 ## At least at first install requires restart.
-brew install --cask wireshark || exit 1

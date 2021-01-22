@@ -39,6 +39,27 @@ $ bin/provision_osx ## Lighter version of the command: `bin/provision_osx_lite`
 $ sbin/provision_osx_as_admin
 ```
 
+### Notable software
+
+```
+#brew install --cask iterm2 || exit 1 ## Mainly for configuring only left Option as Meta key, so to keep ability to insert `#` on UK keyboard (without losing `£`) while simplifying shell shortcuts (e.g. Alt+D).  Also for: implicitly copying text select with pointer; making clickable links in text by pressing a key. ## Some Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
+
+#brew install --cask spectacle || exit 1
+
+#brew install --cask android-platform-tools || exit 1 ## adb
+#brew install --cask android-studio || exit 1 ## From [IntelliJ IDEA and Android Studio FAQ](http://blog.jetbrains.com/idea/2013/05/intellij-idea-and-android-studio-faq/): "If I’m already a user of IntelliJ IDEA, do I need to switch to Android Studio for Android development? No. Android Studio is focused specifically on Android development and provides streamlined environment and project setup, but otherwise all of its features are available in IntelliJ IDEA."
+brew install autoconf || exit 1
+#brew install --cask intellij-idea-ce || exit 1
+#brew install saitoha/sixel/mlterm || exit 1 ## Refs https://en.wikipedia.org/wiki/VT340 https://en.wikipedia.org/wiki/Sixel
+brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
+#brew install plantuml || exit 1
+```
+
+Requiring administrator priviledges:
+```
+brew install --cask wireshark || exit 1
+```
+
 ### Tests
 
 Run tests:
