@@ -30,7 +30,7 @@ Clone this repository in `~/dev`.
 Run:
 
 ```
-$ bin/provision_osx ## Lighter version of the command: `bin/provision_osx_lite`
+$ bin/provision_osx
 ```
 
 ... then:

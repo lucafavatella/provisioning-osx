@@ -42,8 +42,6 @@ exit_unless_ci() {
 
 ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)" || exit 69
 
-BREW_INSTALL="${1:-${ROOT_DIR:?}/libexec/brew_install ${ROOT_DIR:?}}" ## Overridden for testing.
-
 log_start "home" "Setup home..."
 "${ROOT_DIR:?}/libexec/setup_home" "${ROOT_DIR:?}" || exit 1
 log_end "home"
@@ -89,6 +87,4 @@ log_start "Software" "Ensuring software is installed..."
 }
 { "${ROOT_DIR:?}"/bin/brew install python && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_python3_upgrade; } || exit 1
 "${ROOT_DIR:?}"/bin/brew install --cask cryptomator || exit 1
-"${ROOT_DIR:?}"/bin/ush -c -v "export PATH=\"${ROOT_DIR:?}/bin:\${PATH}\" && { ${BREW_INSTALL}
-}" || exit 1
 log_end "Software"

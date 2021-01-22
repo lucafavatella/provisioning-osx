@@ -63,7 +63,7 @@ script:
       T) ;;
       P|PA)
         mkdir ~/sandbox
-        env HOME="${HOME:?}"/sandbox bin/provision_osx "${BREW_INSTALL?}"
+        env HOME="${HOME:?}"/sandbox bin/provision_osx
         ;;
     esac
   - |
@@ -98,7 +98,7 @@ notifications:
   email: false
 matrix:
   allow_failures:
-    - env: JOB=PA BREW_INSTALL=true
+    - env: JOB=PA
   fast_finish: true
   include:
     - os: linux
@@ -121,6 +121,5 @@ matrix:
       after_script: true
 env:
   - JOB=T
-  - JOB=P BREW_INSTALL=true
-  - JOB=P BREW_INSTALL=
-  - JOB=PA BREW_INSTALL=true
+  - JOB=P
+  - JOB=PA
