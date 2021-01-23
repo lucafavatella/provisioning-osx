@@ -35,8 +35,13 @@ $ bin/provision_osx
 
 Ensure the terminal uses shell `bash`, so that it uses the installed profile.
 
-Open a distinct terminal tab, so that it finds as `brew` executable the one at `bin/brew`, and run:
+Open a distinct terminal tab and re-run the command, as instructed:
 
+```
+$ bin/provision_osx
+```
+
+Finally optionally:
 ```
 $ brew install --cask lulu ## If pre-Catalina macOS, consult the homepage (`brew homepage --cask lulu`). After installation may require restart.
 ```

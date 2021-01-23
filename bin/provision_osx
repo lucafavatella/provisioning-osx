@@ -43,7 +43,8 @@ exit_unless_ci() {
 ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)" || exit 69
 
 link_bin() {
-    "${ROOT_DIR:?}"/bin/lns "${ROOT_DIR:?}/bin/${1:?}" "${HOME:?}/bin/${1:?}"
+    mkdir -p "${HOME:?}"/bin \
+        && "${ROOT_DIR:?}"/bin/lns "${ROOT_DIR:?}/bin/${1:?}" "${HOME:?}/bin/${1:?}"
 }
 
 DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
@@ -55,39 +56,59 @@ link_dotfile() {
     "${ROOT_DIR:?}"/bin/lns "${DOTFILES_DIR:?}/${1:?}" "${HOME:?}/${1:?}"
 }
 
-log_start "home" "Setup home..."
-{ mkdir -p "${DOTFILES_DIR:?}" \
-      && env REPO="${DOTFILES_REPO:?}" VERSION="${DOTFILES_VERSION:?}" DIR="${DOTFILES_DIR:?}" ORIGIN="${DOTFILES_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get; } || exit 1
-link_dotfile .bash_profile || exit 1
-mkdir -p "${HOME:?}/bin" || exit 1
-log_end "home"
+HOMEBREW_DIR="${HOME:?}/homebrew"
 
-log_start "Homebrew" "Setup Homebrew..."
+if test "${HOMEBREW_PREFIX}" != "${HOMEBREW_DIR:?}"; then
+    HOMEBREW_REPO=https://github.com/Homebrew/brew.git
+    HOMEBREW_ORIGIN="origin"
+    HOMEBREW_VERSION="${HOMEBREW_ORIGIN:?}/master"
+
+    log_start "brew" "Clone homebrew..."
+    { mkdir -p "${HOMEBREW_DIR:?}" \
+          && env REPO="${HOMEBREW_REPO:?}" VERSION="${HOMEBREW_VERSION:?}" DIR="${HOMEBREW_DIR:?}" ORIGIN="${HOMEBREW_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get
+    } || exit 1
+    log_end "brew"
+
+    log_start "dot" "Clone dotfiles..."
+    { mkdir -p "${DOTFILES_DIR:?}" \
+          && env REPO="${DOTFILES_REPO:?}" VERSION="${DOTFILES_VERSION:?}" DIR="${DOTFILES_DIR:?}" ORIGIN="${DOTFILES_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get
+    } || exit 1
+    log_end "dot"
+
+    log_start "sh" "Link shell profile..."
+    link_dotfile .bash_profile || exit 1
+    log_end "sh"
+
+    log_e "Initial phase completed. Re-run script in a distinct new terminal tab."
+    exit 78
+fi
+
+log_start "upgrade" "Clean and upgrade Homebrew-installed software..."
 {   ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/e098c37dc3734dbe097ed9804a3a88737ff71add/CONTRIBUTING.md#report-a-bug
-    "${ROOT_DIR:?}"/bin/brew update \
-        && "${ROOT_DIR:?}"/bin/brew update \
-        && "${ROOT_DIR:?}"/bin/brew autoremove \
-        && "${ROOT_DIR:?}"/bin/brew upgrade \
-        && "${ROOT_DIR:?}"/bin/brew outdated --cask --greedy \
+    brew update \
+        && brew update \
+        && brew autoremove \
+        && brew upgrade \
+        && brew outdated --cask --greedy \
         && log_e "You should manually run 'brew cask upgrade --greedy' of any Homebrew Casks you deem requiring upgrade." ## Ref https://github.com/Homebrew/homebrew-cask/blob/50036e7314a2496ad4e0049d705d027bb606dfd6/USAGE.md#updatingupgrading-casks
 } || exit 1
-log_end "Homebrew"
+log_end "upgrade"
 
-log_start "Software" "Ensuring software is installed..."
-"${ROOT_DIR:?}"/bin/brew install bash-completion || exit 1
-{ "${ROOT_DIR:?}"/bin/brew install git && link_dotfile .gitconfig; } || exit 1 ## For git-completion.
-{ "${ROOT_DIR:?}"/bin/brew install emacs \
+log_start "install" "Ensuring software is installed..."
+brew install bash-completion || exit 1
+{ brew install git && link_dotfile .gitconfig; } || exit 1 ## For git-completion.
+{ brew install emacs \
       && link_dotfile .emacs \
-      && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_emacs_upgrade \
-      && env PATH="$("${ROOT_DIR:?}"/bin/brew --prefix emacs)"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el
+      && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" brew_emacs_upgrade \
+      && env PATH="$(brew --prefix emacs)"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el
       && link_bin emacs-prelude \
 } || exit 1
-{ "${ROOT_DIR:?}"/bin/brew install --cask docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
+{ brew install --cask docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
   "${ROOT_DIR:?}"/bin/macos_has_hypervisor; \
       case "$?" in
           1) log_e "No Hypervisor. Workaround: Docker Machine, on VirtualBox."
-             "${ROOT_DIR:?}"/bin/brew install --cask virtualbox \
-                 || { "${ROOT_DIR:?}"/bin/brew cask info virtualbox
+             brew install --cask virtualbox \
+                 || { brew cask info virtualbox
                       log_e "macOS requires the user to approve (VirtualBox's) Kernel Extension, in \"System Preferences > Security & Privacy\". " \
                             "Alternative is running 'spctl kext-consent add VB5E2TV963' from recovery (\"Cmd-R\")."
                       ## Refs:
@@ -95,9 +116,9 @@ log_start "Software" "Ensuring software is installed..."
                       ## - https://github.com/Homebrew/homebrew-cask/issues/66407#issuecomment-513255068
                       ## - https://github.com/Homebrew/homebrew-cask/issues/63337#issuecomment-492758972
                       exit_unless_ci 1; }
-             "${ROOT_DIR:?}"/bin/brew install docker-machine || exit 1
-             { env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_pourable_bottle has jq \
-                   && "${ROOT_DIR:?}"/bin/brew install jq \
+             brew install docker-machine || exit 1
+             { env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" brew_pourable_bottle has jq \
+                   && brew install jq \
                    && link_bin docker-daemon-on-machine-start; } || exit 1
              ;;
           0) ;;
@@ -105,7 +126,7 @@ log_start "Software" "Ensuring software is installed..."
       esac
 }
 link_bin textract || exit 1
-{ "${ROOT_DIR:?}"/bin/brew install python && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_python3_upgrade; } || exit 1
-"${ROOT_DIR:?}"/bin/brew install --cask cryptomator || exit 1
-"${ROOT_DIR:?}"/bin/brew autoremove || exit 1
-log_end "Software"
+{ brew install python && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" brew_python3_upgrade; } || exit 1
+brew install --cask cryptomator || exit 1
+brew autoremove || exit 1
+log_end "install"
