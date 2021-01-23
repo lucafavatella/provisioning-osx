@@ -38,7 +38,7 @@ Ensure the terminal uses shell `bash`, so that it uses the installed profile.
 Open a distinct terminal tab, so that it finds as `brew` executable the one at `bin/brew`, and run:
 
 ```
-$ brew install --cask lulu ## If pre-Catalina macOS, consult [the homepage](https://objective-see.com/products/lulu.html). After installation may require restart.
+$ brew install --cask lulu ## If pre-Catalina macOS, consult the homepage (`brew homepage --cask lulu`). After installation may require restart.
 ```
 
 ### Notable software
