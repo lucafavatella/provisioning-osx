@@ -66,12 +66,6 @@ script:
       P) ;;
       PA) sbin/provision_osx_as_admin;;
     esac
-  - |
-    case $JOB in
-      T) ;;
-      P) ;;
-      PA) ;;
-    esac
 after_script:
   ## [P* jobs] Debug
   - |
