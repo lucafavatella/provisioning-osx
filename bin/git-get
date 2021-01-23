@@ -23,4 +23,5 @@ $(DIR)-$(VERSION): | $(DIR)/.git
 	git -C "$(DIR)" stash --quiet --all
 
 $(DIR)/.git: | $(DIR)
-	git clone --quiet --origin "$(ORIGIN)" "$(REPO)" "$(@D)"
+	git -c transfer.fsckobjects=true \
+		clone --quiet --origin "$(ORIGIN)" "$(REPO)" "$(@D)"

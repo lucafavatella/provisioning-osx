@@ -7,7 +7,8 @@ USER_CFG_DIR="${PRELUDE_DIR:?}"/personal
 
 {
     test -e "${PRELUDE_DIR:?}" \
-        || git clone --quiet "${REPO:?}" "${PRELUDE_DIR:?}"
+        || git -c transfer.fsckobjects=true \
+               clone --quiet "${REPO:?}" "${PRELUDE_DIR:?}"
 } && {
     cat > "${USER_CFG_DIR:?}"/preload/prelude-preload.el <<"EOF"
 (setq exec-path-from-shell-variables '()) ; Disable as much as possible `exec-path-from-shell` by removing [`PATH` modification](https://github.com/purcell/exec-path-from-shell/blob/3cfedb8791397ed50ee66bc0a7cbee5b9d78245c/exec-path-from-shell.el#L84).
