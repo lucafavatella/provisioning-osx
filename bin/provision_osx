@@ -50,6 +50,7 @@ log_start "Homebrew" "Setup Homebrew..."
 {   ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/e098c37dc3734dbe097ed9804a3a88737ff71add/CONTRIBUTING.md#report-a-bug
     "${ROOT_DIR:?}"/bin/brew update \
         && "${ROOT_DIR:?}"/bin/brew update \
+        && "${ROOT_DIR:?}"/bin/brew autoremove \
         && "${ROOT_DIR:?}"/bin/brew upgrade \
         && "${ROOT_DIR:?}"/bin/brew outdated --cask --greedy \
         && log_e "You should manually run 'brew cask upgrade --greedy' of any Homebrew Casks you deem requiring upgrade." ## Ref https://github.com/Homebrew/homebrew-cask/blob/50036e7314a2496ad4e0049d705d027bb606dfd6/USAGE.md#updatingupgrading-casks
@@ -87,4 +88,5 @@ log_start "Software" "Ensuring software is installed..."
 }
 { "${ROOT_DIR:?}"/bin/brew install python && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_python3_upgrade; } || exit 1
 "${ROOT_DIR:?}"/bin/brew install --cask cryptomator || exit 1
+"${ROOT_DIR:?}"/bin/brew autoremove || exit 1
 log_end "Software"
