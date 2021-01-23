@@ -30,12 +30,6 @@ install:
       P|PA) export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||");;
     esac
   - echo $PATH
-  ## [S job] Make job precondition: static analysis tools installed.
-  - |
-    case $JOB in
-      T) ;;
-      P|PA) ;;
-    esac
 script:
   ## [P* jobs] Check job precondition: no `brew` or `brew-cask` in PATH
   - |
@@ -77,12 +71,6 @@ script:
       T) ;;
       P) ;;
       PA) ;;
-    esac
-  ## [S job] Main
-  - |
-    case $JOB in
-      T) ;;
-      P|PA) ;;
     esac
 after_script:
   ## [P* jobs] Debug
