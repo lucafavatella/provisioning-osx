@@ -27,16 +27,18 @@ Clone this repository in `~/dev`.
 
 ### Steps
 
-Run:
+Open the terminal and run:
 
 ```
 $ bin/provision_osx
 ```
 
-... then:
+Ensure the terminal uses shell `bash`, so that it uses the installed profile.
+
+Open a distinct terminal tab, so that it finds as `brew` executable the one at `bin/brew`, and run:
 
 ```
-$ sbin/provision_osx_as_admin
+$ brew install --cask lulu ## If pre-Catalina macOS, consult [the homepage](https://objective-see.com/products/lulu.html). After installation may require restart.
 ```
 
 ### Notable software
