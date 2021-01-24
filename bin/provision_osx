@@ -46,9 +46,20 @@ link_bin() {
     "${ROOT_DIR:?}"/bin/lns "${ROOT_DIR:?}/bin/${1:?}" "${HOME:?}/bin/${1:?}"
 }
 
+DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
+DOTFILES_DIR="${ROOT_DIR:?}/home/dotfiles"
+DOTFILES_ORIGIN="provisioning-osx"
+DOTFILES_VERSION="${DOTFILES_ORIGIN:?}/master"
+
+link_dotfile() {
+    "${ROOT_DIR:?}"/bin/lns "${DOTFILES_DIR:?}/${1:?}" "${HOME:?}/${1:?}"
+}
+
 log_start "home" "Setup home..."
+{ mkdir -p "${DOTFILES_DIR:?}" \
+      && env REPO="${DOTFILES_REPO:?}" VERSION="${DOTFILES_VERSION:?}" DIR="${DOTFILES_DIR:?}" ORIGIN="${DOTFILES_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get; } || exit 1
+link_dotfile .bash_profile || exit 1
 mkdir -p "${HOME:?}/bin" || exit 1
-"${ROOT_DIR:?}/libexec/setup_home" "${ROOT_DIR:?}" || exit 1
 log_end "home"
 
 log_start "Homebrew" "Setup Homebrew..."
@@ -64,8 +75,9 @@ log_end "Homebrew"
 
 log_start "Software" "Ensuring software is installed..."
 "${ROOT_DIR:?}"/bin/brew install bash-completion || exit 1
-"${ROOT_DIR:?}"/bin/brew install git || exit 1 ## For git-completion.
+{ "${ROOT_DIR:?}"/bin/brew install git && link_dotfile .gitconfig; } || exit 1 ## For git-completion.
 { "${ROOT_DIR:?}"/bin/brew install emacs \
+      && link_dotfile .emacs \
       && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_emacs_upgrade \
       && env PATH="$("${ROOT_DIR:?}"/bin/brew --prefix emacs)"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el
       && link_bin emacs-prelude \
