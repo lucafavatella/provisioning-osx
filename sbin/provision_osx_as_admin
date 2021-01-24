@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 log() {
     echo "[$(basename "$0")] ${1:?}"
 }
@@ -18,6 +16,7 @@ MACOS_DIR="${ROOT_DIR:?}"/home/mathiasbynens-dotfiles
 MACOS_ORIGIN=provisioning-osx
 
 log_e "You are supposed to have run '${ROOT_DIR:?}/bin/provision_osx'"
-mkdir -p "${MACOS_DIR:?}" \
-    && env REPO="${MACOS_REPO:?}" VERSION="${MACOS_VERSION:?}" DIR="${MACOS_DIR:?}" ORIGIN="${MACOS_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get \
-    && "${MACOS_DIR:?}"/.macos
+{ mkdir -p "${MACOS_DIR:?}" \
+      && env REPO="${MACOS_REPO:?}" VERSION="${MACOS_VERSION:?}" DIR="${MACOS_DIR:?}" ORIGIN="${MACOS_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get \
+      && "${MACOS_DIR:?}"/.macos
+} || exit 1
