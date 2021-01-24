@@ -107,14 +107,12 @@ brew install bash-completion || exit 1
   "${ROOT_DIR:?}"/bin/macos_has_hypervisor; \
       case "$?" in
           1) log_e "No Hypervisor. Workaround: Docker Machine, on VirtualBox."
-             brew install --cask virtualbox \
-                 || { brew info --cask virtualbox
-                      log_e "macOS requires the user to approve (VirtualBox's) Kernel Extension, in \"System Preferences > Security & Privacy\". Alternative is running 'spctl kext-consent add VB5E2TV963' from recovery (\"Cmd-R\")."
-                      ## Refs:
-                      ## - https://developer.apple.com/library/archive/technotes/tn2459/_index.html#//apple_ref/doc/uid/DTS40017658-CH1-TNTAG2
-                      ## - https://github.com/Homebrew/homebrew-cask/issues/66407#issuecomment-513255068
-                      ## - https://github.com/Homebrew/homebrew-cask/issues/63337#issuecomment-492758972
-                      exit_unless_ci 1; }
+             brew install --cask virtualbox || exit_unless_ci 1
+             log_e "macOS requires the user to approve (VirtualBox's) Kernel Extension, in \"System Preferences > Security & Privacy\". Alternative is running 'spctl kext-consent add VB5E2TV963' from recovery (\"Cmd-R\")."
+             ## Refs:
+             ## - https://developer.apple.com/library/archive/technotes/tn2459/_index.html#//apple_ref/doc/uid/DTS40017658-CH1-TNTAG2
+             ## - https://github.com/Homebrew/homebrew-cask/issues/66407#issuecomment-513255068
+             ## - https://github.com/Homebrew/homebrew-cask/issues/63337#issuecomment-492758972
              brew install docker-machine || exit 1
              { "${ROOT_DIR:?}"/bin/brew_pourable_bottle has jq \
                    && brew install jq \
