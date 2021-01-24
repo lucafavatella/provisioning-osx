@@ -1,6 +1,6 @@
 #!/bin/sh
 
-P="$(brew --prefix emacs)" \
+P="$(brew --prefix)" \
     && "${P:?}"/bin/emacs --batch \
                -l "${HOME:?}"/.emacs \
                -f my-upgrade
