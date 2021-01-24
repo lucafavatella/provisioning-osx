@@ -99,8 +99,8 @@ brew install bash-completion || exit 1
 { brew install git && link_dotfile .gitconfig; } || exit 1 ## For git-completion.
 { brew install emacs \
       && link_dotfile .emacs \
-      && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" brew_emacs_upgrade \
-      && env PATH="$(brew --prefix)"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el
+      && "${ROOT_DIR:?}"/bin/brew_emacs_upgrade \
+      && "${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el
       && link_bin emacs-prelude \
 } || exit 1
 { brew install --cask docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
@@ -117,7 +117,7 @@ brew install bash-completion || exit 1
                       ## - https://github.com/Homebrew/homebrew-cask/issues/63337#issuecomment-492758972
                       exit_unless_ci 1; }
              brew install docker-machine || exit 1
-             { env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" brew_pourable_bottle has jq \
+             { "${ROOT_DIR:?}"/bin/brew_pourable_bottle has jq \
                    && brew install jq \
                    && link_bin docker-daemon-on-machine-start; } || exit 1
              ;;
@@ -126,7 +126,7 @@ brew install bash-completion || exit 1
       esac
 }
 link_bin textract || exit 1
-{ brew install python && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" brew_python3_upgrade; } || exit 1
+{ brew install python && "${ROOT_DIR:?}"/bin/brew_python3_upgrade; } || exit 1
 brew install --cask cryptomator || exit 1
 brew autoremove || exit 1
 log_end "install"
