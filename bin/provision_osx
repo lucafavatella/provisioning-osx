@@ -97,7 +97,7 @@ log_end "upgrade"
 log_start "install" "Ensuring software is installed..."
 brew install bash-completion || exit 1
 { brew install git && link_dotfile .gitconfig; } || exit 1 ## For git-completion.
-{ brew install emacs \
+{ brew install --cask --binaries emacs \
       && link_dotfile .emacs \
       && "${ROOT_DIR:?}"/bin/brew_emacs_upgrade \
       && "${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el \
