@@ -101,7 +101,7 @@ brew install bash-completion || exit 1
       && link_dotfile .emacs \
       && "${ROOT_DIR:?}"/bin/brew_emacs_upgrade \
       && "${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el \
-      && link_bin emacs-prelude \
+      && link_bin emacs-prelude
 } || exit 1
 { brew install --cask docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
   "${ROOT_DIR:?}"/bin/macos_has_hypervisor; \
