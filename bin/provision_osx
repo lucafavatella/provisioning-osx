@@ -43,6 +43,7 @@ exit_unless_ci() {
 ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)" || exit 69
 
 log_start "home" "Setup home..."
+mkdir -p "${HOME:?}/bin" || exit 1
 "${ROOT_DIR:?}/libexec/setup_home" "${ROOT_DIR:?}" || exit 1
 log_end "home"
 
