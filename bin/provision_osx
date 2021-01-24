@@ -108,7 +108,7 @@ brew install bash-completion || exit 1
       case "$?" in
           1) log_e "No Hypervisor. Workaround: Docker Machine, on VirtualBox."
              brew install --cask virtualbox \
-                 || { brew cask info virtualbox
+                 || { brew info --cask virtualbox
                       log_e "macOS requires the user to approve (VirtualBox's) Kernel Extension, in \"System Preferences > Security & Privacy\". " \
                             "Alternative is running 'spctl kext-consent add VB5E2TV963' from recovery (\"Cmd-R\")."
                       ## Refs:
