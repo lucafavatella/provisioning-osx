@@ -10,8 +10,6 @@ DOTFILES_ORIGIN="provisioning-osx"
 DOTFILES_VERSION="${DOTFILES_ORIGIN:?}/master"
 MANAGED_DOTFILES=".bash_profile .gitconfig .emacs"
 
-MANAGED_BINS_FROM_PROVISIONING="docker-daemon-on-machine-start emacs-prelude textract"
-
 ## Dotfiles e.g. ~/.*
 
 mkdir -p "${DOTFILES_DIR:?}" \
@@ -19,10 +17,4 @@ mkdir -p "${DOTFILES_DIR:?}" \
 
 for F in ${MANAGED_DOTFILES:?}; do
     "${ROOT_DIR:?}"/bin/lns "${DOTFILES_DIR:?}/${F:?}" "${HOME:?}/${F:?}"
-done
-
-## Binaries e.g. ~/bin/*
-
-for F in ${MANAGED_BINS_FROM_PROVISIONING:?}; do
-    "${ROOT_DIR:?}"/bin/lns "${ROOT_DIR:?}/bin/${F:?}" "${HOME:?}/bin/${F:?}"
 done

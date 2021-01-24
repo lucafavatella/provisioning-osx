@@ -42,6 +42,10 @@ exit_unless_ci() {
 
 ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)" || exit 69
 
+link_bin() {
+    "${ROOT_DIR:?}"/bin/lns "${ROOT_DIR:?}/bin/${1:?}" "${HOME:?}/bin/${1:?}"
+}
+
 log_start "home" "Setup home..."
 mkdir -p "${HOME:?}/bin" || exit 1
 "${ROOT_DIR:?}/libexec/setup_home" "${ROOT_DIR:?}" || exit 1
@@ -64,6 +68,7 @@ log_start "Software" "Ensuring software is installed..."
 { "${ROOT_DIR:?}"/bin/brew install emacs \
       && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_emacs_upgrade \
       && env PATH="$("${ROOT_DIR:?}"/bin/brew --prefix emacs)"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el
+      && link_bin emacs-prelude \
 } || exit 1
 { "${ROOT_DIR:?}"/bin/brew install --cask docker || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
   "${ROOT_DIR:?}"/bin/macos_has_hypervisor; \
@@ -80,12 +85,14 @@ log_start "Software" "Ensuring software is installed..."
                       exit_unless_ci 1; }
              "${ROOT_DIR:?}"/bin/brew install docker-machine || exit 1
              { env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_pourable_bottle has jq \
-                   && "${ROOT_DIR:?}"/bin/brew install jq; } || exit 1 ## For docker-daemon-on-machine-start
+                   && "${ROOT_DIR:?}"/bin/brew install jq \
+                   && link_bin docker-daemon-on-machine-start; } || exit 1
              ;;
           0) ;;
           *) exit 1 ;;
       esac
 }
+link_bin textract || exit 1
 { "${ROOT_DIR:?}"/bin/brew install python && env PATH="${ROOT_DIR:?}"/bin:"${PATH?}" "${ROOT_DIR:?}"/bin/brew_python3_upgrade; } || exit 1
 "${ROOT_DIR:?}"/bin/brew install --cask cryptomator || exit 1
 "${ROOT_DIR:?}"/bin/brew autoremove || exit 1
