@@ -113,7 +113,15 @@ brew install bash-completion || exit 1
              ## - https://developer.apple.com/library/archive/technotes/tn2459/_index.html#//apple_ref/doc/uid/DTS40017658-CH1-TNTAG2
              ## - https://github.com/Homebrew/homebrew-cask/issues/66407#issuecomment-513255068
              ## - https://github.com/Homebrew/homebrew-cask/issues/63337#issuecomment-492758972
-             brew install docker-machine || exit 1
+             ##
+             ## Formula `docker-machine` depends on go,
+             ## that depends on [old `go`](https://github.com/golang/go/issues/18600#issuecomment-316809622) for bootstrap.
+             ## Such old go versions suffer from [known signal-related intermittent bug](https://github.com/Homebrew/homebrew-core/blob/31a5e9e862075732f348b0fc61f42e0c89a12368/Formula/go.rb#L51).
+             ## On installation error, retry.
+             brew install docker-machine \
+                 || brew install docker-machine \
+                 || brew install docker-machine \
+                 || exit 1
              { "${ROOT_DIR:?}"/bin/brew_pourable_bottle has jq \
                    && brew install jq \
                    && link_bin docker-daemon-on-machine-start; } || exit 1
