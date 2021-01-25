@@ -62,7 +62,7 @@ if test "${HOMEBREW_PREFIX}" != "${HOMEBREW_DIR:?}"; then
     HOMEBREW_REPO=https://github.com/Homebrew/brew.git
 
     log_start "brew" "Clone homebrew..."
-    { mkdir -p "${HOMEBREW_DIR:?}" \
+    { test -e "${HOMEBREW_DIR:?}" \
           && git -c transfer.fsckobjects=true clone "${HOMEBREW_REPO:?}" "${HOMEBREW_DIR:?}"
     } || exit 1
     log_end "brew"
