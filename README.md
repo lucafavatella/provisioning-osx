@@ -68,13 +68,6 @@ Requiring administrator priviledges:
 brew install --cask wireshark || exit 1
 ```
 
-### Tests
-
-Run tests:
-```
-$ bats tests/
-```
-
 ### TODO
 
 * Review considering other macOS setup projects:

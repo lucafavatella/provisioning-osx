@@ -8,16 +8,9 @@ before_install:
   ## [P* jobs] Debug
   - |
     case $JOB in
-      T) ;;
       P) ls -la ~;;
     esac
 install:
-  ## [T job] Make job precondition: `bats` in PATH
-  - |
-    case $JOB in
-      T) brew install bats;;
-      P) ;;
-    esac
   ## [P* jobs] Make job precondition: no `brew` or `brew-cask` in PATH
   - command -v brew
   - if [ $(command -v brew) != "/usr/local/bin/brew" ]; then exit 1; fi
@@ -26,7 +19,6 @@ install:
   - if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
   - |
     case $JOB in
-      T) ;;
       P) export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||");;
     esac
   - echo $PATH
@@ -34,7 +26,6 @@ script:
   ## [P* jobs] Check job precondition: no `brew` or `brew-cask` in PATH
   - |
     case $JOB in
-      T) ;;
       P)
         ci.d/exit_if_in_path brew
         ci.d/exit_if_in_path brew-cask
@@ -45,16 +36,9 @@ script:
   - ls -la ~/Library/Caches || true
   - ls -la /Library/Caches/Homebrew || true
   - ls -la ~/Library/Caches/Homebrew || true
-  ## [T job] Main
-  - |
-    case $JOB in
-      T) bats tests/;;
-      P) ;;
-    esac
   ## [P* jobs] Main
   - |
     case $JOB in
-      T) ;;
       P)
         mkdir ~/sandbox
         env HOME="${HOME:?}"/sandbox bin/provision_osx
@@ -64,7 +48,6 @@ after_script:
   ## [P* jobs] Debug
   - |
     case $JOB in
-      T) ;;
       P)
         ls -la ~
         ls -la ~/sandbox
@@ -94,5 +77,4 @@ matrix:
       after_failure: true
       after_script: true
 env:
-  - JOB=T
   - JOB=P
