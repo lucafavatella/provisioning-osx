@@ -196,7 +196,7 @@ spotlight:
 	#sudo mdutil -i on / > /dev/null
 	# `mdutil -i on /` does not return non-zero exit status on error.
 	# Write then test, as writing (i.e. `sudo mdutil -i on /`) may print "Error: Index is already changing state.  Please try again in a moment.".
-	( t() { test "/:Indexingenabled." = $$(printf "%s" $$(mdutil -s /)); }; w() { sudo mdutil -i on /; }; t || { w && t || { w && t || { w && t; }; } }; )
+	( t() { test "/:Indexingenabled." = $$(printf "%s" $$(mdutil -s /)); }; w() { sudo mdutil -i on /; }; t || { w && t || { sleep 1 && w && t || { sleep 3 && w && t || { sleep 5 && w && t; }; }; } }; )
 	# Rebuild the index from scratch
 	#sudo mdutil -E / > /dev/null
 	# `mdutil -E /` does not return non-zero exit status on error.
