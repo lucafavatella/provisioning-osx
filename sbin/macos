@@ -151,6 +151,10 @@ safari:
 all: spotlight
 .PHONY: spotlight
 spotlight:
+	# Disable Spotlight indexing for any volume that gets mounted and has not yet
+	# been indexed before.
+	# Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
+	sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
 	# Change indexing order and disable some search results
 	# Yosemite-specific search results (remove them if you are using macOS 10.9 or older):
 	# 	MENU_DEFINITION
@@ -184,11 +188,17 @@ spotlight:
 		'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
 	# Load new settings before rebuilding the index
 	#killall mds > /dev/null 2>&1
+	# `killall mds` does not kill enough to prevent revert of settings.
+	-sudo killall mds > /dev/null 2>&1
 	# Make sure indexing is enabled for the main volume
 	#sudo mdutil -i on / > /dev/null
+	# `mdutil -i on /` does not return non-zero exit status on error.
+	# Write then test, as writing (i.e. `sudo mdutil -i on /`) may print "Error: Index is already changing state.  Please try again in a moment.".
+	( t() { test "/:Indexingenabled." = $$(printf "%s" $$(mdutil -s /)); }; w() { sudo mdutil -i on /; }; t || { w && t || { w && t || { w && t; }; } }; )
 	# Rebuild the index from scratch
 	#sudo mdutil -E / > /dev/null
-	$(warning "You need to restart.")
+	# `mdutil -E /` does not return non-zero exit status on error.
+	sudo mdutil -E /
 
 all: terminal
 .PHONY: terminal
