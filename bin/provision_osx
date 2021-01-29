@@ -33,7 +33,7 @@ log_end() {
 exit_unless_ci() {
     ## Refs:
     ## - https://github.com/travis-ci/travis-ci/issues/9377
-    ## - `CI=true` is documented in [Travis](https://docs.travis-ci.com/user/environment-variables#default-environment-variables) and [Circle](https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables).
+    ## - `CI=true` is documented in [Travis](https://docs.travis-ci.com/user/environment-variables#default-environment-variables), [Circle](https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables) and [GitHub Actions](https://docs.github.com/en/actions/reference/environment-variables#default-environment-variables).
     case "${CI}" in
         true) log_e "Detected environment variable CI=true hence not exiting.";;
         *) exit "${1:?}";;

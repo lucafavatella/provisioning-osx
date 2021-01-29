@@ -1,0 +1,37 @@
+on:
+  schedule:
+    - cron:  '0 0 1,16 * *'
+jobs:
+  test:
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+      - name: Debug
+        run: ls -la ~
+      - name: "Make job precondition: no `brew` or `brew-cask` in PATH"
+        run: |
+          command -v brew
+          if [ $(command -v brew) != "/usr/local/bin/brew" ]; then exit 1; fi
+          "${GITHUB_WORKSPACE:?}"/ci.d/exit_if_in_path brew-cask
+          echo $PATH
+          if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
+          export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||")
+          echo $PATH
+      - name: "Check job precondition: no `brew` or `brew-cask` in PATH"
+        run: |
+          ci.d/exit_if_in_path brew
+          ci.d/exit_if_in_path brew-cask
+      - name: Debug - brew caches
+        run: |
+          ls -la /Library/Caches || true
+          ls -la ~/Library/Caches || true
+          ls -la /Library/Caches/Homebrew || true
+          ls -la ~/Library/Caches/Homebrew || true
+      - name: Main
+        run: |
+          mkdir ~/sandbox
+          env HOME="${HOME:?}"/sandbox bin/provision_osx
+      - name: Debug
+        run: |
+          ls -la ~
+          ls -la ~/sandbox

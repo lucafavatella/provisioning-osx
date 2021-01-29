@@ -1,5 +1,4 @@
 ## Provisioning of development macOS box
-[![Build Status](https://travis-ci.org/lucafavatella/provisioning-osx.svg?branch=master)](https://travis-ci.org/lucafavatella/provisioning-osx)
 
 ### Prerequisites for provisioning wiping macOS installation
 
