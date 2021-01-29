@@ -53,7 +53,6 @@ at Safari > Preferences > Search
 Finally optionally:
 ```
 $ brew install --cask lulu ## If pre-Catalina macOS, consult the homepage (`brew homepage --cask lulu`). After installation may require restart.
-$ sbin/provision_osx_as_admin
 ```
 
 ### Notable software

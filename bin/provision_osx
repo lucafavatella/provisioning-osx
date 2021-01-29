@@ -81,6 +81,10 @@ if test "${HOMEBREW_PREFIX}" != "${HOMEBREW_DIR:?}"; then
     exit 78
 fi
 
+log_start "macos" "Configure macOS..."
+"${ROOT_DIR:?}"/sbin/macos || exit_unless_ci 1
+log_end "macos"
+
 log_start "upgrade" "Clean and upgrade Homebrew-installed software..."
 {   ## Run `brew update` twice. Ref https://github.com/Homebrew/brew/blob/e098c37dc3734dbe097ed9804a3a88737ff71add/CONTRIBUTING.md#report-a-bug
     brew update \
