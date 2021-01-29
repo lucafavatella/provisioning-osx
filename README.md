@@ -46,6 +46,10 @@ at System Preferences > Security & Privacy > General
 (programmatically is tricky - see [issue 809](https://github.com/mathiasbynens/dotfiles).
 Test that when closing then reopening the laptop lid the account is locked.
 
+Set Safari search engine to DuckDuckGo
+at Safari > Preferences > Search
+(programmatically [is not possible](https://stackoverflow.com/questions/12855168/mac-os-x-safari-6-default-search-engine-change-between-possible-values)).
+
 Finally optionally:
 ```
 $ brew install --cask lulu ## If pre-Catalina macOS, consult the homepage (`brew homepage --cask lulu`). After installation may require restart.
