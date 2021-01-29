@@ -1,5 +1,8 @@
 #!/usr/bin/make -f
 
+IMMEDIATE_MAKEFLAGS := $(MAKEFLAGS)
+MAKEFLAGS += -k $(IMMEDIATE_MAKEFLAGS)
+
 .DEFAULT_GOAL: all
 
 .PHONY: all
