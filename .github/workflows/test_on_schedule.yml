@@ -29,9 +29,12 @@ jobs:
           ls -la ~/Library/Caches || true
           ls -la /Library/Caches/Homebrew || true
           ls -la ~/Library/Caches/Homebrew || true
-      - name: Main
+      - name: Main - phase 1
         run: |
           mkdir ~/sandbox
+          env HOME="${HOME:?}"/sandbox bin/provision_osx || true
+      - name: Main - phase 2
+        run: |
           env HOME="${HOME:?}"/sandbox bin/provision_osx
       - name: Debug
         run: |
