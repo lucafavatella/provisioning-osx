@@ -17,6 +17,7 @@ jobs:
           echo $PATH
           if [ $(echo "$PATH" | grep -c ':/usr/local/bin:') -ne 1 ]; then exit 1; fi
           export PATH=$(echo "$PATH" | sed "s|/usr/local/bin:||")
+          echo "PATH=$PATH" >> $GITHUB_ENV
           echo $PATH
       - name: "Check job precondition: no `brew` or `brew-cask` in PATH"
         run: |
