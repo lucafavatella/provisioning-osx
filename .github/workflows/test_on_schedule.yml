@@ -35,7 +35,9 @@ jobs:
           env HOME="${HOME:?}"/sandbox bin/provision_osx || true
       - name: Main - phase 2
         run: |
-          env HOME="${HOME:?}"/sandbox bin/provision_osx
+          export HOME="${HOME:?}"/sandbox
+          source ~/.bash_profile
+          bin/provision_osx
       - name: Debug
         run: |
           ls -la ~
