@@ -14,8 +14,6 @@ for F in \
     $(for D in \
           "${Top:?}"/bin \
           "${Top:?}"/ci.d \
-          "${Top:?}"/lib \
-          "${Top:?}"/libexec \
           "${Top:?}"/sbin
       do
           find "$D" -type f -exec sh -c 'head -n 1 "${1:?}" | grep -q -e "${2:?}" -e "${1:?}"' _ {} "${SH_SHEBANG_REGEX:?}" "${BASH_SHEBANG_REGEX:?}" \; -print
