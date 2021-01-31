@@ -51,6 +51,10 @@ at Safari > Preferences > Search
 
 Finally optionally:
 ```
+brew install --cask cryptomator
+
+# -- 8< ----
+# Requiring administrator priviledges.
 $ brew install --cask lulu ## If pre-Catalina macOS, consult the homepage (`brew homepage --cask lulu`). After installation may require restart.
 ```
 

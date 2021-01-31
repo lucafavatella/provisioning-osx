@@ -134,6 +134,5 @@ brew install bash-completion || exit 1
 }
 link_bin textract || exit 1
 { brew install python && "${ROOT_DIR:?}"/bin/brew_python3_upgrade; } || exit 1
-brew install --cask cryptomator || exit 1
 brew autoremove || exit 1
 log_end "install"
