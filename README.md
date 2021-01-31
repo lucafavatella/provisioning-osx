@@ -65,7 +65,7 @@ $ brew install --cask lulu ## If pre-Catalina macOS, consult the homepage (`brew
 
 #brew install --cask spectacle || exit 1
 
-#brew install --cask android-platform-tools || exit 1 ## adb
+#brew install --cask --binaries android-platform-tools || exit 1 ## adb
 #brew install --cask android-studio || exit 1 ## From [IntelliJ IDEA and Android Studio FAQ](http://blog.jetbrains.com/idea/2013/05/intellij-idea-and-android-studio-faq/): "If I’m already a user of IntelliJ IDEA, do I need to switch to Android Studio for Android development? No. Android Studio is focused specifically on Android development and provides streamlined environment and project setup, but otherwise all of its features are available in IntelliJ IDEA."
 brew install autoconf || exit 1
 #brew install --cask intellij-idea-ce || exit 1
