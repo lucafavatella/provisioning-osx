@@ -19,6 +19,7 @@ EOF
 (require 'prelude-go)
 (require 'prelude-js)
 (require 'prelude-python)
+(require 'prelude-ts)
 EOF
 } && {
     cat > "${USER_CFG_DIR:?}"/config-go-mode.el <<"EOF"
