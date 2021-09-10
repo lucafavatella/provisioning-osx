@@ -11,10 +11,10 @@ Pdf2="${2:?}"
          -t "${T:?}" \
          - \
          >/dev/null <<"EOF"
-FROM debian
+FROM debian:bullseye
 ## Refs:
 ## - [apt-get best practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#apt-get).
-## - [diff-pdf-visually deps](https://github.com/bgeron/diff-pdf-visually/blob/45765fe99cb91f1dcddaebcfc0828a3b97fd1ee9/README.rst#on-ubuntu-linux).
+## - [diff-pdf-visually deps](https://github.com/bgeron/diff-pdf-visually/blob/21e85f1db1bdaee5c0e8e0b730771d6c4e8c3e44/README.rst#on-ubuntu-linux).
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
     imagemagick \
@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     pax \
  && rm -rf /var/lib/apt/lists/*
 ## Ref: https://pip.pypa.io/en/stable/reference/pip_install/#git
-RUN pip3 install --user git+https://github.com/bgeron/diff-pdf-visually.git@45765fe99cb91f1dcddaebcfc0828a3b97fd1ee9
+RUN pip3 install --user git+https://github.com/bgeron/diff-pdf-visually.git@21e85f1db1bdaee5c0e8e0b730771d6c4e8c3e44
 WORKDIR /workdir
 ENTRYPOINT ["sh", "-c", "pax -r -k \"${1:?}\" \"${2:?}\" && python3 -m diff_pdf_visually \"${1:?}\" \"${2:?}\"", "diff-pdf-visually"]
 EOF
