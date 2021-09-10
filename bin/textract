@@ -9,10 +9,10 @@ F="${1:?}"
          -t "${T:?}" \
          - \
          >/dev/null <<"EOF"
-FROM debian
+FROM debian:bullseye
 ## Refs:
 ## - [apt-get best practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#apt-get).
-## - [textract deps](https://github.com/deanmalmgren/textract/blob/e5001688a26aa2103b16a94c3831de5a90951f8c/docs/installation.rst). (pstotext is unavailable.)
+## - [textract deps](https://github.com/deanmalmgren/textract/blob/902028f5d47ed40180202bbde59d4941863a6281/docs/installation.rst). (pstotext is unavailable.)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python-dev \
     libxml2-dev \
@@ -33,12 +33,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
-    python-pip \
-    python-setuptools \
-    python-wheel \
+    python3-pip \
+ && rm -rf /var/lib/apt/lists/*
+## [Fix for symptom `Gen inside xref table too large (bigger than INT_MAX)` in `pdftocairo`]
+## (https://gitlab.freedesktop.org/poppler/poppler/-/commit/4f478daa6a9734b8f269a6586bdce2909844bb6f)
+## is included in poppler 21.01.0 or greater
+## but a valid package version is [only in Debian experimental]
+## (https://packages.debian.org/search?keywords=poppler-utils&searchon=names&suite=all&section=all).
+RUN echo "deb http://deb.debian.org/debian experimental main" > /etc/apt/sources.list.d/popple-experimental.sources.list
+RUN apt-get update && apt-get -t experimental install -y --no-install-recommends \
+    poppler-utils \
  && rm -rf /var/lib/apt/lists/*
 ## Ref: https://pip.pypa.io/en/stable/reference/pip_install/#git
-RUN pip install git+https://github.com/deanmalmgren/textract.git@e5001688a26aa2103b16a94c3831de5a90951f8c
+RUN pip3 install git+https://github.com/deanmalmgren/textract.git@902028f5d47ed40180202bbde59d4941863a6281
 WORKDIR /workdir
 ENTRYPOINT ["sh", "-c", "cat - > \"${1:?}\" && textract \"${1:?}\"", "textract"]
 EOF
