@@ -24,6 +24,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     pax \
  && rm -rf /var/lib/apt/lists/*
+## [Fix for symptom `Gen inside xref table too large (bigger than INT_MAX)` in `pdftocairo`]
+## (https://gitlab.freedesktop.org/poppler/poppler/-/commit/4f478daa6a9734b8f269a6586bdce2909844bb6f)
+## is included in poppler 21.01.0 or greater
+## but a valid package version is [only in Debian experimental]
+## (https://packages.debian.org/search?keywords=poppler-utils&searchon=names&suite=all&section=all).
+RUN echo "deb http://deb.debian.org/debian experimental main" > /etc/apt/sources.list.d/popple-experimental.sources.list
+RUN apt-get update && apt-get -t experimental install -y --no-install-recommends \
+    poppler-utils \
+ && rm -rf /var/lib/apt/lists/*
 ## Ref: https://pip.pypa.io/en/stable/reference/pip_install/#git
 RUN pip3 install --user git+https://github.com/bgeron/diff-pdf-visually.git@21e85f1db1bdaee5c0e8e0b730771d6c4e8c3e44
 WORKDIR /workdir
