@@ -4,9 +4,13 @@
 
 Reinstall macOS.
 This may require [creating a bootable installer](https://support.apple.com/en-us/HT201372).
+
 If you require a [recent version of macOS](https://support.apple.com/en-us/HT201222) and your device is unsupported,
-you may consider a patched installer e.g. [Catalina](http://dosdude1.com/catalina/) ([sources](https://github.com/dosdude1/macos-catalina-patcher/)):
+you may consider a patched installer.
+E.g. [Catalina](http://dosdude1.com/catalina/) ([sources](https://github.com/dosdude1/macos-catalina-patcher/)):
 beware of potential inability to find security updates and to support certain hardware e.g. Bluetooth.
+A [recent recommendation](https://github.com/dosdude1/macos-catalina-patcher/issues/150#issuecomment-1000781162)
+seems to be [OCLP](https://github.com/dortania/OpenCore-Legacy-Patcher).
 
 Prefer encrypted case-sensitive file system.
 
