@@ -46,7 +46,7 @@ $ bin/provision_osx
 
 Set requesting account password immediately
 at System Preferences > Security & Privacy > General
-(programmatically is tricky - see [issue 809](https://github.com/mathiasbynens/dotfiles).
+(programmatically is tricky - see [issue 809](https://github.com/mathiasbynens/dotfiles)).
 Test that when closing then reopening the laptop lid the account is locked.
 
 Set Safari search engine to DuckDuckGo
