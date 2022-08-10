@@ -34,7 +34,7 @@ Open the terminal and run:
 
 ```
 $ bin/clone_homebrew ## Alternatively you may install Homebrew using the procedure at https://brew.sh
-$ bin/provision_osx link_bash_profile ## You may keep the current HEAD of the dotfiles running rather `DOTFILES_VERSION="HEAD" bin/provision_osx link_bash_profile`.
+$ bin/provision_osx link_bash_profile ## Alternatively you may keep the current HEAD of the dotfiles running rather `DOTFILES_VERSION="HEAD" bin/provision_osx link_bash_profile`.
 ```
 
 Ensure the terminal uses shell `bash`, so that it uses the installed profile.
