@@ -69,6 +69,8 @@ if test "${ACTION?}" = "link_bash_profile"; then
     log_start "sh" "Link shell profile..."
     link_dotfile .bash_profile || exit 1
     log_end "sh"
+
+    exit 0
 elif test ! -z "${ACTION?}"; then
     exit 64
 fi
