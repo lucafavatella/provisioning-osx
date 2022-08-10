@@ -56,7 +56,9 @@ link_dotfile() {
     "${ROOT_DIR:?}"/bin/lns "${DOTFILES_DIR:?}/${1:?}" "${HOME:?}/${1:?}"
 }
 
-if test -z "${HOMEBREW_PREFIX}"; then
+ACTION="${1}"
+
+if test "${ACTION?}" = "link_bash_profile"; then
     log_start "dot" "Clone dotfiles..."
     { mkdir -p "${DOTFILES_DIR:?}" \
           && env REPO="${DOTFILES_REPO:?}" VERSION="${DOTFILES_VERSION:?}" DIR="${DOTFILES_DIR:?}" ORIGIN="${DOTFILES_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get
@@ -66,9 +68,8 @@ if test -z "${HOMEBREW_PREFIX}"; then
     log_start "sh" "Link shell profile..."
     link_dotfile .bash_profile || exit 1
     log_end "sh"
-
-    log_e "Initial phase completed. Re-run script in a distinct new terminal tab."
-    exit 78
+elif test ! -z "${ACTION?}"; then
+    exit 64
 fi
 
 log_start "macos" "Configure macOS..."

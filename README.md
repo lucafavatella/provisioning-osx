@@ -34,14 +34,7 @@ Open the terminal and run:
 
 ```
 $ bin/clone_homebrew
-```
-
-Ensure that environment variable `HOMEBREW_PREFIX` is not set.
-
-Then run:
-
-```
-$ bin/provision_osx
+$ bin/provision_osx link_bash_profile
 ```
 
 Ensure the terminal uses shell `bash`, so that it uses the installed profile.
