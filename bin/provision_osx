@@ -56,17 +56,7 @@ link_dotfile() {
     "${ROOT_DIR:?}"/bin/lns "${DOTFILES_DIR:?}/${1:?}" "${HOME:?}/${1:?}"
 }
 
-HOMEBREW_DIR="${HOME:?}/homebrew"
-
-if test "${HOMEBREW_PREFIX}" != "${HOMEBREW_DIR:?}"; then
-    HOMEBREW_REPO=https://github.com/Homebrew/brew.git
-
-    log_start "brew" "Clone homebrew..."
-    { test -e "${HOMEBREW_DIR:?}" \
-          || git -c transfer.fsckobjects=true clone "${HOMEBREW_REPO:?}" "${HOMEBREW_DIR:?}"
-    } || exit 1
-    log_end "brew"
-
+if test -z "${HOMEBREW_PREFIX}"; then
     log_start "dot" "Clone dotfiles..."
     { mkdir -p "${DOTFILES_DIR:?}" \
           && env REPO="${DOTFILES_REPO:?}" VERSION="${DOTFILES_VERSION:?}" DIR="${DOTFILES_DIR:?}" ORIGIN="${DOTFILES_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get
