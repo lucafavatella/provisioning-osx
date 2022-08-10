@@ -34,7 +34,7 @@ Open the terminal and run:
 
 ```
 $ bin/clone_homebrew
-$ bin/provision_osx link_bash_profile
+$ bin/provision_osx link_bash_profile ## You may keep the current HEAD of the dotfiles running rather `DOTFILES_VERSION="HEAD" bin/provision_osx link_bash_profile`.
 ```
 
 Ensure the terminal uses shell `bash`, so that it uses the installed profile.

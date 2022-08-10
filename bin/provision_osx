@@ -47,10 +47,7 @@ link_bin() {
         && "${ROOT_DIR:?}"/bin/lns "${ROOT_DIR:?}/bin/${1:?}" "${HOME:?}/bin/${1:?}"
 }
 
-DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
 DOTFILES_DIR="${ROOT_DIR:?}/home/dotfiles"
-DOTFILES_ORIGIN="provisioning-osx"
-DOTFILES_VERSION="${DOTFILES_ORIGIN:?}/master"
 
 link_dotfile() {
     "${ROOT_DIR:?}"/bin/lns "${DOTFILES_DIR:?}/${1:?}" "${HOME:?}/${1:?}"
@@ -59,6 +56,10 @@ link_dotfile() {
 ACTION="${1}"
 
 if test "${ACTION?}" = "link_bash_profile"; then
+    DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
+    DOTFILES_ORIGIN="provisioning-osx"
+    DOTFILES_VERSION="${DOTFILES_VERSION-"${DOTFILES_ORIGIN:?}/master"}"
+
     log_start "dot" "Clone dotfiles..."
     { mkdir -p "${DOTFILES_DIR:?}" \
           && env REPO="${DOTFILES_REPO:?}" VERSION="${DOTFILES_VERSION:?}" DIR="${DOTFILES_DIR:?}" ORIGIN="${DOTFILES_ORIGIN:?}" "${ROOT_DIR:?}"/bin/git-get
