@@ -1,0 +1,10 @@
+#!/bin/sh
+
+ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)" || exit 69
+
+HOMEBREW_DIR="${HOME:?}/homebrew"
+HOMEBREW_REPO=https://github.com/Homebrew/brew.git
+
+{ test -e "${HOMEBREW_DIR:?}" \
+      || git -c transfer.fsckobjects=true clone "${HOMEBREW_REPO:?}" "${HOMEBREW_DIR:?}"
+} || exit 1

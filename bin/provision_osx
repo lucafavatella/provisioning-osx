@@ -47,25 +47,18 @@ link_bin() {
         && "${ROOT_DIR:?}"/bin/lns "${ROOT_DIR:?}/bin/${1:?}" "${HOME:?}/bin/${1:?}"
 }
 
-DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
 DOTFILES_DIR="${ROOT_DIR:?}/home/dotfiles"
-DOTFILES_ORIGIN="provisioning-osx"
-DOTFILES_VERSION="${DOTFILES_ORIGIN:?}/master"
 
 link_dotfile() {
     "${ROOT_DIR:?}"/bin/lns "${DOTFILES_DIR:?}/${1:?}" "${HOME:?}/${1:?}"
 }
 
-HOMEBREW_DIR="${HOME:?}/homebrew"
+ACTION="${1}"
 
-if test "${HOMEBREW_PREFIX}" != "${HOMEBREW_DIR:?}"; then
-    HOMEBREW_REPO=https://github.com/Homebrew/brew.git
-
-    log_start "brew" "Clone homebrew..."
-    { test -e "${HOMEBREW_DIR:?}" \
-          || git -c transfer.fsckobjects=true clone "${HOMEBREW_REPO:?}" "${HOMEBREW_DIR:?}"
-    } || exit 1
-    log_end "brew"
+if test "${ACTION?}" = "link_bash_profile"; then
+    DOTFILES_REPO=https://github.com/lucafavatella/dotfiles.git
+    DOTFILES_ORIGIN="provisioning-osx"
+    DOTFILES_VERSION="${DOTFILES_VERSION-"${DOTFILES_ORIGIN:?}/master"}"
 
     log_start "dot" "Clone dotfiles..."
     { mkdir -p "${DOTFILES_DIR:?}" \
@@ -77,8 +70,9 @@ if test "${HOMEBREW_PREFIX}" != "${HOMEBREW_DIR:?}"; then
     link_dotfile .bash_profile || exit 1
     log_end "sh"
 
-    log_e "Initial phase completed. Re-run script in a distinct new terminal tab."
-    exit 78
+    exit 0
+elif test ! -z "${ACTION?}"; then
+    exit 64
 fi
 
 log_start "macos" "Configure macOS..."
