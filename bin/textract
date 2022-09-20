@@ -38,11 +38,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ## [Fix for symptom `Gen inside xref table too large (bigger than INT_MAX)` in `pdftocairo`]
 ## (https://gitlab.freedesktop.org/poppler/poppler/-/commit/4f478daa6a9734b8f269a6586bdce2909844bb6f)
 ## is included in poppler 21.01.0 or greater
-## but a valid package version is [only in Debian experimental]
+## but a valid package version is [available only from Debian bookworm]
 ## (https://packages.debian.org/search?keywords=poppler-utils&searchon=names&suite=all&section=all).
-RUN echo "deb http://deb.debian.org/debian experimental main" > /etc/apt/sources.list.d/popple-experimental.sources.list
-RUN apt-get update && apt-get -t experimental install -y --no-install-recommends \
-    poppler-utils \
+RUN echo "deb http://deb.debian.org/debian bookworm main" > /etc/apt/sources.list.d/popple-bookworm.sources.list
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    poppler-utils/bookworm \
  && rm -rf /var/lib/apt/lists/*
 ## Ref: https://pip.pypa.io/en/stable/reference/pip_install/#git
 RUN pip3 install git+https://github.com/deanmalmgren/textract.git@102a58418283fbc833ae1d6dad84e741e09eff66
