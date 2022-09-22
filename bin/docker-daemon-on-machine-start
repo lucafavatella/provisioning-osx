@@ -25,15 +25,13 @@
 ##         }
 ## ```
 
-B2D="boot2docker/boot2docker" ## HACK Assumption: boot2docker URL https://github.com/docker/machine/blob/v0.8.2/libmachine/mcnutils/b2d.go#L24 - better than specifying B2D URL when creating machine. In the future shall probably move to https://github.com/docker/boot2docker
-
-get_latest_b2d_tag() {
-    ## $ curl -s "https://api.github.com/repos/boot2docker/boot2docker/releases/latest" | jq '.tag_name'
-    ## "v1.9.1"
-    ( { R="$(curl -s https://api.github.com/repos/${B2D}/releases/latest)" || exit 1; } && \
-          printf '%s' "$R"; ) | \
-        jq '.tag_name'
-}
+## [Recent glibc requires Docker 20.10.0+](https://github.com/debuerreotype/docker-debian-artifacts/issues/141)
+## but the (deprecated) official boot2docker provides only up to
+## [Docker v19.03.12](https://github.com/boot2docker/boot2docker/releases/tag/v19.03.12).
+## [A recommendation is to use BurmillaOS (fork of RancherOS)]
+## (https://github.com/boot2docker/boot2docker/pull/1408#issuecomment-748668079)
+## that [seems to support Docker Machine](https://github.com/burmilla/os/issues/13#issuecomment-732190403).
+B2D_ISO_URL=https://github.com/burmilla/os/releases/download/v1.9.5/burmillaos-v1.9.5.iso
 
 dm_is_created() {
     ## $ docker-machine ls --filter driver=virtualbox --filter name=tmp
@@ -82,7 +80,8 @@ D=virtualbox
 case "$D" in
     virtualbox)
         DO=""
-        test -z "$VIRTUALBOX_SHARE_FOLDER" && DO="--virtualbox-no-share " ## Prevent [sharing home directory](https://docs.docker.com/machine/drivers/virtualbox/#options).
+        DO="${DO?} --virtualbox-boot2docker-url ${B2D_ISO_URL:?}"
+        test -z "$VIRTUALBOX_SHARE_FOLDER" && DO="${DO?} --virtualbox-no-share" ## Prevent [sharing home directory](https://docs.docker.com/machine/drivers/virtualbox/#options).
         ##
         ## From https://www.virtualbox.org/wiki/Changelog
         ## > "6.1.28 (released October 19 2021) ... Check updated documentation or your VMs may stop working!"
@@ -127,17 +126,8 @@ M="${1:-docker-bin-$D}"
         }
 } >&2
 
-## Best effort lazy idempotent upgrade of Docker daemon on machine.
-##
-## Assumption: machine can be restarted at any time.
-{ VE=$(get_latest_b2d_tag) && \
-        { VA=$(dm_daemon_version "$M")
-          test "\"v${VA}\"" = "$VE" || \
-              { echo "Actual boot2docker version '$VA' for Docker Machine '$M' differs from expected '$VE': attempting upgrade."
-                docker-machine upgrade "$M" || \
-                    echo "Failed upgrade of Docker Machine '$M'. Ignoring." >&2
-              }
-        }
-} >&2
+## No best effort lazy idempotent upgrade of Docker daemon on machine.
+## From https://github.com/docker/machine/blob/b170508bf44c3405e079e26d5fdffe35a64c6972/libmachine/mcnutils/b2d.go#L420
+## > Boot2Docker URL was explicitly set to %q at create time, so Docker Machine cannot upgrade this machine to the latest version.
 
 echo "$M"
