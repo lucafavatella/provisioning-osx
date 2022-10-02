@@ -79,6 +79,7 @@ brew install autoconf || exit 1
 #brew install saitoha/sixel/mlterm || exit 1 ## Refs https://en.wikipedia.org/wiki/VT340 https://en.wikipedia.org/wiki/Sixel
 brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
 #brew install plantuml || exit 1
+#brew install radare2 || exit 1
 #brew install --cask wine-stable || exit 1 # [Because of bug 52354](https://github.com/Homebrew/homebrew-cask/blob/master/Casks/wine-stable.rb#L14), prefer < 6.17 e.g. latest earlier stable [6.0.2](https://github.com/Gcenx/macOS_Wine_builds/releases/tag/6.0.2): `curl -fsSO https://raw.githubusercontent.com/Homebrew/homebrew-cask/0135678b133002123db42db0556eab3efd3e6597/Casks/wine-stable.rb && brew install wine-stable.rb`.
 ```
 
