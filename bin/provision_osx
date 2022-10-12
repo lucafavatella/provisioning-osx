@@ -104,7 +104,13 @@ brew install bash-completion || exit 1
   "${ROOT_DIR:?}"/bin/macos_has_hypervisor; \
       case "$?" in
           1) log_e "No Hypervisor. Workaround: Docker Machine, on VirtualBox."
-             brew install --cask virtualbox || exit_unless_ci 1
+             ## VirtualBox 7 requires hypervisor. Workaround: prefer VirtualBox 6.
+             ## From https://www.virtualbox.org/wiki/Changelog-7.0
+             ## > macOS host: Dropped all kernel extensions. VirtualBox relies fully on the hypervisor and vmnet frameworks provided by Apple now. ...
+             ( VBTmpDir="$(mktemp -d)" \
+                   && curl -fsS -o "${VBTmpDir:?}"/virtualbox.rb https://raw.githubusercontent.com/Homebrew/homebrew-cask/aa3c55951fc9d687acce43e5c0338f42c1ddff7b/Casks/virtualbox.rb \
+                   && brew install "${VBTmpDir:?}"/virtualbox.rb \
+                   && rm -rf "${VBTmpDir:?}"; ) || exit_unless_ci 1
              log_e "macOS requires the user to approve (VirtualBox's) Kernel Extension, in \"System Preferences > Security & Privacy\". Alternative is running 'spctl kext-consent add VB5E2TV963' from recovery (\"Cmd-R\")."
              ## Refs:
              ## - https://developer.apple.com/library/archive/technotes/tn2459/_index.html#//apple_ref/doc/uid/DTS40017658-CH1-TNTAG2
