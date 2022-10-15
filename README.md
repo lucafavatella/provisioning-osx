@@ -85,8 +85,8 @@ brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive e
 
 Requiring administrator priviledges:
 ```
+#brew install --cask vagrant || exit 1 ## ( VTmpDir="$(mktemp -d)" && curl -fsS -o "${VTmpDir:?}"/vagrant.rb https://raw.githubusercontent.com/Homebrew/homebrew-cask/3a4bcb843227eec3b25aad3605bda50f00190230/Casks/vagrant.rb && brew install "${VTmpDir:?}"/vagrant.rb && rm -rf "${VTmpDir:?}"; ) || exit 1 # It seems vagrant v2.3.1 introduced somehow load command 0x80000034 [i.e. LC_DYLD_CHAINED_FIXUPS](https://stackoverflow.com/questions/70375459/golang-build-error-0x80000034-2147483700/70375558#70375558), introduced in [Xcode 13(https://developer.apple.com/documentation/xcode-release-notes/xcode-13-release-notes): "All programs and dylibs built with a deployment target of macOS 12 or iOS 15 or later now use the chained fixups format. This uses different load commands and LINKEDIT data, and won’t run or load on older OS versions. (49851380)".
 brew install --cask wireshark || exit 1
-#( VTmpDir="$(mktemp -d)" && curl -fsS -o "${VTmpDir:?}"/vagrant.rb https://raw.githubusercontent.com/Homebrew/homebrew-cask/3a4bcb843227eec3b25aad3605bda50f00190230/Casks/vagrant.rb && brew install "${VTmpDir:?}"/vagrant.rb && rm -rf "${VTmpDir:?}"; ) || exit 1 # It seems vagrant v2.3.1 introduced somehow load command 0x80000034 [i.e. LC_DYLD_CHAINED_FIXUPS](https://stackoverflow.com/questions/70375459/golang-build-error-0x80000034-2147483700/70375558#70375558), introduced in [Xcode 13(https://developer.apple.com/documentation/xcode-release-notes/xcode-13-release-notes): "All programs and dylibs built with a deployment target of macOS 12 or iOS 15 or later now use the chained fixups format. This uses different load commands and LINKEDIT data, and won’t run or load on older OS versions. (49851380)".
 ```
 
 ### TODO
