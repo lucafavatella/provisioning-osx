@@ -172,6 +172,7 @@ bash_pem_sha1s = { while $(bash_pem_sha1); do :; done 2>/dev/null; }
 # Experiment confirms that casing seems to be `SSL server CA : Yes` as per https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L61 , not "SSL Server CA" as per https://manpages.debian.org/bullseye/openssl/x509.1ssl.en.html
 # Sample output: `0123456789ABCDEF000000000000000000000000`.
 # Sample output: nothing (if not CA).
+# Requires bash for option `pipefail`.
 bash_pem_root_sha1 = \
 	( set -o pipefail; \
 		$(sh_pem_fingerprint_sha1_and_purpose) \
