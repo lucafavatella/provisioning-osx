@@ -128,9 +128,19 @@ sh_find_keychain_cert_by_sha1 = \
 		'{ for (i = 1; i <= NF; i++) if ($$i ~ /'$(1)'/) print $$i; else continue }'; }
 
 SSL = /usr/bin/openssl
+
 # Fingerprint printing from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L94-L97
 # Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
 sh_pem_fingerprint = { $(SSL) x509 -fingerprint $(1) -noout; }
+# SHA-1 for interoperability with `/usr/bin/security find-certificate` option `-Z`.
+SSL_DIGEST_SHA1 = -sha1
+# Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
+sh_pem_fingerprint_sha1 = $(call sh_pem_fingerprint,$(SSL_DIGEST_SHA1))
+SSL_FP_DELIM = =
+SSL_FP_FIELD = 2
+SSL_FP_SEP = :
+SSL_FP_SHA1_PREFIX = SHA1 Fingerprint
+
 # Purpose filtering from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L55-L61
 # Output is:
 # * Line `^SHA1 Fingerprint=...`.
@@ -139,16 +149,10 @@ sh_pem_fingerprint = { $(SSL) x509 -fingerprint $(1) -noout; }
 #   * `^SSL server CA : Yes$`. Or
 #   * `^SSL server CA : Yes (WARNING code=...)$`.
 sh_pem_fingerprint_and_purpose = { $(SSL) x509 -fingerprint $(1) -purpose -noout; }
-SSL_FP_DELIM = =
-SSL_FP_FIELD = 2
-SSL_FP_SEP = :
-SSL_FP_SHA1_PREFIX = SHA1 Fingerprint
 SSL_SERVER_CA_PREFIX = SSL server CA : Yes
-# SHA-1 for interoperability with `/usr/bin/security find-certificate` option `-Z`.
-SSL_DIGEST_SHA1 = -sha1
-# Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
-sh_pem_fingerprint_sha1 = $(call sh_pem_fingerprint,$(SSL_DIGEST_SHA1))
-sh_pem_fingerprint_sha1_and_purpose = $(call sh_pem_fingerprint_and_purpose,$(SSL_DIGEST_SHA1))
+sh_pem_fingerprint_sha1_and_purpose = \
+	$(call sh_pem_fingerprint_and_purpose,$(SSL_DIGEST_SHA1))
+
 # Sample input: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
 # Sample output: `0123456789ABCDEF000000000000000000000000`.
 # Requires bash for option `pipefail`.
