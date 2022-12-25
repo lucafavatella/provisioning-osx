@@ -112,6 +112,7 @@ bash_pem_root_sha1 = \
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
 bash_pem_root_sha1s = { while $(bash_pem_root_sha1); do :; done 2>/dev/null; }
 
+# TODO Certificate com.apple.kerberos.kdc is [known](https://support.apple.com/en-gb/TS1452).
 .PHONY: are-there-no-root-system-certs
 # Requires bash for process substitution (`<(list)`).
 are-there-no-root-system-certs: SHELL = $(BASH)
