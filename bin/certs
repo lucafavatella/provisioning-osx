@@ -10,6 +10,57 @@ SYS_ROOT_KEYCHAIN = /System/Library/Keychains/SystemRootCertificates.keychain
 # Formula [renames as `cacert.pem`](https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L18).
 BREW_CACERT_PEM := $(shell echo "$$(brew --prefix ca-certificates)"/share/ca-certificates/cacert.pem)
 MOZILLA_PEM = $(BREW_CACERT_PEM)
+# Formula https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb
+# refers to https://curl.se/docs/caextract.html
+# that refers to https://curl.se/docs/mk-ca-bundle.html
+# that mentions "the certdata.txt file from Mozilla's source tree over HTTPS" and "release (default)"
+# that is coded at https://github.com/curl/curl/blob/4ab601d93a07cee665ec2458a51fccd0767c03f1/scripts/mk-ca-bundle.pl#L60
+# as https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
+# that reads:
+# > This file contains the object definitions for the certs and other
+# > information "built into" NSS.
+# whose related wiki page seems to be https://wiki.mozilla.org/CA
+# that links to page https://wiki.mozilla.org/CA/Included_Certificates
+# that reads:
+# > If you are embedding our root store,
+# > you need to know that we have imposed some restrictions
+# > on certain CAs or certificates which are not encoded in certdata.txt.
+# > These are [documented](https://wiki.mozilla.org/CA/Additional_Trust_Changes)
+# > on a best-efforts basis.
+#
+# Those restrictions that are not encoded in certdata.txt
+# need to manually be assessed and reflected in this script.
+#
+# From https://wiki.mozilla.org/index.php?title=CA/Additional_Trust_Changes&oldid=1237513
+# > ## Extended Validation (EV)
+# Not relevant.
+# > ## OneCRL
+# Not relevant.
+# > ## Distrust After
+# > ... For certificates chaining up to those root certificates,
+# > Mozilla does not trust end-entity certificates that have a Valid-From date
+# > later than the specified distrust-after date. ...
+# > These root certificates may be identified
+# > via the 'Included CA Certificates' reports
+# > on the [CA/Included Certificates wiki page](https://wiki.mozilla.org/CA/Included_Certificates).
+# > Within those reports look for dates in the
+# > 'Distrust for TLS After Date' and
+# > 'Distrust for S/MIME After Date' columns.
+# ```
+# $ curl -fsS https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportCSVFormat | head -n 1 | cut -d ',' -f '13,14'
+# "Distrust for TLS After Date","Distrust for S/MIME After Date"
+# ```
+# > ## Kamu SM
+# > The Turkish Government CA is name-constrained to a set of turkish toplevel domains ...
+# This seems reflected in the 'Mozilla Applied Constraints' column of https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportCSVFormat
+# ```
+# $ curl -fsS https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportCSVFormat | head -n 1 | cut -d ',' -f '22'
+# "Mozilla Applied Constraints"
+# ```
+# > ## Symantec
+# Considering "Distrust After" seems sufficient for this.
+#
+# TODO Blacklist CAs in Mozilla PEM that have non-standard columns 13,14,22 (see context above) in https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportCSVFormat
 
 .PHONY: are-system-root-certs-reputable
 are-system-root-certs-reputable: \
