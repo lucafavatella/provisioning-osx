@@ -83,10 +83,12 @@ mozilla-certs-not-among-system-root-certs:
 	$(error TODO $@)
 
 .PHONY: describe-keychain-cert-by-sha1-%
+# Requires bash for process substitution (`<(list)`).
 describe-keychain-cert-by-sha1-%: SHELL = $(BASH)
 describe-keychain-cert-by-sha1-%:
 	: "$${KEYCHAIN:?}"
-	$(call bash_describe_keychain_cert_by_sha1,"$${KEYCHAIN:?}","$*")
+	( DB="$$( $(call sh_list_keychain_certs_with_sha1,"$${KEYCHAIN:?}") )"; \
+		{ $(call sh_find_keychain_cert_by_sha1,"$*") < <(echo "$${DB:?}"); }; )
 
 .PHONY: describe-keychain
 # Requires bash for process substitution (`<(list)`).
@@ -245,7 +247,3 @@ bash_verbose_keychain_root_certs_not_among_strict_mozilla_certs = \
 	$(call bash_describe_keychain_root_certs_not_among_strict_mozilla_certs,$(1))
 bash_verbose_system_root_certs_not_among_strict_mozilla_certs = \
 	$(call bash_verbose_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
-# Requires bash for process substitution (`<(list)`).
-bash_describe_keychain_cert_by_sha1 = \
-	( DB="$$( $(call sh_list_keychain_certs_with_sha1,$(1)) )"; \
-		{ $(call sh_find_keychain_cert_by_sha1,"$(2)") < <(echo "$${DB:?}"); }; )
