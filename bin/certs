@@ -37,6 +37,15 @@ describe-keychain-cert-by-sha1-%:
 	: "$${KEYCHAIN:?}"
 	$(call bash_describe_keychain_cert_by_sha1,"$${KEYCHAIN:?}","$*")
 
+.PHONY: describe-keychain
+# Requires bash for process substitution (`<(list)`).
+describe-keychain: SHELL = $(BASH)
+describe-keychain:
+	: "$${KEYCHAIN:?}"
+	$(call sh_list_keychain_certs_with_sha1,"$${KEYCHAIN:?}")
+	{ while $(sh_pem_fingerprint_sha1_and_purpose); do :; done 2>/dev/null; } \
+		< <($(call sh_list_keychain_certs_as_pem,"$${KEYCHAIN:?}"))
+
 # ==== Internal Rules and Variables ====
 
 BASH = /bin/bash
