@@ -1,6 +1,7 @@
 #!/usr/bin/make -f
 
 .DEFAULT_GOAL: are-system-root-certs-reputable
+MAKEFLAGS = -k
 
 # Path from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L33
 SYS_KEYCHAIN = /Library/Keychains/System.keychain
@@ -65,6 +66,7 @@ MOZILLA_PEM = $(BREW_CACERT_PEM)
 .PHONY: are-system-root-certs-reputable
 are-system-root-certs-reputable: \
 	are-there-no-root-system-certs \
+	are-there-no-system-root-certs-not-ssl-server-ca \
 	are-there-no-system-root-certs-not-among-strict-mozilla-certs \
 	;
 
@@ -78,6 +80,16 @@ are-there-no-root-system-certs:
 .PHONY: root-system-certs
 root-system-certs:
 	$(error TODO $@)
+
+.PHONY: are-there-no-system-root-certs-not-ssl-server-ca
+are-there-no-system-root-certs-not-ssl-server-ca: SHELL = $(BASH)
+are-there-no-system-root-certs-not-ssl-server-ca:
+	$(call bash_keychain_certs_not_ssl_server_ca,"$(SYS_ROOT_KEYCHAIN)")
+
+.PHONY: system-root-certs-not-ssl-server-ca
+system-root-certs-not-ssl-server-ca: SHELL = $(BASH)
+system-root-certs-not-ssl-server-ca:
+	@$(call bash_keychain_certs_not_ssl_server_ca,"$(SYS_ROOT_KEYCHAIN)")
 
 .PHONY: are-there-no-system-root-certs-not-among-strict-mozilla-certs
 are-there-no-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
@@ -210,6 +222,7 @@ bash_keychain_certs = \
 bash_keychain_root_certs = \
 	{ $(bash_pem_root_sha1s) \
 		< <($(call sh_list_keychain_certs_as_pem,$(1))); }
+
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
 # Exit status is 1 if no lines selected, 0 if any.
 # Requires bash for process substitution (`<(list)`).
@@ -219,11 +232,33 @@ bash_grep_keychain_root_certs_not_among_strict_mozilla_certs = \
 		-f <($(bash_strict_mozilla_certs)) \
 		<($(call bash_keychain_root_certs,$(1))); }
 # Select system root certificates not matching any of the Mozilla CA certificates. There should be none.
-# Starts shell in order to scope variables.
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
-# Exit status is 0 if no certificates not matching, 1 if any.
 bash_keychain_root_certs_not_among_strict_mozilla_certs = \
 	( UL="$$( $(call bash_grep_keychain_root_certs_not_among_strict_mozilla_certs,$(1)) )"; \
+		S=$$?; \
+		case $${S:?} in \
+			(1) $(call bash_exit,0) \
+			    ;; \
+			(0) echo "$${UL:?}"; \
+			    $(call bash_exit,1) \
+			    ;; \
+			(*) $(call bash_exit,$${S:?}) \
+			    ;; \
+		esac; )
+
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+# Exit status is 1 if no lines selected, 0 if any.
+# Requires bash for process substitution (`<(list)`).
+bash_grep_keychain_certs_not_ssl_server_ca = \
+	{ grep -F \
+		-v \
+		-f <($(call bash_keychain_root_certs,$(1))) \
+		<($(call bash_keychain_certs,$(1))); }
+# Select system root certificates not SSL server CAs. There should be none.
+# TODO Handle somehow expired certificate.
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+bash_keychain_certs_not_ssl_server_ca = \
+	( UL="$$( $(call bash_grep_keychain_certs_not_ssl_server_ca,$(1)) )"; \
 		S=$$?; \
 		case $${S:?} in \
 			(1) $(call bash_exit,0) \
