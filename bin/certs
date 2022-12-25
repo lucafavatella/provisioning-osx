@@ -45,16 +45,16 @@ bash_exit = { sh -s < <(echo "exit $(1)"); }
 
 SECURITY = /usr/bin/security
 # Certificate retrieval from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L37
-list_keychain_certs_as_pem = \
+sh_list_keychain_certs_as_pem = \
 	{ $(SECURITY) find-certificate -a -p $(1); }
-list_keychain_certs_with_sha1 = \
+sh_list_keychain_certs_with_sha1 = \
 	{ $(SECURITY) find-certificate -a -Z $(1); }
 SECURITY_SHA1_LINE_PREFIX = SHA-1 
 SECURITY_ABSENT_CHAR = \0
 # Refs:
 # * [How to separate based on string (rather than char), and how to iterate over fields](https://unix.stackexchange.com/questions/378547/split-a-string-by-some-separator-in-bash/378550#378550).
 # * [How to conditionally print field](https://www.tek-tips.com/viewthread.cfm?qid=1459823#post-5570064).
-find_keychain_cert_by_sha1 = \
+sh_find_keychain_cert_by_sha1 = \
 	{ awk \
 		-F '$(SECURITY_SHA1_LINE_PREFIX)' \
 		-v RS='$(SECURITY_ABSENT_CHAR)' \
@@ -140,7 +140,7 @@ bash_strict_mozilla_certs = \
 # Requires bash for process substitution (`<(list)`).
 bash_keychain_root_certs = \
 	{ $(bash_pem_root_sha1s) \
-		< <($(call list_keychain_certs_as_pem,$(1))); }
+		< <($(call sh_list_keychain_certs_as_pem,$(1))); }
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
 # Exit status is 1 if no lines selected, 0 if any.
 # Requires bash for process substitution (`<(list)`).
@@ -176,9 +176,9 @@ system-root-certs-not-among-strict-mozilla-certs:
 
 # Requires bash for process substitution (`<(list)`).
 bash_describe_keychain_root_certs_not_among_strict_mozilla_certs = \
-	( DB="$$( $(call list_keychain_certs_with_sha1,$(1)) )"; \
+	( DB="$$( $(call sh_list_keychain_certs_with_sha1,$(1)) )"; \
 		for X in $$( $(call bash_keychain_root_certs_not_among_strict_mozilla_certs,$(1)) ); do \
-			{ $(call find_keychain_cert_by_sha1,"$${X:?}") < <(echo "$${DB:?}"); }; \
+			{ $(call sh_find_keychain_cert_by_sha1,"$${X:?}") < <(echo "$${DB:?}"); }; \
 		done; )
 bash_verbose_keychain_root_certs_not_among_strict_mozilla_certs = \
 	$(call bash_describe_keychain_root_certs_not_among_strict_mozilla_certs,$(1))
@@ -186,5 +186,5 @@ bash_verbose_system_root_certs_not_among_strict_mozilla_certs = \
 	$(call bash_verbose_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
 # Requires bash for process substitution (`<(list)`).
 bash_describe_keychain_cert_by_sha1 = \
-	( DB="$$( $(call list_keychain_certs_with_sha1,$(1)) )"; \
-		{ $(call find_keychain_cert_by_sha1,"$(2)") < <(echo "$${DB:?}"); }; )
+	( DB="$$( $(call sh_list_keychain_certs_with_sha1,$(1)) )"; \
+		{ $(call sh_find_keychain_cert_by_sha1,"$(2)") < <(echo "$${DB:?}"); }; )
