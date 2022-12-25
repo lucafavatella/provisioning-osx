@@ -75,7 +75,7 @@ verbose-root-system-certs:
 .PHONY: verbose-system-root-certs-not-among-strict-mozilla-certs
 verbose-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
 verbose-system-root-certs-not-among-strict-mozilla-certs:
-	$(bash_verbose_system_root_certs_not_among_strict_mozilla_certs)
+	$(call bash_describe_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
 	$(warning Non-strict $@)
 
 .PHONY: mozilla-certs-not-among-system-root-certs
@@ -248,7 +248,3 @@ bash_describe_keychain_root_certs_not_among_strict_mozilla_certs = \
 		for X in $$( $(call bash_keychain_root_certs_not_among_strict_mozilla_certs,$(1)) ); do \
 			{ $(call sh_find_keychain_cert_by_sha1,"$${X:?}") < <(echo "$${DB:?}"); }; \
 		done; )
-bash_verbose_keychain_root_certs_not_among_strict_mozilla_certs = \
-	$(call bash_describe_keychain_root_certs_not_among_strict_mozilla_certs,$(1))
-bash_verbose_system_root_certs_not_among_strict_mozilla_certs = \
-	$(call bash_verbose_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
