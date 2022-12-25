@@ -152,6 +152,17 @@ sh_pem_fingerprint_and_purpose = { $(SSL) x509 -fingerprint $(1) -purpose -noout
 SSL_SERVER_CA_PREFIX = SSL server CA : Yes
 sh_pem_fingerprint_sha1_and_purpose = \
 	$(call sh_pem_fingerprint_and_purpose,$(SSL_DIGEST_SHA1))
+# Experiment confirms that casing seems to be `SSL server CA : Yes` as per https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L61 , not "SSL Server CA" as per https://manpages.debian.org/bullseye/openssl/x509.1ssl.en.html
+# Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
+# Sample output: nothing (if not CA).
+# Requires bash for option `pipefail`.
+bash_pem_fingerprint_root_sha1 = \
+	( set -o pipefail; \
+		$(sh_pem_fingerprint_sha1_and_purpose) \
+			| ( X="$$(grep -i -e '^$(SSL_FP_SHA1_PREFIX)' -e '^$(SSL_SERVER_CA_PREFIX)')"; \
+				if { echo "$${X:?}" | grep -q -i -e '^$(SSL_SERVER_CA_PREFIX)'; }; then \
+					{ echo "$${X:?}" | grep -i -e '^$(SSL_FP_SHA1_PREFIX)'; }; \
+				fi; ); )
 
 # Sample input: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
 # Sample output: `0123456789ABCDEF000000000000000000000000`.
@@ -160,29 +171,19 @@ bash_normalize_fingerprint_sha1 = \
 	( set -o pipefail; \
 		cut -d '$(SSL_FP_DELIM)' -f $(SSL_FP_FIELD) \
 			| tr -d '$(SSL_FP_SEP)'; )
-# Sample output: `0123456789ABCDEF000000000000000000000000`.
-# Requires bash for option `pipefail`.
-bash_pem_sha1 = \
-	( set -o pipefail; \
-		$(sh_pem_fingerprint_sha1) \
-			| $(bash_normalize_fingerprint_sha1); )
 # How to process multiple certificates in one file is from https://unix.stackexchange.com/questions/696224/using-openssl-to-display-all-certificates-of-a-pem-file/696244#696244
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
-bash_pem_sha1s = { while $(bash_pem_sha1); do :; done 2>/dev/null; }
-# Experiment confirms that casing seems to be `SSL server CA : Yes` as per https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L61 , not "SSL Server CA" as per https://manpages.debian.org/bullseye/openssl/x509.1ssl.en.html
-# Sample output: `0123456789ABCDEF000000000000000000000000`.
-# Sample output: nothing (if not CA).
 # Requires bash for option `pipefail`.
-bash_pem_root_sha1 = \
+bash_pem_sha1s = \
 	( set -o pipefail; \
-		$(sh_pem_fingerprint_sha1_and_purpose) \
-			| ( X="$$(grep -i -e '^$(SSL_FP_SHA1_PREFIX)' -e '^$(SSL_SERVER_CA_PREFIX)')"; \
-				if { echo "$${X:?}" | grep -q -i -e '^$(SSL_SERVER_CA_PREFIX)'; }; then \
-					{ echo "$${X:?}" | grep -i -e '^$(SSL_FP_SHA1_PREFIX)'; }; \
-				fi; ) \
+		{ while $(sh_pem_fingerprint_sha1); do :; done 2>/dev/null; } \
 			| $(bash_normalize_fingerprint_sha1); )
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
-bash_pem_root_sha1s = { while $(bash_pem_root_sha1); do :; done 2>/dev/null; }
+# Requires bash for option `pipefail`.
+bash_pem_root_sha1s = \
+	( set -o pipefail; \
+		{ while $(bash_pem_fingerprint_root_sha1); do :; done 2>/dev/null; } \
+			| $(bash_normalize_fingerprint_sha1); )
 
 # TODO Certificate com.apple.kerberos.kdc is [known](https://support.apple.com/en-gb/TS1452).
 .PHONY: are-there-no-root-system-certs
