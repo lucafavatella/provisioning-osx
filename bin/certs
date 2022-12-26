@@ -197,6 +197,7 @@ are-there-no-root-system-certs:
 sh_root_system_certs = :
 .PHONY: root-system-certs
 root-system-certs:
+	@$(sh_root_system_certs)
 	$(warning TODO $@)
 
 .PHONY: are-there-no-system-root-certs-not-among-strict-mozilla-certs
