@@ -75,12 +75,12 @@ are-there-no-root-system-certs: SHELL = $(BASH)
 are-there-no-root-system-certs:
 	diff -u \
 		/dev/null \
-		<($(sh_root_system_certs))
+		<(:)
+	$(warning TODO $@)
 
 .PHONY: root-system-certs
 root-system-certs:
-	@$(sh_root_system_certs)
-	$(warning TODO $@)
+	$(error TODO $@)
 
 .PHONY: verbose-root-system-certs
 verbose-root-system-certs:
@@ -210,8 +210,6 @@ bash_pem_root_sha1s = \
 	( set -o pipefail; \
 		{ while $(bash_pem_fingerprint_root_sha1); do :; done 2>/dev/null; } \
 			| $(bash_normalize_fingerprint_sha1); )
-
-sh_root_system_certs = :
 
 # TODO Make strict.
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
