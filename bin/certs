@@ -79,10 +79,6 @@ are-there-no-root-system-certs:
 root-system-certs:
 	$(error TODO $@)
 
-.PHONY: describe-root-system-certs
-describe-root-system-certs:
-	$(error TODO $@)
-
 .PHONY: are-there-no-system-root-certs-not-among-strict-mozilla-certs
 are-there-no-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
 are-there-no-system-root-certs-not-among-strict-mozilla-certs:
@@ -93,16 +89,6 @@ are-there-no-system-root-certs-not-among-strict-mozilla-certs:
 system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
 system-root-certs-not-among-strict-mozilla-certs:
 	@$(call bash_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
-	$(warning Non-strict $@)
-
-.PHONY: describe-system-root-certs-not-among-strict-mozilla-certs
-# Requires bash for process substitution (`<(list)`).
-describe-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
-describe-system-root-certs-not-among-strict-mozilla-certs:
-	( DB="$$( $(call sh_list_keychain_certs_with_sha1,"$(SYS_ROOT_KEYCHAIN)") )"; \
-		for X in $$( $(call bash_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)") ); do \
-			{ $(call sh_find_keychain_cert_by_sha1,"$${X:?}") < <(echo "$${DB:?}"); }; \
-		done; )
 	$(warning Non-strict $@)
 
 .PHONY: mozilla-certs-not-among-system-root-certs
