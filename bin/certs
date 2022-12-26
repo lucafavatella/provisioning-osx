@@ -99,9 +99,13 @@ system-root-certs-not-among-strict-mozilla-certs:
 	$(warning Non-strict $@)
 
 .PHONY: verbose-system-root-certs-not-among-strict-mozilla-certs
+# Requires bash for process substitution (`<(list)`).
 verbose-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
 verbose-system-root-certs-not-among-strict-mozilla-certs:
-	$(call bash_describe_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
+	( DB="$$( $(call sh_list_keychain_certs_with_sha1,"$(SYS_ROOT_KEYCHAIN)") )"; \
+		for X in $$( $(call bash_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)") ); do \
+			{ $(call sh_find_keychain_cert_by_sha1,"$${X:?}") < <(echo "$${DB:?}"); }; \
+		done; )
 	$(warning Non-strict $@)
 
 .PHONY: mozilla-certs-not-among-system-root-certs
@@ -245,10 +249,3 @@ bash_keychain_root_certs_not_among_strict_mozilla_certs = \
 			(*) $(call bash_exit,$${S:?}) \
 			    ;; \
 		esac; )
-
-# Requires bash for process substitution (`<(list)`).
-bash_describe_keychain_root_certs_not_among_strict_mozilla_certs = \
-	( DB="$$( $(call sh_list_keychain_certs_with_sha1,$(1)) )"; \
-		for X in $$( $(call bash_keychain_root_certs_not_among_strict_mozilla_certs,$(1)) ); do \
-			{ $(call sh_find_keychain_cert_by_sha1,"$${X:?}") < <(echo "$${DB:?}"); }; \
-		done; )
