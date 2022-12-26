@@ -68,9 +68,35 @@ are-system-root-certs-reputable: \
 	are-there-no-system-root-certs-not-among-strict-mozilla-certs \
 	;
 
+# TODO Certificate com.apple.kerberos.kdc is [known](https://support.apple.com/en-gb/TS1452).
+.PHONY: are-there-no-root-system-certs
+# Requires bash for process substitution (`<(list)`).
+are-there-no-root-system-certs: SHELL = $(BASH)
+are-there-no-root-system-certs:
+	diff -u \
+		/dev/null \
+		<($(sh_root_system_certs))
+
+.PHONY: root-system-certs
+root-system-certs:
+	@$(sh_root_system_certs)
+	$(warning TODO $@)
+
 .PHONY: verbose-root-system-certs
 verbose-root-system-certs:
 	$(error TODO $@)
+
+.PHONY: are-there-no-system-root-certs-not-among-strict-mozilla-certs
+are-there-no-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
+are-there-no-system-root-certs-not-among-strict-mozilla-certs:
+	$(bash_system_root_certs_not_among_strict_mozilla_certs)
+	$(warning Non-strict $@)
+
+.PHONY: system-root-certs-not-among-strict-mozilla-certs
+system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
+system-root-certs-not-among-strict-mozilla-certs:
+	@$(bash_system_root_certs_not_among_strict_mozilla_certs)
+	$(warning Non-strict $@)
 
 .PHONY: verbose-system-root-certs-not-among-strict-mozilla-certs
 verbose-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
@@ -185,26 +211,7 @@ bash_pem_root_sha1s = \
 		{ while $(bash_pem_fingerprint_root_sha1); do :; done 2>/dev/null; } \
 			| $(bash_normalize_fingerprint_sha1); )
 
-# TODO Certificate com.apple.kerberos.kdc is [known](https://support.apple.com/en-gb/TS1452).
-.PHONY: are-there-no-root-system-certs
-# Requires bash for process substitution (`<(list)`).
-are-there-no-root-system-certs: SHELL = $(BASH)
-are-there-no-root-system-certs:
-	diff -u \
-		/dev/null \
-		<($(sh_root_system_certs))
-
 sh_root_system_certs = :
-.PHONY: root-system-certs
-root-system-certs:
-	@$(sh_root_system_certs)
-	$(warning TODO $@)
-
-.PHONY: are-there-no-system-root-certs-not-among-strict-mozilla-certs
-are-there-no-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
-are-there-no-system-root-certs-not-among-strict-mozilla-certs:
-	$(bash_system_root_certs_not_among_strict_mozilla_certs)
-	$(warning Non-strict $@)
 
 # TODO Make strict.
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
@@ -243,11 +250,6 @@ bash_keychain_root_certs_not_among_strict_mozilla_certs = \
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
 bash_system_root_certs_not_among_strict_mozilla_certs = \
 	$(call bash_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
-.PHONY: system-root-certs-not-among-strict-mozilla-certs
-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
-system-root-certs-not-among-strict-mozilla-certs:
-	@$(bash_system_root_certs_not_among_strict_mozilla_certs)
-	$(warning Non-strict $@)
 
 # Requires bash for process substitution (`<(list)`).
 bash_describe_keychain_root_certs_not_among_strict_mozilla_certs = \
