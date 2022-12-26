@@ -89,13 +89,13 @@ verbose-root-system-certs:
 .PHONY: are-there-no-system-root-certs-not-among-strict-mozilla-certs
 are-there-no-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
 are-there-no-system-root-certs-not-among-strict-mozilla-certs:
-	$(bash_system_root_certs_not_among_strict_mozilla_certs)
+	$(call bash_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
 	$(warning Non-strict $@)
 
 .PHONY: system-root-certs-not-among-strict-mozilla-certs
 system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
 system-root-certs-not-among-strict-mozilla-certs:
-	@$(bash_system_root_certs_not_among_strict_mozilla_certs)
+	@$(call bash_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
 	$(warning Non-strict $@)
 
 .PHONY: verbose-system-root-certs-not-among-strict-mozilla-certs
@@ -231,6 +231,7 @@ bash_grep_keychain_root_certs_not_among_strict_mozilla_certs = \
 		-v \
 		-f <($(bash_strict_mozilla_certs)) \
 		<($(call bash_keychain_root_certs,$(1))); }
+# Select system root certificates not matching any of the Mozilla CA certificates. There should be none.
 # Starts shell in order to scope variables.
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
 # Exit status is 0 if no certificates not matching, 1 if any.
@@ -246,10 +247,6 @@ bash_keychain_root_certs_not_among_strict_mozilla_certs = \
 			(*) $(call bash_exit,$${S:?}) \
 			    ;; \
 		esac; )
-# Select system root certificates not matching any of the Mozilla CA certificates. There should be none.
-# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
-bash_system_root_certs_not_among_strict_mozilla_certs = \
-	$(call bash_keychain_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
 
 # Requires bash for process substitution (`<(list)`).
 bash_describe_keychain_root_certs_not_among_strict_mozilla_certs = \
