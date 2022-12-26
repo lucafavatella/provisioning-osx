@@ -114,8 +114,8 @@ mozilla-certs-not-among-system-root-certs:
 describe-keychain-cert-by-sha1-%: SHELL = $(BASH)
 describe-keychain-cert-by-sha1-%:
 	: "$${KEYCHAIN:?}"
-	( DB="$$( $(call sh_list_keychain_certs_with_sha1,"$${KEYCHAIN:?}") )"; \
-		{ $(call sh_find_keychain_cert_by_sha1,"$*") < <(echo "$${DB:?}"); }; )
+	$(call sh_find_keychain_cert_by_sha1,"$*") \
+		< <($(call sh_list_keychain_certs_with_sha1,"$${KEYCHAIN:?}"))
 	$(sh_pem_fingerprint_sha1_and_purpose) \
 		< <( DB="$$( $(call sh_list_keychain_certs_with_sha1_as_pem,"$${KEYCHAIN:?}") )"; \
 			{ $(call sh_find_keychain_cert_by_sha1,"$*") < <(echo "$${DB:?}"); }; )
