@@ -73,9 +73,6 @@ are-system-root-certs-reputable: \
 # Requires bash for process substitution (`<(list)`).
 are-there-no-root-system-certs: SHELL = $(BASH)
 are-there-no-root-system-certs:
-	diff -u \
-		/dev/null \
-		<(:)
 	$(warning TODO $@)
 
 .PHONY: root-system-certs
