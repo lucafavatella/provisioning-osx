@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+# TODO Consider https://support.apple.com/en-gb/HT213464 "List of available trusted root certificates in ... macOS 13 ...
+
 .DEFAULT_GOAL: are-system-root-certs-reputable
 MAKEFLAGS = -k
 
