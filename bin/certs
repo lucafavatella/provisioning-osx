@@ -151,6 +151,8 @@ sh_find_keychain_cert_by_sha1 = \
 
 SSL = /usr/bin/openssl
 
+sh_pem = { $(SSL) x509; }
+
 # Fingerprint printing from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L94-L97
 # Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
 sh_pem_fingerprint = { $(SSL) x509 -fingerprint $(1) -noout; }
@@ -179,12 +181,14 @@ sh_pem_fingerprint_sha1_and_purpose = \
 # Sample output: nothing (if not CA).
 # Requires bash for option `pipefail`.
 bash_pem_root_fingerprint_sha1 = \
-	( set -o pipefail; \
-		$(sh_pem_fingerprint_sha1_and_purpose) \
-			| ( X="$$(grep -i -e '^$(SSL_FP_SHA1_PREFIX)' -e '^$(SSL_SERVER_CA_PREFIX)')"; \
-				if { echo "$${X:?}" | grep -q -i -e '^$(SSL_SERVER_CA_PREFIX)'; }; then \
-					{ echo "$${X:?}" | grep -i -e '^$(SSL_FP_SHA1_PREFIX)'; }; \
-				fi; ); )
+	( X="$$($(sh_pem))"; \
+		{ ( set -o pipefail; \
+			$(sh_pem_fingerprint_sha1_and_purpose) \
+				| ( X="$$(grep -i -e '^$(SSL_FP_SHA1_PREFIX)' -e '^$(SSL_SERVER_CA_PREFIX)')"; \
+					if { echo "$${X:?}" | grep -q -i -e '^$(SSL_SERVER_CA_PREFIX)'; }; then \
+						{ echo "$${X:?}" | grep -i -e '^$(SSL_FP_SHA1_PREFIX)'; }; \
+					fi; ); ) \
+			< <(echo "$${X:?}"); }; )
 
 # Sample input: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
 # Sample output: `0123456789ABCDEF000000000000000000000000`.
