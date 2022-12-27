@@ -68,17 +68,27 @@ MOZILLA_PEM = $(BREW_CACERT_PEM)
 .INTERMEDIATE: var/cache/certs/apple/HT213464
 var/cache/certs/apple/HT213464: var/cache/certs/apple/%:
 	curl -fsS --create-dirs -o "$@" https://support.apple.com/en-gb/$*
+.INTERMEDIATE: var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256
 var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256: \
 	var/cache/certs/apple/HT213464
 	pup ':parent-of(h2:contains("Trusted Certificates")) table th:nth-child(9) , :parent-of(h2:contains("Trusted Certificates")) table td:nth-child(9) text{}' \
 		<$< \
+		>$@
+# Requires bash for process substitution (`<(list)`).
+var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized: SHELL = $(BASH)
+var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized: \
+	var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256
+	LC_ALL=C tr -d ' \240' \
+		< <(tail -n +2 \
+			<(iconv -f UTF-8 -t ISO-8859-1 \
+				< $<)) \
 		>$@
 
 .PHONY: are-system-root-certs-reputable
 are-system-root-certs-reputable: \
 	are-there-no-root-system-certs \
 	are-there-no-unexpired-system-root-certs-not-ssl-server-ca \
-	are-there-no-unexpired-system-root-certs-not-among-strict-mozilla-certs \
+	are-there-no-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs \
 	;
 
 # TODO Certificate com.apple.kerberos.kdc is [known](https://support.apple.com/en-gb/TS1452).
@@ -104,19 +114,32 @@ unexpired-system-root-certs-not-ssl-server-ca: SHELL = $(BASH)
 unexpired-system-root-certs-not-ssl-server-ca:
 	@$(call bash_keychain_unexpired_certs_not_ssl_server_ca,"$(SYS_ROOT_KEYCHAIN)")
 
-.PHONY: are-there-no-unexpired-system-root-certs-not-among-strict-mozilla-certs
-are-there-no-unexpired-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
-are-there-no-unexpired-system-root-certs-not-among-strict-mozilla-certs:
+.PHONY: are-there-no-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs
+are-there-no-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs: SHELL = $(BASH)
+are-there-no-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs: \
+	var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized
 	$(info $@: Assumption: By default, unexpired certs are not trusted.)
 	$(warning $@: TODO Check trust policy of expired certs.)
-	$(call bash_keychain_unexpired_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
+	$(call bash_keychain_unexpired_root_certs_not_among_strict_mozilla_certs_or_apple_certs,"$(SYS_ROOT_KEYCHAIN)",$<)
 	$(warning Non-strict $@)
+
+.PHONY: unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs
+unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs: SHELL = $(BASH)
+unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs: \
+	var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized
+	$(error TODO $@)
 
 .PHONY: unexpired-system-root-certs-not-among-strict-mozilla-certs
 unexpired-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
 unexpired-system-root-certs-not-among-strict-mozilla-certs:
 	@$(call bash_keychain_unexpired_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
 	$(warning Non-strict $@)
+
+.PHONY: unexpired-system-root-certs-not-among-apple-certs
+unexpired-system-root-certs-not-among-apple-certs: SHELL = $(BASH)
+unexpired-system-root-certs-not-among-apple-certs: \
+	var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized
+	$(error TODO $@)
 
 .PHONY: mozilla-certs-not-among-system-root-certs
 mozilla-certs-not-among-system-root-certs:
@@ -185,6 +208,9 @@ SSL_FP_DELIM = =
 SSL_FP_FIELD = 2
 SSL_FP_SEP = :
 SSL_FP_SHA1_PREFIX = SHA1 Fingerprint
+SSL_DIGEST_SHA256 = -sha256
+# Sample input: `SHA256 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00`.
+sh_pem_fingerprint_sha256 = $(call sh_pem_fingerprint,$(SSL_DIGEST_SHA256))
 
 # Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
 # Sample output: nothing (if expired).
@@ -231,13 +257,17 @@ bash_pem_unexpired_root_fingerprint_sha1 = \
 			:; \
 		fi; )
 
-# Sample input: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
-# Sample output: `0123456789ABCDEF000000000000000000000000`.
 # Requires bash for option `pipefail`.
-bash_normalize_fingerprint_sha1 = \
+bash_normalize_fingerprint_sha = \
 	( set -o pipefail; \
 		cut -d '$(SSL_FP_DELIM)' -f $(SSL_FP_FIELD) \
 			| tr -d '$(SSL_FP_SEP)'; )
+# Sample input: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
+# Sample output: `0123456789ABCDEF000000000000000000000000`.
+bash_normalize_fingerprint_sha1 = $(bash_normalize_fingerprint_sha)
+# Sample input: `SHA256 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00`.
+# Sample output: `0123456789ABCDEF000000000000000000000000000000000000000000000000`.
+bash_normalize_fingerprint_sha256 = $(bash_normalize_fingerprint_sha)
 # How to process multiple certificates in one file is from https://unix.stackexchange.com/questions/696224/using-openssl-to-display-all-certificates-of-a-pem-file/696244#696244
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
 # Requires bash for option `pipefail`.
@@ -301,6 +331,29 @@ bash_keychain_unexpired_root_certs_not_among_strict_mozilla_certs = \
 			(*) $(call bash_exit,$${S:?}) \
 			    ;; \
 		esac; )
+
+# Requires bash for process substitution (`<(list)`).
+bash_list_keychain_unexpired_root_certs_not_among_strict_mozilla_certs_or_apple_certs = \
+	{ for X in $$( $(call bash_keychain_unexpired_root_certs_not_among_strict_mozilla_certs,$(1)) ); do \
+		{ grep -F \
+			-q \
+			-v \
+			-f $(2) \
+			<(echo "$$( $(bash_normalize_fingerprint_sha256) \
+				< <($(sh_pem_fingerprint_sha256) \
+					< <($(call sh_find_keychain_cert_by_sha1,"$${X:?}") \
+						< <($(call sh_list_keychain_certs_with_sha1_as_pem,$(1))))) )"); \
+		} && echo "$${X:?}"; \
+		done; }
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+bash_keychain_unexpired_root_certs_not_among_strict_mozilla_certs_or_apple_certs = \
+	( L="$$( $(call bash_list_keychain_unexpired_root_certs_not_among_strict_mozilla_certs_or_apple_certs,$(1),$(2)) )"; \
+		if test -z "$${L?}"; then \
+			:; \
+		else \
+			echo "$${L:?}"; \
+			$(call bash_exit,1) \
+		fi; )
 
 # Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
 # Exit status is 1 if no lines selected, 0 if any.
