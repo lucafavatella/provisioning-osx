@@ -160,6 +160,15 @@ describe-keychain-cert-by-sha1-%:
 			< <($(call sh_list_keychain_certs_with_sha1_as_pem,"$${KEYCHAIN:?}")))); \
 		echo $$?; )"
 
+.PHONY: keychain-cert-pem-by-sha1-%
+# Requires bash for process substitution (`<(list)`).
+keychain-cert-pem-by-sha1-%: SHELL = $(BASH)
+keychain-cert-pem-by-sha1-%:
+	: "$${KEYCHAIN:?}"
+	$(sh_pem) \
+		< <($(call sh_find_keychain_cert_by_sha1,"$*") \
+			< <($(call sh_list_keychain_certs_with_sha1_as_pem,"$${KEYCHAIN:?}")))
+
 .PHONY: list-keychain
 list-keychain: SHELL = $(BASH)
 list-keychain:
