@@ -65,6 +65,7 @@ MOZILLA_PEM = $(BREW_CACERT_PEM)
 
 # From https://support.apple.com/en-gb/HT213464:
 # > List of available trusted root certificates in ... macOS 13 ...
+.INTERMEDIATE: var/cache/certs/apple/HT213464
 var/cache/certs/apple/HT213464: var/cache/certs/apple/%:
 	curl -fsS --create-dirs -o "$@" https://support.apple.com/en-gb/$*
 var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256: \
