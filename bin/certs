@@ -129,18 +129,6 @@ unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs: \
 	var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized
 	$(error TODO $@)
 
-.PHONY: unexpired-system-root-certs-not-among-strict-mozilla-certs
-unexpired-system-root-certs-not-among-strict-mozilla-certs: SHELL = $(BASH)
-unexpired-system-root-certs-not-among-strict-mozilla-certs:
-	@$(call bash_keychain_unexpired_root_certs_not_among_strict_mozilla_certs,"$(SYS_ROOT_KEYCHAIN)")
-	$(warning Non-strict $@)
-
-.PHONY: unexpired-system-root-certs-not-among-apple-certs
-unexpired-system-root-certs-not-among-apple-certs: SHELL = $(BASH)
-unexpired-system-root-certs-not-among-apple-certs: \
-	var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized
-	$(error TODO $@)
-
 .PHONY: mozilla-certs-not-among-system-root-certs
 mozilla-certs-not-among-system-root-certs:
 	$(error TODO $@)
