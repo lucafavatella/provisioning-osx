@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-.DEFAULT_GOAL: are-system-root-certs-reputable
+.DEFAULT_GOAL := are-system-root-certs-reputable
 MAKEFLAGS = -k
 
 # Path from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L33
