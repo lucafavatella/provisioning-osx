@@ -1,7 +1,5 @@
 #!/usr/bin/make -f
 
-# TODO Consider https://support.apple.com/en-gb/HT213464 "List of available trusted root certificates in ... macOS 13 ...
-
 .DEFAULT_GOAL: are-system-root-certs-reputable
 MAKEFLAGS = -k
 
@@ -64,6 +62,16 @@ MOZILLA_PEM = $(BREW_CACERT_PEM)
 # Considering "Distrust After" seems sufficient for this.
 #
 # TODO Blacklist CAs in Mozilla PEM that have non-standard columns 13,14,22 (see context above) in https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportCSVFormat
+
+# From https://support.apple.com/en-gb/HT213464:
+# > List of available trusted root certificates in ... macOS 13 ...
+var/cache/certs/apple/HT213464: var/cache/certs/apple/%:
+	curl -fsS --create-dirs -o "$@" https://support.apple.com/en-gb/$*
+var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256: \
+	var/cache/certs/apple/HT213464
+	pup ':parent-of(h2:contains("Trusted Certificates")) table th:nth-child(9) , :parent-of(h2:contains("Trusted Certificates")) table td:nth-child(9) text{}' \
+		<$< \
+		>$@
 
 .PHONY: are-system-root-certs-reputable
 are-system-root-certs-reputable: \
