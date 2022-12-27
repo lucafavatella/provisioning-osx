@@ -65,7 +65,6 @@ MOZILLA_PEM = $(BREW_CACERT_PEM)
 #
 # TODO Blacklist CAs in Mozilla PEM that have non-standard columns 13,14,22 (see context above) in https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportCSVFormat
 
-
 .PHONY: are-system-root-certs-reputable
 are-system-root-certs-reputable: \
 	are-there-no-root-system-certs \
