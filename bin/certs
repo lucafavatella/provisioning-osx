@@ -1,0 +1,394 @@
+#!/usr/bin/make -f
+
+.DEFAULT_GOAL := are-system-root-certs-reputable
+MAKEFLAGS = -k
+
+# Path from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L33
+SYS_KEYCHAIN = /Library/Keychains/System.keychain
+# Path from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L34
+SYS_ROOT_KEYCHAIN = /System/Library/Keychains/SystemRootCertificates.keychain
+
+# Formula [renames as `cacert.pem`](https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L18).
+BREW_CACERT_PEM := $(shell echo "$$(brew --prefix ca-certificates)"/share/ca-certificates/cacert.pem)
+MOZILLA_PEM = $(BREW_CACERT_PEM)
+# Formula https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb
+# refers to https://curl.se/docs/caextract.html
+# that refers to https://curl.se/docs/mk-ca-bundle.html
+# that mentions "the certdata.txt file from Mozilla's source tree over HTTPS" and "release (default)"
+# that is coded at https://github.com/curl/curl/blob/4ab601d93a07cee665ec2458a51fccd0767c03f1/scripts/mk-ca-bundle.pl#L60
+# as https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
+# that reads:
+# > This file contains the object definitions for the certs and other
+# > information "built into" NSS.
+# whose related wiki page seems to be https://wiki.mozilla.org/CA
+# that links to page https://wiki.mozilla.org/CA/Included_Certificates
+# that reads:
+# > If you are embedding our root store,
+# > you need to know that we have imposed some restrictions
+# > on certain CAs or certificates which are not encoded in certdata.txt.
+# > These are [documented](https://wiki.mozilla.org/CA/Additional_Trust_Changes)
+# > on a best-efforts basis.
+#
+# Those restrictions that are not encoded in certdata.txt
+# need to manually be assessed and reflected in this script.
+#
+# From https://wiki.mozilla.org/index.php?title=CA/Additional_Trust_Changes&oldid=1237513
+# > ## Extended Validation (EV)
+# Not relevant.
+# > ## OneCRL
+# Not relevant.
+# > ## Distrust After
+# > ... For certificates chaining up to those root certificates,
+# > Mozilla does not trust end-entity certificates that have a Valid-From date
+# > later than the specified distrust-after date. ...
+# > These root certificates may be identified
+# > via the 'Included CA Certificates' reports
+# > on the [CA/Included Certificates wiki page](https://wiki.mozilla.org/CA/Included_Certificates).
+# > Within those reports look for dates in the
+# > 'Distrust for TLS After Date' and
+# > 'Distrust for S/MIME After Date' columns.
+# ```
+# $ curl -fsS https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportCSVFormat | head -n 1 | cut -d ',' -f '13,14'
+# "Distrust for TLS After Date","Distrust for S/MIME After Date"
+# ```
+# > ## Kamu SM
+# > The Turkish Government CA is name-constrained to a set of turkish toplevel domains ...
+# This seems reflected in the 'Mozilla Applied Constraints' column of https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportCSVFormat
+# ```
+# $ curl -fsS https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportCSVFormat | head -n 1 | cut -d ',' -f '22'
+# "Mozilla Applied Constraints"
+# ```
+# > ## Symantec
+# Considering "Distrust After" seems sufficient for this.
+#
+# TODO Blacklist CAs in Mozilla PEM that have non-standard columns 13,14,22 (see context above) in https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportCSVFormat
+
+# From https://support.apple.com/en-gb/HT213464:
+# > List of available trusted root certificates in ... macOS 13 ...
+.INTERMEDIATE: var/cache/certs/apple/HT213464
+var/cache/certs/apple/HT213464: var/cache/certs/apple/%:
+	curl -fsS --create-dirs -o "$@" https://support.apple.com/en-gb/$*
+.INTERMEDIATE: var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256
+var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256: \
+	var/cache/certs/apple/HT213464
+	pup ':parent-of(h2:contains("Trusted Certificates")) table th:nth-child(9) , :parent-of(h2:contains("Trusted Certificates")) table td:nth-child(9) text{}' \
+		<$< \
+		>$@
+# Requires bash for process substitution (`<(list)`).
+var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized: SHELL = $(BASH)
+var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized: \
+	var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256
+	LC_ALL=C tr -d ' \240' \
+		< <(tail -n +2 \
+			<(iconv -f UTF-8 -t ISO-8859-1 \
+				< $<)) \
+		>$@
+
+.PHONY: are-system-root-certs-reputable
+are-system-root-certs-reputable: \
+	are-there-no-root-system-certs \
+	are-there-no-trusted-unexpired-system-root-certs-not-ssl-server-ca \
+	are-there-no-trusted-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs \
+	;
+
+# TODO Certificate com.apple.kerberos.kdc is [known](https://support.apple.com/en-gb/TS1452).
+.PHONY: are-there-no-root-system-certs
+# Requires bash for process substitution (`<(list)`).
+are-there-no-root-system-certs: SHELL = $(BASH)
+are-there-no-root-system-certs:
+	$(warning TODO $@)
+
+.PHONY: root-system-certs
+root-system-certs:
+	$(error TODO $@)
+
+.PHONY: are-there-no-trusted-unexpired-system-root-certs-not-ssl-server-ca
+are-there-no-trusted-unexpired-system-root-certs-not-ssl-server-ca: SHELL = $(BASH)
+are-there-no-trusted-unexpired-system-root-certs-not-ssl-server-ca:
+	$(info $@: Assumption: By default, unexpired certs are not trusted.)
+	$(warning $@: TODO Check trust policy of expired certs.)
+	$(call bash_keychain_trusted_unexpired_certs_not_ssl_server_ca,"$(SYS_ROOT_KEYCHAIN)")
+
+.PHONY: trusted-unexpired-system-root-certs-not-ssl-server-ca
+trusted-unexpired-system-root-certs-not-ssl-server-ca: SHELL = $(BASH)
+trusted-unexpired-system-root-certs-not-ssl-server-ca:
+	@$(call bash_keychain_trusted_unexpired_certs_not_ssl_server_ca,"$(SYS_ROOT_KEYCHAIN)")
+
+.PHONY: are-there-no-trusted-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs
+are-there-no-trusted-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs: SHELL = $(BASH)
+are-there-no-trusted-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs: \
+	var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized
+	$(info $@: Assumption: By default, unexpired certs are not trusted.)
+	$(warning $@: TODO Check trust policy of expired certs.)
+	$(call bash_keychain_trusted_unexpired_root_certs_not_among_strict_mozilla_certs_or_apple_certs,"$(SYS_ROOT_KEYCHAIN)",$<)
+	$(warning Non-strict $@)
+
+.PHONY: trusted-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs
+trusted-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs: SHELL = $(BASH)
+trusted-unexpired-system-root-certs-not-among-strict-mozilla-certs-or-apple-certs: \
+	var/cache/certs/apple/HT213464.TrustedCertificates.FingerprintSHA256.normalized
+	$(error TODO $@)
+
+.PHONY: mozilla-certs-not-among-system-root-certs
+mozilla-certs-not-among-system-root-certs:
+	$(error TODO $@)
+
+.PHONY: describe-keychain-cert-by-sha1-%
+# Requires bash for process substitution (`<(list)`).
+describe-keychain-cert-by-sha1-%: SHELL = $(BASH)
+describe-keychain-cert-by-sha1-%:
+	: "$${KEYCHAIN:?}"
+	$(call sh_find_keychain_cert_by_sha1,"$*") \
+		< <($(call sh_list_keychain_certs_with_sha1,"$${KEYCHAIN:?}"))
+	$(sh_pem_fingerprint_sha1_and_purpose) \
+		< <( $(call sh_find_keychain_cert_by_sha1,"$*") \
+			< <($(call sh_list_keychain_certs_with_sha1_as_pem,"$${KEYCHAIN:?}")); )
+	echo "Unexpired: $$( $(sh_pem_unexpired) < <($(sh_pem) \
+		< <($(call sh_find_keychain_cert_by_sha1,"$*") \
+			< <($(call sh_list_keychain_certs_with_sha1_as_pem,"$${KEYCHAIN:?}")))); \
+		echo $$?; )"
+	echo "Trusted: $$( $(sh_pem_trusted) < <($(sh_pem) \
+		< <($(call sh_find_keychain_cert_by_sha1,"$*") \
+			< <($(call sh_list_keychain_certs_with_sha1_as_pem,"$${KEYCHAIN:?}")))); \
+		echo $$?; )"
+
+.PHONY: keychain-cert-pem-by-sha1-%
+# Requires bash for process substitution (`<(list)`).
+keychain-cert-pem-by-sha1-%: SHELL = $(BASH)
+keychain-cert-pem-by-sha1-%:
+	: "$${KEYCHAIN:?}"
+	$(sh_pem) \
+		< <($(call sh_find_keychain_cert_by_sha1,"$*") \
+			< <($(call sh_list_keychain_certs_with_sha1_as_pem,"$${KEYCHAIN:?}")))
+
+.PHONY: list-keychain
+list-keychain: SHELL = $(BASH)
+list-keychain:
+	: "$${KEYCHAIN:?}"
+	$(call bash_keychain_certs,"$${KEYCHAIN:?}")
+
+# ==== Internal Rules and Variables ====
+
+BASH = /bin/bash
+# Requires bash for process substitution (`<(list)`).
+bash_exit = { sh -s < <(echo "exit $(1)"); }
+
+SECURITY = /usr/bin/security
+
+# Certificate retrieval from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L37
+sh_list_keychain_certs_as_pem = \
+	{ $(SECURITY) find-certificate -a -p $(1); }
+sh_list_keychain_certs_with_sha1 = \
+	{ $(SECURITY) find-certificate -a -Z $(1); }
+sh_list_keychain_certs_with_sha1_as_pem = \
+	{ $(SECURITY) find-certificate -a -p -Z $(1); }
+SECURITY_SHA1_LINE_PREFIX = SHA-1 
+SECURITY_ABSENT_CHAR = \0
+# Refs:
+# * [How to separate based on string (rather than char), and how to iterate over fields](https://unix.stackexchange.com/questions/378547/split-a-string-by-some-separator-in-bash/378550#378550).
+# * [How to conditionally print field](https://www.tek-tips.com/viewthread.cfm?qid=1459823#post-5570064).
+sh_find_keychain_cert_by_sha1 = \
+	{ awk \
+		-F '$(SECURITY_SHA1_LINE_PREFIX)' \
+		-v RS='$(SECURITY_ABSENT_CHAR)' \
+		'{ for (i = 1; i <= NF; i++) if ($$i ~ /'$(1)'/) print $$i; else continue }'; }
+
+sh_is_cert_trusted = { $(SECURITY) verify-cert -c $(2) -p $(1) -q; }
+sh_is_cert_trusted_basic = $(call sh_is_cert_trusted,basic,$(1))
+sh_is_cert_trusted_ssl = $(call sh_is_cert_trusted,ssl,$(1))
+
+SSL = /usr/bin/openssl
+
+sh_pem = { $(SSL) x509; }
+# Expiration filtering from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L45-L51
+sh_pem_unexpired = { $(SSL) x509 -checkend 0 -noout; }
+
+# Fingerprint printing from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L94-L97
+# Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
+sh_pem_fingerprint = { $(SSL) x509 -fingerprint $(1) -noout; }
+# SHA-1 for interoperability with `/usr/bin/security find-certificate` option `-Z`.
+SSL_DIGEST_SHA1 = -sha1
+# Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
+sh_pem_fingerprint_sha1 = $(call sh_pem_fingerprint,$(SSL_DIGEST_SHA1))
+SSL_FP_DELIM = =
+SSL_FP_FIELD = 2
+SSL_FP_SEP = :
+SSL_FP_SHA1_PREFIX = SHA1 Fingerprint
+SSL_DIGEST_SHA256 = -sha256
+# Sample input: `SHA256 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00`.
+sh_pem_fingerprint_sha256 = $(call sh_pem_fingerprint,$(SSL_DIGEST_SHA256))
+
+sh_mktempfile = { mktemp '/tmp/osx-certs.XXXXXX'; }
+# TODO Delete temporary file.
+sh_pem_trusted = \
+	( TmpF="$$( $(sh_mktempfile); )" \
+		&& cat > "$${TmpF:?}" \
+		&& $(call sh_is_cert_trusted_ssl,"$${TmpF:?}") \
+		&& $(call sh_is_cert_trusted_basic,"$${TmpF:?}"); )
+# Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
+# Sample output: nothing (if expired).
+# Requires bash for process substitution (`<(list)`).
+bash_pem_trusted_unexpired_fingerprint = \
+	( X="$$($(sh_pem))" \
+		&& if { $$($(sh_pem_unexpired) < <(echo "$${X:?}")); } \
+			&& { $$($(sh_pem_trusted) < <(echo "$${X:?}")); }; then \
+			{ $(call sh_pem_fingerprint,$(1)) \
+				< <(echo "$${X:?}"); }; \
+		else \
+			:; \
+		fi; )
+# Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
+# Sample output: nothing (if expired).
+bash_pem_trusted_unexpired_fingerprint_sha1 = \
+	$(call bash_pem_trusted_unexpired_fingerprint,$(SSL_DIGEST_SHA1))
+
+# Purpose filtering from https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L55-L61
+# Output is:
+# * Line `^SHA1 Fingerprint=...`.
+# * Then `Certificate purposes:`. Then several lines, among which:
+#   * `^SSL server CA : No$`. Or
+#   * `^SSL server CA : Yes$`. Or
+#   * `^SSL server CA : Yes (WARNING code=...)$`.
+sh_pem_fingerprint_and_purpose = { $(SSL) x509 -fingerprint $(1) -purpose -noout; }
+SSL_SERVER_CA_PREFIX = SSL server CA : Yes
+sh_pem_fingerprint_sha1_and_purpose = \
+	$(call sh_pem_fingerprint_and_purpose,$(SSL_DIGEST_SHA1))
+# Experiment confirms that casing seems to be `SSL server CA : Yes` as per https://github.com/Homebrew/homebrew-core/blob/dc16dfe0da7ecfd12a5973052af174dc068f9ff8/Formula/ca-certificates.rb#L61 , not "SSL Server CA" as per https://manpages.debian.org/bullseye/openssl/x509.1ssl.en.html
+# Sample output: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
+# Sample output: nothing (if expired or not CA).
+# Requires bash for process substitution (`<(list)`) and for option `pipefail`.
+bash_pem_trusted_unexpired_root_fingerprint_sha1 = \
+	( X="$$($(sh_pem))" \
+		&& if { $$($(sh_pem_unexpired) < <(echo "$${X:?}")); } \
+			&& { $$($(sh_pem_trusted) < <(echo "$${X:?}")); }; then \
+			{ ( set -o pipefail; \
+				$(sh_pem_fingerprint_sha1_and_purpose) \
+					| ( X="$$(grep -i -e '^$(SSL_FP_SHA1_PREFIX)' -e '^$(SSL_SERVER_CA_PREFIX)')"; \
+						if { echo "$${X:?}" | grep -q -i -e '^$(SSL_SERVER_CA_PREFIX)'; }; then \
+							{ echo "$${X:?}" | grep -i -e '^$(SSL_FP_SHA1_PREFIX)'; }; \
+						fi; ); ) \
+				< <(echo "$${X:?}"); }; \
+		else \
+			:; \
+		fi; )
+
+# Requires bash for option `pipefail`.
+bash_normalize_fingerprint_sha = \
+	( set -o pipefail; \
+		cut -d '$(SSL_FP_DELIM)' -f $(SSL_FP_FIELD) \
+			| tr -d '$(SSL_FP_SEP)'; )
+# Sample input: `SHA1 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00`.
+# Sample output: `0123456789ABCDEF000000000000000000000000`.
+bash_normalize_fingerprint_sha1 = $(bash_normalize_fingerprint_sha)
+# Sample input: `SHA256 Fingerprint=01:23:45:67:89:AB:CD:EF:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00`.
+# Sample output: `0123456789ABCDEF000000000000000000000000000000000000000000000000`.
+bash_normalize_fingerprint_sha256 = $(bash_normalize_fingerprint_sha)
+# How to process multiple certificates in one file is from https://unix.stackexchange.com/questions/696224/using-openssl-to-display-all-certificates-of-a-pem-file/696244#696244
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+# Requires bash for option `pipefail`.
+bash_pem_sha1s = \
+	( set -o pipefail; \
+		{ while $(sh_pem_fingerprint_sha1); do :; done 2>/dev/null; } \
+			| $(bash_normalize_fingerprint_sha1); )
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+# Requires bash for option `pipefail`.
+bash_pem_trusted_unexpired_sha1s = \
+	( set -o pipefail; \
+		{ while $(bash_pem_trusted_unexpired_fingerprint_sha1); do :; done 2>/dev/null; } \
+			| $(bash_normalize_fingerprint_sha1); )
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+# Requires bash for option `pipefail`.
+bash_pem_trusted_unexpired_root_sha1s = \
+	( set -o pipefail; \
+		{ while $(bash_pem_trusted_unexpired_root_fingerprint_sha1); do :; done 2>/dev/null; } \
+			| $(bash_normalize_fingerprint_sha1); )
+
+# TODO Make strict.
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+bash_strict_mozilla_certs = \
+	{ $(bash_pem_sha1s) \
+		<"$(MOZILLA_PEM)"; }
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+# Requires bash for process substitution (`<(list)`).
+bash_keychain_certs = \
+	{ $(bash_pem_sha1s) \
+		< <($(call sh_list_keychain_certs_as_pem,$(1))); }
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+# Requires bash for process substitution (`<(list)`).
+bash_keychain_trusted_unexpired_certs = \
+	{ $(bash_pem_trusted_unexpired_sha1s) \
+		< <($(call sh_list_keychain_certs_as_pem,$(1))); }
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+# Requires bash for process substitution (`<(list)`).
+bash_keychain_trusted_unexpired_root_certs = \
+	{ $(bash_pem_trusted_unexpired_root_sha1s) \
+		< <($(call sh_list_keychain_certs_as_pem,$(1))); }
+
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+# Exit status is 1 if no lines selected, 0 if any.
+# Requires bash for process substitution (`<(list)`).
+bash_grep_keychain_trusted_unexpired_root_certs_not_among_strict_mozilla_certs = \
+	{ grep -F \
+		-v \
+		-f <($(bash_strict_mozilla_certs)) \
+		<($(call bash_keychain_trusted_unexpired_root_certs,$(1))); }
+# Select system root certificates not matching any of the Mozilla CA certificates. There should be none.
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+bash_keychain_trusted_unexpired_root_certs_not_among_strict_mozilla_certs = \
+	( UL="$$( $(call bash_grep_keychain_trusted_unexpired_root_certs_not_among_strict_mozilla_certs,$(1)) )"; \
+		S=$$?; \
+		case $${S:?} in \
+			(1) $(call bash_exit,0) \
+			    ;; \
+			(0) echo "$${UL:?}"; \
+			    $(call bash_exit,1) \
+			    ;; \
+			(*) $(call bash_exit,$${S:?}) \
+			    ;; \
+		esac; )
+
+# Requires bash for process substitution (`<(list)`).
+bash_list_keychain_trusted_unexpired_root_certs_not_among_strict_mozilla_certs_or_apple_certs = \
+	{ for X in $$( $(call bash_keychain_trusted_unexpired_root_certs_not_among_strict_mozilla_certs,$(1)) ); do \
+		{ grep -F \
+			-q \
+			-v \
+			-f $(2) \
+			<(echo "$$( $(bash_normalize_fingerprint_sha256) \
+				< <($(sh_pem_fingerprint_sha256) \
+					< <($(call sh_find_keychain_cert_by_sha1,"$${X:?}") \
+						< <($(call sh_list_keychain_certs_with_sha1_as_pem,$(1))))) )"); \
+		} && echo "$${X:?}"; \
+		done; }
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+bash_keychain_trusted_unexpired_root_certs_not_among_strict_mozilla_certs_or_apple_certs = \
+	( L="$$( $(call bash_list_keychain_trusted_unexpired_root_certs_not_among_strict_mozilla_certs_or_apple_certs,$(1),$(2)) )"; \
+		if test -z "$${L?}"; then \
+			:; \
+		else \
+			echo "$${L:?}"; \
+			$(call bash_exit,1) \
+		fi; )
+
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+# Exit status is 1 if no lines selected, 0 if any.
+# Requires bash for process substitution (`<(list)`).
+bash_grep_keychain_trusted_unexpired_certs_not_ssl_server_ca = \
+	{ grep -F \
+		-v \
+		-f <($(call bash_keychain_trusted_unexpired_root_certs,$(1))) \
+		<($(call bash_keychain_trusted_unexpired_certs,$(1))); }
+# Select system root certificates not SSL server CAs. There should be none.
+# Example of line from the output: `0123456789ABCDEF000000000000000000000000`.
+bash_keychain_trusted_unexpired_certs_not_ssl_server_ca = \
+	( UL="$$( $(call bash_grep_keychain_trusted_unexpired_certs_not_ssl_server_ca,$(1)) )"; \
+		S=$$?; \
+		case $${S:?} in \
+			(1) $(call bash_exit,0) \
+			    ;; \
+			(0) echo "$${UL:?}"; \
+			    $(call bash_exit,1) \
+			    ;; \
+			(*) $(call bash_exit,$${S:?}) \
+			    ;; \
+		esac; )
