@@ -40,6 +40,12 @@ exit_unless_ci() {
     esac
 }
 
+brew_install_cask_from_url() {
+    curl -fsS -o "${2:?}" "${1:?}" \
+        && brew install "${2:?}" \
+        && rm -rf "${2:?}"
+}
+
 ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)" || exit 69
 
 link_bin() {
@@ -108,8 +114,7 @@ brew install bash-completion || exit 1
              ## From https://www.virtualbox.org/wiki/Changelog-7.0
              ## > macOS host: Dropped all kernel extensions. VirtualBox relies fully on the hypervisor and vmnet frameworks provided by Apple now. ...
              ( VBTmpDir="$(mktemp -d)" \
-                   && curl -fsS -o "${VBTmpDir:?}"/virtualbox.rb https://raw.githubusercontent.com/Homebrew/homebrew-cask/aa3c55951fc9d687acce43e5c0338f42c1ddff7b/Casks/virtualbox.rb \
-                   && brew install "${VBTmpDir:?}"/virtualbox.rb \
+                   && brew_install_cask_from_url https://raw.githubusercontent.com/Homebrew/homebrew-cask/aa3c55951fc9d687acce43e5c0338f42c1ddff7b/Casks/virtualbox.rb "${VBTmpDir:?}"/virtualbox.rb \
                    && rm -rf "${VBTmpDir:?}"; ) || exit_unless_ci 1
              log_e "macOS requires the user to approve (VirtualBox's) Kernel Extension, in \"System Preferences > Security & Privacy\". Alternative is running 'spctl kext-consent add VB5E2TV963' from recovery (\"Cmd-R\")."
              ## Refs:
