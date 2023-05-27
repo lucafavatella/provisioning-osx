@@ -2,7 +2,17 @@
 
 T="docker-textract"
 
-F="${1:?}"
+## Workaround for https://github.com/deanmalmgren/textract/issues/244
+case "${1:?}"_"${2}" in
+    (-m_tesseract)
+        M="${1:?} ${2:?} " ## Trailing whitespace is on purpose assuming usage.
+        F="${3:?}"
+        ;;
+    (*)
+        M=""
+        F="${1:?}"
+        ;;
+esac
 
 { docker build \
          -q \
@@ -47,7 +57,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ## Ref: https://pip.pypa.io/en/stable/reference/pip_install/#git
 RUN pip3 install git+https://github.com/deanmalmgren/textract.git@102a58418283fbc833ae1d6dad84e741e09eff66
 WORKDIR /workdir
-ENTRYPOINT ["sh", "-c", "cat - > \"${1:?}\" && textract \"${1:?}\"", "textract"]
+ENTRYPOINT ["sh", "-c", "cat - > \"${2:?}\" && textract ${1?}\"${2:?}\"", "textract"]
 EOF
 } && {
     # shellcheck disable=SC2094
@@ -59,5 +69,6 @@ EOF
            --network none \
            --rm \
            "${T:?}" \
+           "${M?}" \
            "$(basename "${F:?}")" \
            < "${F:?}"; }
