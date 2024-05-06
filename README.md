@@ -58,7 +58,7 @@ at Safari > Preferences > Search
 
 Finally optionally:
 ```
-brew install --cask cryptomator
+brew install --cask cryptomator ## Version 1.12 dropped support for macOS 10.x: `brew install --cask https://raw.githubusercontent.com/Homebrew/homebrew-cask/45a23a9719849dacbe96cef7e9629036d35e33d7/Casks/c/cryptomator.rb`.
 
 # -- 8< ----
 # Requiring administrator priviledges.
