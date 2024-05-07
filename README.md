@@ -80,7 +80,7 @@ brew install autoconf || exit 1
 brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
 #brew install plantuml || exit 1
 #brew install radare2 || exit 1
-#brew install --cask wine-stable || exit 1 ## [Because of bug 52354](https://github.com/Homebrew/homebrew-cask/blob/af7d61d581/Casks/wine-stable.rb#L14), prefer < 6.17 e.g. latest earlier stable [6.0.2](https://github.com/Gcenx/macOS_Wine_builds/releases/tag/6.0.2): `curl -fsSO https://raw.githubusercontent.com/Homebrew/homebrew-cask/0135678b133002123db42db0556eab3efd3e6597/Casks/wine-stable.rb && brew install ./wine-stable.rb`.
+#brew install --cask wine-stable || exit 1 ## [Because of bug 52354](https://github.com/Homebrew/homebrew-cask/blob/af7d61d581/Casks/wine-stable.rb#L14), prefer < 6.17 e.g. latest earlier stable [6.0.2](https://github.com/Gcenx/macOS_Wine_builds/releases/tag/6.0.2): `curl -fsSO https://raw.githubusercontent.com/Homebrew/homebrew-cask/0135678b133002123db42db0556eab3efd3e6597/Casks/wine-stable.rb && brew install ./wine-stable.rb`. Actually you shall prefer >= 8.1 [because of fix for bug 52354](https://bugs.winehq.org/show_bug.cgi?id=52354#c55), and = 8.10 as most recent packaged version [not](https://github.com/Gcenx/macOS_Wine_builds/releases/tag/8.10) requiring Catalina, but not present as historical cask.
 ```
 
 Requiring administrator priviledges:
