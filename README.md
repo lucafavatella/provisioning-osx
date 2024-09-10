@@ -12,7 +12,12 @@ beware of potential inability to find security updates and to support certain ha
 A [recent recommendation](https://github.com/dosdude1/macos-catalina-patcher/issues/150#issuecomment-1000781162)
 seems to be [OCLP](https://github.com/dortania/OpenCore-Legacy-Patcher).
 
+Consider creating an extra partition for installing an extra OS (Linux?) in the future.
+
 Prefer encrypted case-sensitive file system.
+
+If the file system is not encrypted,
+enable FileVault.
 
 Prefer keeping the network disabled initially,
 enable the firewall denying all inbound connections
