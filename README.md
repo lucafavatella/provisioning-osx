@@ -35,6 +35,8 @@ Clone this repository in `~/dev`.
 
 ### Steps
 
+Ensure the shell is [set](https://support.apple.com/en-gb/guide/terminal/trml113/mac) to `/bin/bash`.
+
 Open the terminal and run:
 
 ```
