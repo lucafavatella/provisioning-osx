@@ -1,7 +1,5 @@
 #!/bin/sh
 
-ROOT_DIR="$(cd "$(dirname "$0")"/.. && pwd)" || exit 69
-
 HOMEBREW_DIR="${HOME:?}/homebrew"
 HOMEBREW_REPO=https://github.com/Homebrew/brew.git
 
