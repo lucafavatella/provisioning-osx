@@ -31,9 +31,9 @@ Run `git --version`
 in order to poke macOS to call `xcode-select --install`
 that installs the command line developer tools.
 
-Clone this repository in `~/dev`.
-
 ### Steps
+
+Clone this repository in `~/dev`.
 
 Ensure the terminal [uses](https://support.apple.com/en-gb/guide/terminal/trml113/mac) shell `bash`.
 
