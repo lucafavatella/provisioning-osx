@@ -59,6 +59,12 @@ Run:
 
 Run:
 
+| Step | Local installation | Standard Homebrew installation |
+| --- | --- | --- |
+| Configure dotfiles on location of Homebrew casks | | `echo 'BREW_CASK_APPDIR=/Applications' >> ~/.bash_extra_pre` |
+
+Run:
+
 ```
 $ bin/provision_osx link_bash_profile ## Alternatively you may keep the current HEAD of the dotfiles running rather `DOTFILES_VERSION="HEAD" bin/provision_osx link_bash_profile`.
 ```
