@@ -87,6 +87,7 @@ brew install --cask cryptomator || exit 1 ## Version 1.12 dropped support for ma
 #brew install --cask --binaries android-platform-tools || exit 1 ## adb
 #brew install --cask android-studio || exit 1 ## From [IntelliJ IDEA and Android Studio FAQ](http://blog.jetbrains.com/idea/2013/05/intellij-idea-and-android-studio-faq/): "If I’m already a user of IntelliJ IDEA, do I need to switch to Android Studio for Android development? No. Android Studio is focused specifically on Android development and provides streamlined environment and project setup, but otherwise all of its features are available in IntelliJ IDEA."
 brew install autoconf || exit 1
+brew install --cask firefox || exit 1
 #brew install --cask intellij-idea-ce || exit 1
 #brew install saitoha/sixel/mlterm || exit 1 ## Refs https://en.wikipedia.org/wiki/VT340 https://en.wikipedia.org/wiki/Sixel
 brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
