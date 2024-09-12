@@ -31,6 +31,17 @@ Run `git --version`
 in order to poke macOS to call `xcode-select --install`
 that installs the command line developer tools.
 
+### Steps for privacy
+
+Set requesting account password immediately
+at System Preferences > Security & Privacy > General
+(programmatically is tricky - see [issue 809](https://github.com/mathiasbynens/dotfiles)).
+Test that when closing then reopening the laptop lid the account is locked.
+
+Set Safari search engine to DuckDuckGo
+at Safari > Preferences > Search
+(programmatically [is not possible](https://stackoverflow.com/questions/12855168/mac-os-x-safari-6-default-search-engine-change-between-possible-values)).
+
 ### Steps
 
 Clone this repository in `~/dev`.
@@ -51,15 +62,6 @@ Open a distinct terminal tab and re-run the command, as instructed:
 ```
 $ bin/provision_osx
 ```
-
-Set requesting account password immediately
-at System Preferences > Security & Privacy > General
-(programmatically is tricky - see [issue 809](https://github.com/mathiasbynens/dotfiles)).
-Test that when closing then reopening the laptop lid the account is locked.
-
-Set Safari search engine to DuckDuckGo
-at Safari > Preferences > Search
-(programmatically [is not possible](https://stackoverflow.com/questions/12855168/mac-os-x-safari-6-default-search-engine-change-between-possible-values)).
 
 Finally optionally:
 ```
