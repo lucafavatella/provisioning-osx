@@ -48,14 +48,20 @@ Clone this repository in `~/dev`.
 
 Ensure the terminal [uses](https://support.apple.com/en-gb/guide/terminal/trml113/mac) shell `bash`.
 
-Open the terminal and run:
+Open the terminal.
+
+Run:
+
+| Step | Local installation | Standard Homebrew installation on Intel |
+| --- | --- | --- |
+| Install Homebrew | `bin/clone_homebrew` | Use the procedure at https://brew.sh |
+| Inform dotfiles of location of Homebrew | | `echo 'BREW_PREFIX=/usr/local' >> ~/.bash_extra_pre` |
+
+Run:
 
 ```
-$ bin/clone_homebrew ## Alternatively you may install Homebrew using the procedure at https://brew.sh
 $ bin/provision_osx link_bash_profile ## Alternatively you may keep the current HEAD of the dotfiles running rather `DOTFILES_VERSION="HEAD" bin/provision_osx link_bash_profile`.
 ```
-
-(If using a custom Homebrew installation, you may need to add `BREW_PREFIX=/usr/local` in `~/.bash_extra_pre`.)
 
 Open a distinct terminal tab and re-run the command, as instructed:
 
