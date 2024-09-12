@@ -63,18 +63,11 @@ Open a distinct terminal tab and re-run the command, as instructed:
 $ bin/provision_osx
 ```
 
-Finally optionally:
-```
-brew install --cask cryptomator ## Version 1.12 dropped support for macOS 10.x: `brew install --cask https://raw.githubusercontent.com/Homebrew/homebrew-cask/45a23a9719849dacbe96cef7e9629036d35e33d7/Casks/c/cryptomator.rb`.
-
-# -- 8< ----
-# Requiring administrator priviledges.
-$ brew install --cask lulu ## If pre-Catalina macOS, consult the homepage (`brew homepage --cask lulu`). After installation may require restart.
-```
-
 ### Notable software
 
 ```
+brew install --cask cryptomator || exit 1 ## Version 1.12 dropped support for macOS 10.x: `brew install --cask https://raw.githubusercontent.com/Homebrew/homebrew-cask/45a23a9719849dacbe96cef7e9629036d35e33d7/Casks/c/cryptomator.rb`.
+
 #brew install --cask iterm2 || exit 1 ## Mainly for configuring only left Option as Meta key, so to keep ability to insert `#` on UK keyboard (without losing `£`) while simplifying shell shortcuts (e.g. Alt+D).  Also for: implicitly copying text select with pointer; making clickable links in text by pressing a key. ## Some Sixel support (VT340) - [ref](https://gitlab.com/gnachman/iterm2/issues/3240).
 
 #brew install --cask spectacle || exit 1
@@ -92,6 +85,8 @@ brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive e
 
 Requiring administrator priviledges:
 ```
+brew install --cask lulu || exit 1 ## If pre-Catalina macOS, consult the homepage (`brew homepage --cask lulu`). After installation may require restart.
+
 #brew install --cask vagrant || exit 1 ## ( VTmpDir="$(mktemp -d)" && ( curl -fsS https://raw.githubusercontent.com/Homebrew/homebrew-cask/3a4bcb843227eec3b25aad3605bda50f00190230/Casks/vagrant.rb | sed 's/65a5fee8bcfa4bbd3be444efbcd997110a49f5ccc1fffc4457c0110ab51adecb/dfcb08ee37a197c091d0d13f52a4cf55b98d24466063934032530959259fcd89/g' > "${VTmpDir:?}"/vagrant.rb; ) && brew install "${VTmpDir:?}"/vagrant.rb && rm -rf "${VTmpDir:?}"; ) || exit 1 # It seems vagrant v2.3.1 introduced somehow load command 0x80000034 [i.e. LC_DYLD_CHAINED_FIXUPS](https://stackoverflow.com/questions/70375459/golang-build-error-0x80000034-2147483700/70375558#70375558), introduced in [Xcode 13(https://developer.apple.com/documentation/xcode-release-notes/xcode-13-release-notes): "All programs and dylibs built with a deployment target of macOS 12 or iOS 15 or later now use the chained fixups format. This uses different load commands and LINKEDIT data, and won’t run or load on older OS versions. (49851380)".
 brew install --cask wireshark || exit 1
 ```
