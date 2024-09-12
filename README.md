@@ -35,14 +35,14 @@ Clone this repository in `~/dev`.
 
 ### Steps
 
+Ensure the terminal [uses](https://support.apple.com/en-gb/guide/terminal/trml113/mac) shell `bash`.
+
 Open the terminal and run:
 
 ```
 $ bin/clone_homebrew ## Alternatively you may install Homebrew using the procedure at https://brew.sh
 $ bin/provision_osx link_bash_profile ## Alternatively you may keep the current HEAD of the dotfiles running rather `DOTFILES_VERSION="HEAD" bin/provision_osx link_bash_profile`.
 ```
-
-Ensure the terminal [uses](https://support.apple.com/en-gb/guide/terminal/trml113/mac) shell `bash`, so that it uses the installed profile.
 
 (If using a custom Homebrew installation, you may need to add `BREW_PREFIX=/usr/local` in `~/.bash_extra_pre`.)
 
