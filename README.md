@@ -55,7 +55,7 @@ Run:
 | Step | Local installation | Standard Homebrew installation on Intel |
 | --- | --- | --- |
 | Install Homebrew | `bin/clone_homebrew` | Use the procedure at https://brew.sh |
-| Inform dotfiles of location of Homebrew | | `echo 'BREW_PREFIX=/usr/local' >> ~/.bash_extra_pre` |
+| Inform dotfiles of location of Homebrew | | If Intel `echo 'BREW_PREFIX=/usr/local' >> ~/.bash_extra_pre` else if Apple Silicon `echo 'BREW_PREFIX=/opt/homebrew' >> ~/.bash_extra_pre` |
 
 Run:
 
