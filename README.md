@@ -122,3 +122,5 @@ brew install --cask wireshark || exit 1
 * Consider further automation in https://github.com/geerlingguy/mac-dev-playbook https://github.com/ricbra/mac-dev-playbook https://github.com/ricbra/dotfiles/blob/master/bin/setup_osx
 * Gaming.
   - Gamepad API [debug](https://hardwaretester.com/gamepad).
+* Dual boot with Linux.
+  - From macOS directly to disk (without USB or DVD/CD): https://github.com/unetbootin/unetbootin
