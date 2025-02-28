@@ -93,6 +93,7 @@ brew install --cask firefox || exit 1
 brew install autoconf || exit 1
 #brew install --cask intellij-idea-ce || exit 1
 #brew install saitoha/sixel/mlterm || exit 1 ## Refs https://en.wikipedia.org/wiki/VT340 https://en.wikipedia.org/wiki/Sixel
+#brew install --cask obs || exit 1 ## Audio loopback capture.
 brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
 #brew install plantuml || exit 1
 #brew install radare2 || exit 1
