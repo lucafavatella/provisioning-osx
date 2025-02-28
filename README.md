@@ -97,7 +97,6 @@ brew install autoconf || exit 1
 brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
 #brew install plantuml || exit 1
 #brew install radare2 || exit 1
-#brew install --cask vb-cable || exit 1 ## Via https://obsproject.com/kb/macos-desktop-audio-capture-guide#capture-audio-on-previous-versions-of-macos
 #brew install --cask wine-stable || exit 1 ## [Because of bug 52354](https://github.com/Homebrew/homebrew-cask/blob/af7d61d581/Casks/wine-stable.rb#L14), prefer < 6.17 e.g. latest earlier stable [6.0.2](https://github.com/Gcenx/macOS_Wine_builds/releases/tag/6.0.2): `curl -fsSO https://raw.githubusercontent.com/Homebrew/homebrew-cask/0135678b133002123db42db0556eab3efd3e6597/Casks/wine-stable.rb && brew install ./wine-stable.rb`. Actually you shall prefer >= 8.1 [because of fix for bug 52354](https://bugs.winehq.org/show_bug.cgi?id=52354#c55), and = 8.10 as most recent packaged version [not](https://github.com/Gcenx/macOS_Wine_builds/releases/tag/8.10) requiring Catalina, but not present as historical cask.
 ```
 
@@ -106,6 +105,7 @@ Requiring administrator priviledges:
 brew install --cask lulu || exit 1 ## If pre-Catalina macOS, consult the homepage (`brew homepage --cask lulu`). After installation may require restart.
 
 #brew install --cask vagrant || exit 1 ## ( VTmpDir="$(mktemp -d)" && ( curl -fsS https://raw.githubusercontent.com/Homebrew/homebrew-cask/3a4bcb843227eec3b25aad3605bda50f00190230/Casks/vagrant.rb | sed 's/65a5fee8bcfa4bbd3be444efbcd997110a49f5ccc1fffc4457c0110ab51adecb/dfcb08ee37a197c091d0d13f52a4cf55b98d24466063934032530959259fcd89/g' > "${VTmpDir:?}"/vagrant.rb; ) && brew install "${VTmpDir:?}"/vagrant.rb && rm -rf "${VTmpDir:?}"; ) || exit 1 # It seems vagrant v2.3.1 introduced somehow load command 0x80000034 [i.e. LC_DYLD_CHAINED_FIXUPS](https://stackoverflow.com/questions/70375459/golang-build-error-0x80000034-2147483700/70375558#70375558), introduced in [Xcode 13(https://developer.apple.com/documentation/xcode-release-notes/xcode-13-release-notes): "All programs and dylibs built with a deployment target of macOS 12 or iOS 15 or later now use the chained fixups format. This uses different load commands and LINKEDIT data, and won’t run or load on older OS versions. (49851380)".
+#brew install --cask vb-cable || exit 1 ## Via https://obsproject.com/kb/macos-desktop-audio-capture-guide#capture-audio-on-previous-versions-of-macos
 brew install --cask wireshark || exit 1
 ```
 
