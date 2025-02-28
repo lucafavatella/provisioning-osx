@@ -106,6 +106,7 @@ brew install bash-completion || exit 1
       && "${ROOT_DIR:?}"/bin/emacs-prelude --batch -l "${HOME:?}"/.emacs-prelude.d/.emacs.d/init.el \
       && link_bin emacs-prelude
 } || exit 1
+## Docker 4.12 requires macOS [10.15](https://docs.docker.com/desktop/release-notes/#for-mac-54). Workaround: prefer Docker 4.11.
 { ( DTmpDir="$(mktemp -d)" \
         && brew_install_cask_from_url https://raw.githubusercontent.com/Homebrew/homebrew-cask/e35c4ac349c21262b460535c57a8f37e7fe6de27/Casks/docker.rb "${DTmpDir:?}"/docker.rb \
         && rm -rf "${DTmpDir:?}"; ) || exit 1 ## Apparently the Docker daemon cannot be started from CLI hence [Docker.app needs to be run manually](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac). It needs privileged access [to install networking components and links to the Docker apps](https://docs.docker.com/docker-for-mac/install/#install-and-run-docker-for-mac).
