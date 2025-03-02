@@ -90,11 +90,11 @@ brew install --cask firefox || exit 1
 
 #brew install --cask --binaries android-platform-tools || exit 1 ## adb
 #brew install --cask android-studio || exit 1 ## From [IntelliJ IDEA and Android Studio FAQ](http://blog.jetbrains.com/idea/2013/05/intellij-idea-and-android-studio-faq/): "If I’m already a user of IntelliJ IDEA, do I need to switch to Android Studio for Android development? No. Android Studio is focused specifically on Android development and provides streamlined environment and project setup, but otherwise all of its features are available in IntelliJ IDEA."
-#brew install --cask audacity || exit 1
+#brew install --cask audacity || exit 1 ## For audio capture, it requires permission to access the microphone, [before macOS 13 it requires VB-CABLE](https://obsproject.com/kb/macos-desktop-audio-capture-guide), and shall be configured with audio [settings](https://manual.audacityteam.org/man/tutorial_selecting_your_recording_device.html) "Playback Device" "Multi-Output Device" and "Recording Device" "VB-Cable".
 brew install autoconf || exit 1
 #brew install --cask intellij-idea-ce || exit 1
 #brew install saitoha/sixel/mlterm || exit 1 ## Refs https://en.wikipedia.org/wiki/VT340 https://en.wikipedia.org/wiki/Sixel
-#brew install --cask obs || exit 1 ## Audio loopback capture.
+#brew install --cask obs || exit 1 ## For audio capture, it requires permission to access the microphone, and [before macOS 13 it requires VB-CABLE](https://obsproject.com/kb/macos-desktop-audio-capture-guide).
 brew install p7zip || exit 1 ## `7z x` works as a compression-agnostic archive extractor command better than BSD `tar -x` e.g. for `gzip` compression.
 #brew install plantuml || exit 1
 #brew install radare2 || exit 1
@@ -106,7 +106,7 @@ Requiring administrator priviledges:
 brew install --cask lulu || exit 1 ## If pre-Catalina macOS, consult the homepage (`brew homepage --cask lulu`). After installation may require restart.
 
 #brew install --cask vagrant || exit 1 ## ( VTmpDir="$(mktemp -d)" && ( curl -fsS https://raw.githubusercontent.com/Homebrew/homebrew-cask/3a4bcb843227eec3b25aad3605bda50f00190230/Casks/vagrant.rb | sed 's/65a5fee8bcfa4bbd3be444efbcd997110a49f5ccc1fffc4457c0110ab51adecb/dfcb08ee37a197c091d0d13f52a4cf55b98d24466063934032530959259fcd89/g' > "${VTmpDir:?}"/vagrant.rb; ) && brew install "${VTmpDir:?}"/vagrant.rb && rm -rf "${VTmpDir:?}"; ) || exit 1 # It seems vagrant v2.3.1 introduced somehow load command 0x80000034 [i.e. LC_DYLD_CHAINED_FIXUPS](https://stackoverflow.com/questions/70375459/golang-build-error-0x80000034-2147483700/70375558#70375558), introduced in [Xcode 13(https://developer.apple.com/documentation/xcode-release-notes/xcode-13-release-notes): "All programs and dylibs built with a deployment target of macOS 12 or iOS 15 or later now use the chained fixups format. This uses different load commands and LINKEDIT data, and won’t run or load on older OS versions. (49851380)".
-#brew install --cask vb-cable || exit 1 ## Via https://obsproject.com/kb/macos-desktop-audio-capture-guide#capture-audio-on-previous-versions-of-macos - note that VB-CABLE requires an administrator user and OBS requires permission to access the microphone.
+#brew install --cask vb-cable || exit 1 ## Via https://obsproject.com/kb/macos-desktop-audio-capture-guide#capture-audio-on-previous-versions-of-macos - note that running VB-CABLE requires an administrator user.
 brew install --cask wireshark || exit 1
 ```
 
