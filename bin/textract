@@ -47,8 +47,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     pipx \
  && rm -rf /var/lib/apt/lists/*
-## Ref: https://pip.pypa.io/en/stable/reference/pip_install/#git
-RUN pipx install git+https://github.com/KyleKing/textract-py3.git@12f2ececf0b5965488194d578fcaf7185ac995d1
+RUN git clone --no-checkout https://github.com/KyleKing/textract-py3.git \
+ && cd textract-py3 \
+ && git checkout 12f2ececf0b5965488194d578fcaf7185ac995d1 \
+ && pipx install .[pocketsphinx]
 WORKDIR /workdir
 ENTRYPOINT ["sh", "-c", "cat - > \"${2:?}\" && ~/.local/bin/textract ${1?}\"${2:?}\"", "textract"]
 EOF
