@@ -2,17 +2,19 @@
 
 T="docker-textract"
 
-## Workaround for https://github.com/deanmalmgren/textract/issues/244
-case "${1:?}"_"${2}" in
-    (-m_tesseract)
-        M="${1:?} ${2:?} " ## Trailing whitespace is on purpose assuming usage.
-        F="${3:?}"
-        ;;
-    (*)
-        M=""
-        F="${1:?}"
-        ;;
-esac
+mflag=
+while getopts m: name
+do
+    case $name in
+        m) mval="${OPTARG?}"
+           ;;
+        ?) printf "Usage: %s [-m method_eg_tesseract_or_sphinx] filename\n" "$0"; exit 2
+    esac
+done
+shift $((${OPTIND:?} - 1))
+F="${1:?}"
+
+M="${mval:+-m ${mval:?}} " ## Trailing whitespace is on purpose assuming usage.
 
 { docker build \
          -q \
