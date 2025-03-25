@@ -126,7 +126,7 @@ brew install bash-completion || exit 1
 } || exit 1
 { macos_version_ge_major_minor 10 15; \
   case "$?" in
-      0) brew install --cask docker || exit 1
+      0) brew install --cask --binaries docker || exit 1
          ;;
       1) log_e "Docker 4.12 requires macOS 10.15. Workaround: prefer Docker 4.11." ## https://docs.docker.com/desktop/release-notes/
          ( DTmpDir="$(mktemp -d)" \
