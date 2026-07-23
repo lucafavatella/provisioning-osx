@@ -75,6 +75,15 @@ Open a distinct terminal tab and re-run the command, as instructed:
 $ bin/provision_osx
 ```
 
+### Optional tweaks
+
+#### Stop Command-Q from quitting Safari
+
+Open "System Settings" > "Keyboard" > "Keyboard Shortcuts..." > "App Shortcuts",
+add ("+") application "Safari" with
+menu title "Quit Safari" and
+keyboard shortcut (e.g.) Option-Command-Q (pressing the keys).
+
 ### Notable software
 
 ```
