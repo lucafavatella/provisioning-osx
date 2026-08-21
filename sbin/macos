@@ -188,8 +188,6 @@ spotlight:
 		'{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
 		'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
 	# Load new settings before rebuilding the index
-	#killall mds > /dev/null 2>&1
-	# `killall mds` does not kill enough to prevent revert of settings.
 	-sudo killall mds > /dev/null 2>&1
 	# Make sure indexing is enabled for the main volume
 	#sudo mdutil -i on / > /dev/null
