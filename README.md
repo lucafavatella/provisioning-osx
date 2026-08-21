@@ -69,7 +69,7 @@ Run:
 $ bin/provision_osx link_bash_profile ## Alternatively you may keep the current HEAD of the dotfiles running rather `DOTFILES_VERSION="HEAD" bin/provision_osx link_bash_profile`.
 ```
 
-Open a distinct terminal tab and re-run the command, as instructed:
+Open a distinct terminal tab and run:
 
 ```
 $ bin/provision_osx
