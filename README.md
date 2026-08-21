@@ -69,7 +69,19 @@ Run:
 $ bin/provision_osx link_bash_profile ## Alternatively you may keep the current HEAD of the dotfiles running rather `DOTFILES_VERSION="HEAD" bin/provision_osx link_bash_profile`.
 ```
 
-Open a distinct terminal tab and run:
+Open a distinct terminal tab.
+
+Recent macOS versions require Full Disk Access (`open "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_AllFiles"`) for the terminal to write user defaults.
+If required, grant it and restart the terminal.
+Then run:
+
+```
+$ sbin/macos safari
+```
+
+Consider revoking Full Disk Access.
+If changed, restart the terminal.
+Then run:
 
 ```
 $ bin/provision_osx

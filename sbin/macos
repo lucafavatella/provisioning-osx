@@ -90,7 +90,6 @@ dock:
 	# Don’t show recent applications in Dock
 	defaults write com.apple.dock show-recents -bool false
 
-all: safari
 .PHONY: safari
 safari:
 	# Privacy: don’t send search queries to Apple
