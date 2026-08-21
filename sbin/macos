@@ -8,8 +8,6 @@ MAKEFLAGS += -k $(IMMEDIATE_MAKEFLAGS)
 .PHONY: all
 all: ;
 
-# TODO Change quitting safari from cmd-q to something more complex.
-
 # -- 8< ----
 # Copyright (c) Mathias Bynens <https://mathiasbynens.be/> https://github.com/mathiasbynens/dotfiles/blob/ea68bda80a455e149d29156071d4c8472f6b93cb/.macos MIT
 # Copyright (c) Luca Favatella MIT
