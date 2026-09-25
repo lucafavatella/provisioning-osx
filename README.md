@@ -1,5 +1,15 @@
 ## Provisioning of development macOS box
 
+> [!TIP]
+> * macOS is not compatible with Intel Macs
+>   from version [27](https://support.apple.com/en-us/127255).
+> * Homebrew
+>   [reduced](https://brew.sh/2025/11/12/homebrew-5.0.0/)
+>   [support](https://docs.brew.sh/Support-Tiers#future-macos-support)
+>   for Intel.
+> * Nixpkgs will drop support for Intel
+>   [post-26.05](https://nixos.org/manual/nixpkgs/stable/release-notes#sec-nixpkgs-release-26.05).
+
 ### Prerequisites for provisioning wiping macOS installation
 
 Reinstall macOS.
