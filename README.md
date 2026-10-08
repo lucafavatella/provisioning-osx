@@ -13,7 +13,9 @@
 > * Consider alternatives.
 >   E.g. an immutable Linux distribution
 >   with disk encryption for personal files
->   like [Vanilla OS](https://vanillaos.org) [2+](https://github.com/Vanilla-OS/vanilla-installer/issues/102#issuecomment-1675391055).
+>   like [Vanilla OS](https://vanillaos.org) [2+](https://github.com/Vanilla-OS/vanilla-installer/issues/102#issuecomment-1675391055)
+>   (it is unclear whether [NixOS](https://nixos.org/manual/nixos/stable/)
+>   has disk encryption for personal files).
 
 ### Prerequisites for provisioning wiping macOS installation
 
