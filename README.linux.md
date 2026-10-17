@@ -5,9 +5,15 @@
 Prepare a bootable USB stick
 with [Vanilla OS](https://docs.vanillaos.org/handbook/en/installation)
 and boot from it,
-[pressing and holding the Option key as you press the power button to start up your Mac](https://support.apple.com/en-gb/guide/mac-help/mchlp1034/mac).
+[pressing and holding the Option key
+as you press the power button
+to start up your Mac](https://support.apple.com/en-gb/guide/mac-help/mchlp1034/mac).
 
 Install keeping wired Internet connection.
+(The network is used towards the end of the installation process,
+and seems not working
+even when the Wi-Fi network connection is reported as working
+at the beginning of the installation process.)
 
 After the installation,
 [`abroot status`](https://abroot.vanillaos.org/) shows:
