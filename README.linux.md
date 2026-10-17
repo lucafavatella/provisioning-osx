@@ -45,3 +45,29 @@ change background (Tube map style?)
 then reboot.
 
 The camera colours are garbled.
+
+#### State
+
+* EFI system partition (`vos-efi`):
+  GRUB EFI binary
+  (not to write if dual-booting).
+* Master boot partition (`vos-boot`):
+  master GRUB config,
+  with configuration of which root (`vos-a` or `vos-b`) is current.
+* Root states (`vos-a` and `vos-b`):
+  OCI image
+  (generally `ghcr.io/vanilla-os/gnome:latest`),
+  with:
+  * Kernel.
+  * Initramfs - regenerated via `update-initramfs`,
+    for incorporating the local hardware's needs
+    (e.g. storage drivers).
+  * GRUB config - regenerated via `grub-mkconfig`,
+    for matching the local disk layout and partition UUIDs.
+  * Userspace (e.g. GNOME).
+* `/var` partition (`vos-var`):
+  * User data (e.g. home).
+  * Persistent system state
+    (e.g. ABRoot's metadata,
+    package manager's state,
+    logs).
