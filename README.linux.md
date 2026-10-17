@@ -71,3 +71,6 @@ The camera colours are garbled.
     (e.g. ABRoot's metadata,
     package manager's state,
     logs).
+
+References:
+* https://abroot.vanillaos.org/
