@@ -46,6 +46,14 @@ then reboot.
 
 The camera colours are garbled.
 
+##### SSD TRIM
+
+If SSD installed.
+
+Verify SSD TRIM support by checking
+non-zero `DISC-GRAN` and `DISC-MAX`
+in the output of `lsblk --discard`.
+
 #### State
 
 * EFI system partition (`vos-efi`):
