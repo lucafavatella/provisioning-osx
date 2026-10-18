@@ -95,6 +95,23 @@ pkexec mount -o remount,discard=async /var
 If no errors, add `discard=async` where mounted.
 Unclear where - it is not in `/etc/fstab`.
 
+```
+a@d:~$ host-shell
+a@d:~$ lsblk
+NAME                                            MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
+sda                                               8:0    0 232.9G  0 disk  
+...
+└─sda4                                            8:4    0 209.3G  0 part  
+  └─vos--var-var                                254:0    0 209.3G  0 lvm   
+    └─luks-...                                  254:8    0 209.3G  0 crypt /var/lib/abroot/storage/graph/overlay
+                                                                           /var
+```
+
+If ok to erase thow whole disk:
+* `sudo blkdiscard -s /dev/sdX`
+* `sudo blkdiscard -s -f /dev/sdX`
+* ATA Secure Erase (via `hdparm`)?
+
 #### State
 
 * EFI system partition (`vos-efi`):
