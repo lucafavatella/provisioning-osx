@@ -82,8 +82,17 @@ Check whether TRIM active.
 host-shell
 findmnt -n -o OPTIONS /var
 ```
+(`space_cache` and `subvol` are btrfs-specific.)
 
 There is not `discard=async`.
+
+Try - lost on reboot:
+```
+host-shell
+pkexec mount -o remount,discard=async /var
+```
+
+If no errors, add `discard=async` in `/etc/fstab`.
 
 #### State
 
