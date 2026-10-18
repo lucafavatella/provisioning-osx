@@ -54,6 +54,21 @@ Verify SSD TRIM support by checking
 non-zero `DISC-GRAN` and `DISC-MAX`
 in the output of `lsblk --discard`.
 
+Verify logical valume.
+
+`vso native install lvm2`
+(for not installing recommends,
+you may use
+`sudo apt install --no-install-recommends lvm2`
+but unclear is supported).
+
+```
+host-shell
+pkexec lvs -o lv_name,attr,data_percent,discards
+```
+
+Check that `Discards` is `passdown`.
+
 #### State
 
 * EFI system partition (`vos-efi`):
