@@ -69,6 +69,13 @@ pkexec lvs -o lv_name,attr,data_percent,discards
 
 Check that `Discards` is `passdown`.
 
+Trim:
+```
+host-shell
+pkexec fstrim -av
+# Fails: #pkexec fstrim -v /var
+```
+
 #### State
 
 * EFI system partition (`vos-efi`):
