@@ -92,7 +92,8 @@ host-shell
 pkexec mount -o remount,discard=async /var
 ```
 
-If no errors, add `discard=async` in `/etc/fstab`.
+If no errors, add `discard=async` where mounted.
+Unclear where - it is not in `/etc/fstab`.
 
 #### State
 
