@@ -76,6 +76,15 @@ pkexec fstrim -av
 # Fails: #pkexec fstrim -v /var
 ```
 
+Check whether TRIM active.
+
+```
+host-shell
+findmnt -n -o OPTIONS /var
+```
+
+There is not `discard=async`.
+
 #### State
 
 * EFI system partition (`vos-efi`):
